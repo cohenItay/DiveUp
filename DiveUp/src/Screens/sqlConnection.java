@@ -11,7 +11,7 @@ public class sqlConnection {
 public Connection Connect(){
     
 	try {
-		conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Maor\\workspace\\DiveUp\\DB\\DiveUpDB.db");
+		conn = DriverManager.getConnection("jdbc:sqlite:"+System.getProperty("user.dir")+"\\DB\\DiveUpDB.db");
 		return conn;
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
