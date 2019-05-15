@@ -27,6 +27,7 @@ public class sqlConnection {
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
+			
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 	
@@ -36,15 +37,22 @@ public class sqlConnection {
 			        System.out.print(rsmd.getColumnName(i) +":"+rs.getString(i) + ", ");
 			    System.out.println();
 			}
-	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
 		}
 	        return "";
 	}
             
-	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone)
+	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone,)
 	{
 		String sql = "INSERT INTO Diver(id,firstName,lastName,licenseID,email,phone) VALUES(?,?,?,?,?,?)";
 		 
@@ -106,5 +114,15 @@ public class sqlConnection {
 	     
 	}
 	
+	
+	public void removeDiver(Connection conn, String id)
+	{
+		runQuery(conn, "DELETE FROM Diver WHERE id="+id);
+	}
+	
+	public void removeEmployee(Connection conn, String id)
+	{
+		runQuery(conn, "DELETE FROM Employee WHERE employeeID="+id);
+	}
 	
 }

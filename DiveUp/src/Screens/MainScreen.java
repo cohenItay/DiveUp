@@ -20,9 +20,14 @@ public class MainScreen {
 				try {
 					dbConnection = new sqlConnection();
 					Connection conn = dbConnection.Connect();
-//					dbConnection.addDiver(conn, "111111111", "a", "a", "1234","a@a.com","1111111111");
+					dbConnection.addDiver(conn, "111111111", "a", "a", "1234","a@a.com","1111111111");
 					dbConnection.addEmployee(conn, "111111111", "a", "a", "Senior","a@a.com","1111111111");
 					dbConnection.runQuery(conn, "SELECT * from Employee");
+					dbConnection.removeEmployee(conn, "111111111");
+					dbConnection.addEmployee(conn, "111111111", "a", "a", "Senior","a@a.com","1111111111");
+					dbConnection.runQuery(conn, "SELECT * from Employee");
+					dbConnection.runQuery(conn, "SELECT * from Diver");
+					
 					MainScreen window = new MainScreen();
 					window.frame.setVisible(true);
 					
