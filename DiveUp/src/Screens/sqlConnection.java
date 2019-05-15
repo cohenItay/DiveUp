@@ -8,7 +8,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class sqlConnection {
+	
+	private static sqlConnection instance;
 	public static Connection conn;
+	
+	private sqlConnection() {}
+	
+	public static sqlConnection getInstance() {
+		if (instance == null)
+			instance = new sqlConnection();
+		return instance;
+	}
+	
+	
 	public Connection Connect(){
 	    
 		try {
@@ -52,7 +64,7 @@ public class sqlConnection {
 	        return "";
 	}
             
-	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone,)
+	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone)
 	{
 		String sql = "INSERT INTO Diver(id,firstName,lastName,licenseID,email,phone) VALUES(?,?,?,?,?,?)";
 		 

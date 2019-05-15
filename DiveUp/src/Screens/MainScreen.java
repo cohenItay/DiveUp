@@ -15,10 +15,10 @@ public class MainScreen {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		dbConnection = sqlConnection.getInstance();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					dbConnection = new sqlConnection();
 					Connection conn = dbConnection.Connect();
 					dbConnection.addDiver(conn, "111111111", "a", "a", "1234","a@a.com","1111111111");
 					dbConnection.addEmployee(conn, "111111111", "a", "a", "Senior","a@a.com","1111111111");
