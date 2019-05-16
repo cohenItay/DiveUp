@@ -1,8 +1,11 @@
 package Screens;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -39,6 +42,9 @@ public class CustomerScreen {
 				try {
 					CustomerScreen window = new CustomerScreen();
 					window.frame.setTitle("Divers Screen");
+					Image image = ImageIO.read(this.getClass().getResource("/images/icon.png"));
+					window.frame.setIconImage(image);
+
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

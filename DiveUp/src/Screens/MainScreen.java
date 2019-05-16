@@ -1,8 +1,10 @@
 package Screens;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.sql.Connection;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 
@@ -20,6 +22,9 @@ public class MainScreen {
 				try {
 					dbConnection.getDivers();
 					MainScreen window = new MainScreen();
+					Image image = ImageIO.read(this.getClass().getResource("/images/icon.png"));
+					window.frame.setIconImage(image);
+					window.frame.setTitle("DiveUp");
 					window.frame.setVisible(true);
 					
 				} catch (Exception e) {
