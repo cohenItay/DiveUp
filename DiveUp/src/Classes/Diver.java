@@ -1,7 +1,12 @@
+package Classes;
 import java.util.List;
 
 public class Diver extends Entity {
 
+	public Diver(String licenseID) {
+		super();
+		this.licenseID = licenseID;
+	}
 	String licenseID;
 	List<Course> completedCourses;
 	List<Course> futureCourses;
@@ -15,6 +20,11 @@ public class Diver extends Entity {
 		this.licenseID = licenseID;
 	}
 	
+	@Override
+	public String toString() {
+		return "Diver [licenseID=" + licenseID + ", firstName=" + firstName + ", lastName=" + lastName + ", id=" + id
+				+ ", contactInfo=" + contactInfo + "]";
+	}
 	public List<Course> getCompletedCourses() {
 		return completedCourses;
 	}

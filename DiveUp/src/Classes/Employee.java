@@ -1,8 +1,16 @@
+package Classes;
 
 public class Employee extends Entity {
 
 	String seniority;
-	double Salary;
+	double salary;
+
+	public Employee(String seniority, double salary) {
+		super();
+		this.seniority = seniority;
+		this.salary = salary;
+	}
+	
 	
 	public String getSeniority() {
 		return seniority;
@@ -11,10 +19,10 @@ public class Employee extends Entity {
 		this.seniority = seniority;
 	}
 	public double getSalary() {
-		return Salary;
+		return salary;
 	}
 	public void setSalary(double salary) {
-		Salary = salary;
+		this.salary = salary;
 	}
 	
 	

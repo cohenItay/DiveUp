@@ -6,18 +6,36 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import Classes.Diver;
+
 
 public class sqlConnection {
+	
+	private static sqlConnection dbConnection;
 	public static Connection conn;
-	public Connection Connect(){
+	
+	private sqlConnection() {
+		Connect();
+	}
+	
+	public static sqlConnection getInstance() {
+		if (dbConnection == null)
+			dbConnection = new sqlConnection();
+		return dbConnection;
+	}
+	
+	
+	public void Connect(){
 	    
 		try {
 			conn = DriverManager.getConnection("jdbc:sqlite:"+System.getProperty("user.dir")+"\\DB\\DiveUpDB.db");
-			return conn;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+			
 		}
 	    
 	}
@@ -52,7 +70,7 @@ public class sqlConnection {
 	        return "";
 	}
             
-	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone,)
+	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone)
 	{
 		String sql = "INSERT INTO Diver(id,firstName,lastName,licenseID,email,phone) VALUES(?,?,?,?,?,?)";
 		 
@@ -125,4 +143,40 @@ public class sqlConnection {
 		runQuery(conn, "DELETE FROM Employee WHERE employeeID="+id);
 	}
 	
+	public List<Diver> getDivers()
+	{
+		List<Diver> res = new ArrayList<>();
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from Diver");
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			Diver d;
+			
+			while (rs.next()) {
+				d = new Diver(rs.getString(4));
+				d.setId(rs.getString(1));
+				d.setFirstName((rs.getString(2)));
+				d.setLastName((rs.getString(3)));
+				d.setEmail(rs.getString(5));
+				d.setPhone(rs.getString(6));
+			    res.add(d);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
+		
+		}
+	return res;
+	}
 }

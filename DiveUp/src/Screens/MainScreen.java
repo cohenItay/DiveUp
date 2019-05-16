@@ -5,7 +5,6 @@ import java.sql.Connection;
 
 import javax.swing.JFrame;
 
-import org.sqlite.core.DB;
 
 public class MainScreen {
 
@@ -15,19 +14,11 @@ public class MainScreen {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		dbConnection = sqlConnection.getInstance();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					dbConnection = new sqlConnection();
-					Connection conn = dbConnection.Connect();
-					dbConnection.addDiver(conn, "111111111", "a", "a", "1234","a@a.com","1111111111");
-					dbConnection.addEmployee(conn, "111111111", "a", "a", "Senior","a@a.com","1111111111");
-					dbConnection.runQuery(conn, "SELECT * from Employee");
-					dbConnection.removeEmployee(conn, "111111111");
-					dbConnection.addEmployee(conn, "111111111", "a", "a", "Senior","a@a.com","1111111111");
-					dbConnection.runQuery(conn, "SELECT * from Employee");
-					dbConnection.runQuery(conn, "SELECT * from Diver");
-					
+					dbConnection.getDivers();
 					MainScreen window = new MainScreen();
 					window.frame.setVisible(true);
 					

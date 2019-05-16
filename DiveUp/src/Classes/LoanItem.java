@@ -1,3 +1,4 @@
+package Classes;
 
 public class LoanItem extends Item{
 
