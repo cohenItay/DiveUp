@@ -6,12 +6,12 @@ public class Dive {
 
 	@Override
 	public String toString() {
-		return "Dive [diveID=" + diveID + ", diverID=" + diverID + ", locationID=" + locationID + ", date=" + date
+		return "Dive [diveID=" + diveID + ", diverID=" + diver + ", location=" + location + ", date=" + date
 				+ "]";
 	}
 	int diveID;
-	String diverID;
-	int locationID;
+	String diver;
+	String location;
 	Date date;
 	public int getDiveID() {
 		return diveID;
@@ -19,17 +19,17 @@ public class Dive {
 	public void setDiveID(int diveID) {
 		this.diveID = diveID;
 	}
-	public String getDiverID() {
-		return diverID;
+	public String getDiver() {
+		return diver;
 	}
-	public void setDiverID(String diverID) {
-		this.diverID = diverID;
+	public void setDiver(String diverID) {
+		this.diver = diverID;
 	}
-	public int getLocationID() {
-		return locationID;
+	public String getLocation() {
+		return location;
 	}
-	public void setLocationID(int locationID) {
-		this.locationID = locationID;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	public Date getDate() {
 		return date;

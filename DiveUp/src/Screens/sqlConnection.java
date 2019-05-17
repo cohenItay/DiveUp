@@ -203,7 +203,7 @@ public class sqlConnection {
 		try {
 			/* getting all information from dives table */
 			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from Dive where diverID = "+id + " order by date");
+			ResultSet rs = stmt.executeQuery("select * from Dive,Locations,Diver where diverID = "+id + " and Dive.locationID = Locations.locationID  and Diver.id = Dive.diverID order by date");
 			
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
@@ -213,8 +213,8 @@ public class sqlConnection {
 			while (rs.next()) {
 				d = new Dive();
 				d.setDiveID(rs.getInt("diveID"));
-				d.setDiverID((rs.getString("diverID")));
-				d.setLocationID((rs.getInt("locationID")));
+				d.setDiver((rs.getString("firstName")));
+				d.setLocation((rs.getString("name")));
 				d.setDate(formatter.parse(rs.getString("date")));
 				
 			    res.add(d);//add dive to the list

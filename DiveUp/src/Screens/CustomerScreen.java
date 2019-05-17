@@ -44,7 +44,7 @@ public class CustomerScreen {
 		}
 	}
 	
-	public void updateDiveBook(String id)
+	public void updateDiveBook(String id, int row)
 	{	
 		modeldives.setRowCount(0);
 		sqlConnection dbConnection = sqlConnection.getInstance();
@@ -59,9 +59,11 @@ public class CustomerScreen {
 		}
 		for(int i=0;i<divesList.size();i++)
 		{
-			modeldives.addRow(new Object[] {divesList.get(i).getDiveID(), divesList.get(i).getDiverID(),
-					divesList.get(i).getLocationID(),divesList.get(i).getDate()});
+			modeldives.addRow(new Object[] {divesList.get(i).getDiveID(), divesList.get(i).getDiver(),
+					divesList.get(i).getLocation(),divesList.get(i).getDate()});
 		}
+		
+		diversTable.setRowSelectionInterval(row, row);
 		}
 	
 	
@@ -120,7 +122,7 @@ public class CustomerScreen {
 		        int col = diversTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
 		            updateDiversTable();
-		            updateDiveBook((String)model.getValueAt(row, 0));
+		            updateDiveBook((String)model.getValueAt(row, 0), row);
 		            
 		        }
 		    }
@@ -151,7 +153,7 @@ public class CustomerScreen {
 		
 		
 		
-		String[] Headings = {"Dive ID","Diver ID","Location ID","Date"};
+		String[] Headings = {"Dive ID","Diver ID","Location","Date"};
 		int numRow = 0 ;
 		modeldives = new DefaultTableModel(numRow, Headings.length)
 				{
@@ -165,7 +167,7 @@ public class CustomerScreen {
 		
 		
 		divesPane = new JScrollPane(divesTable);
-		frame.getContentPane().add(divesPane, "cell 0 2 5 1,grow");
+		frame.getContentPane().add(divesPane, "cell 0 2 5 1,growx");
 		divesPane.setVisible(false);
 		updateDiversTable();
 	}
