@@ -59,8 +59,7 @@ public class CustomerScreen {
 		}
 		for(int i=0;i<divesList.size();i++)
 		{
-			modeldives.addRow(new Object[] {divesList.get(i).getDiveID(), divesList.get(i).getDiver(),
-					divesList.get(i).getLocation(),divesList.get(i).getDate()});
+			modeldives.addRow(new Object[] {divesList.get(i).getLocation(),divesList.get(i).getDate()});
 		}
 		
 		diversTable.setRowSelectionInterval(row, row);
@@ -153,7 +152,7 @@ public class CustomerScreen {
 		
 		
 		
-		String[] Headings = {"Dive ID","Diver ID","Location","Date"};
+		String[] Headings = {"Location","Date"};
 		int numRow = 0 ;
 		modeldives = new DefaultTableModel(numRow, Headings.length)
 				{
