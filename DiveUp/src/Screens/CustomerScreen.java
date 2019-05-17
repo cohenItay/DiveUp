@@ -18,8 +18,11 @@ import java.awt.event.ActionEvent;
 public class CustomerScreen {
 
 	private JFrame frame;
-	private DefaultTableModel model; 
+	private DefaultTableModel model;
+	private DefaultTableModel modeldives;
 	private JTable diversTable;
+	private JTable divesTable;
+	private JScrollPane divesPane;
 	private List<Diver> diversList;
 	private List<Dive> divesList;
 	private JButton button;
@@ -42,12 +45,22 @@ public class CustomerScreen {
 	}
 	
 	public void updateDiveBook(String id)
-	{
+	{	
+		modeldives.setRowCount(0);
 		sqlConnection dbConnection = sqlConnection.getInstance();
 		divesList = dbConnection.getDiveBook(id);
+		if(divesList.size()>0)
+		{
+			divesPane.setVisible(true);
+		}
+		else
+		{
+			divesPane.setVisible(false);
+		}
 		for(int i=0;i<divesList.size();i++)
 		{
-			System.out.println(divesList.get(i).toString());
+			modeldives.addRow(new Object[] {divesList.get(i).getDiveID(), divesList.get(i).getDiverID(),
+					divesList.get(i).getLocationID(),divesList.get(i).getDate()});
 		}
 		}
 	
@@ -136,6 +149,24 @@ public class CustomerScreen {
 	
 		frame.getContentPane().add(courseRegisterButton, "cell 3 1,alignx right");
 		
+		
+		
+		String[] Headings = {"Dive ID","Diver ID","Location ID","Date"};
+		int numRow = 0 ;
+		modeldives = new DefaultTableModel(numRow, Headings.length)
+				{
+			 		public boolean isCellEditable(int row, int column)
+			 			{
+			 				return false;//This causes all cells to be not editable
+			 			}
+				};
+		modeldives.setColumnIdentifiers(Headings);
+		divesTable = new JTable(modeldives);
+		
+		
+		divesPane = new JScrollPane(divesTable);
+		frame.getContentPane().add(divesPane, "cell 0 2 5 1,grow");
+		divesPane.setVisible(false);
 		updateDiversTable();
 	}
 }
