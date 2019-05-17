@@ -6,9 +6,12 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import Classes.Dive;
 import Classes.Diver;
 
 
@@ -168,12 +171,12 @@ public class sqlConnection {
 			
 			/* creating Diver object for each diver in the db table */
 			while (rs.next()) {
-				d = new Diver(rs.getString(4));
-				d.setId(rs.getString(1));
-				d.setFirstName((rs.getString(2)));
-				d.setLastName((rs.getString(3)));
-				d.setEmail(rs.getString(5));
-				d.setPhone(rs.getString(6));
+				d = new Diver(rs.getString("licenseID"));
+				d.setId(rs.getString("id"));
+				d.setFirstName((rs.getString("firstName")));
+				d.setLastName((rs.getString("lastName")));
+				d.setEmail(rs.getString("email"));
+				d.setPhone(rs.getString("phone"));
 			    res.add(d);//add diver to the list
 			}
 		} catch (SQLException e) {
@@ -191,4 +194,46 @@ public class sqlConnection {
 		}
 	return res;
 	}
+	
+	
+	public List<Dive> getDiveBook(String id)
+	{
+		List<Dive> res = new ArrayList<>();//creating dives list
+		Statement stmt;
+		try {
+			/* getting all information from dives table */
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from Dive where diverID = "+id + " order by date");
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			Dive d;
+			SimpleDateFormat formatter = new SimpleDateFormat("dd\\MM\\yyyy");
+			/* creating Dive object for each dive in the db table */
+			while (rs.next()) {
+				d = new Dive();
+				d.setDiveID(rs.getInt("diveID"));
+				d.setDiverID((rs.getString("diverID")));
+				d.setLocationID((rs.getInt("locationID")));
+				d.setDate(formatter.parse(rs.getString("date")));
+				
+			    res.add(d);//add dive to the list
+			}
+		} catch (SQLException | ParseException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
+		
+		}
+	return res;
+	
+	}
+	
 }

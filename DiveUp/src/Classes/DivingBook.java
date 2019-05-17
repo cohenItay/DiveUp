@@ -3,13 +3,13 @@ import java.util.List;
 
 public class DivingBook {
 
-	List<Course> dives;
+	List<Dive> dives;
 
-	public List<Course> getDives() {
+	public List<Dive> getDives() {
 		return dives;
 	}
 
-	public void setDives(List<Course> dives) {
+	public void setDives(List<Dive> dives) {
 		this.dives = dives;
 	}
 	

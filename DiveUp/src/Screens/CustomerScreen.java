@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import Classes.Dive;
 import Classes.Diver;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
@@ -19,6 +21,7 @@ public class CustomerScreen {
 	private DefaultTableModel model; 
 	private JTable diversTable;
 	private List<Diver> diversList;
+	private List<Dive> divesList;
 	private JButton button;
 	public boolean isFocused = true;
 	/**
@@ -37,6 +40,17 @@ public class CustomerScreen {
 				diversList.get(i).getEmail(),diversList.get(i).getPhone()});
 		}
 	}
+	
+	public void updateDiveBook(String id)
+	{
+		sqlConnection dbConnection = sqlConnection.getInstance();
+		divesList = dbConnection.getDiveBook(id);
+		for(int i=0;i<divesList.size();i++)
+		{
+			System.out.println(divesList.get(i).toString());
+		}
+		}
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -93,7 +107,8 @@ public class CustomerScreen {
 		        int col = diversTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
 		            updateDiversTable();
-
+		            updateDiveBook((String)model.getValueAt(row, 0));
+		            
 		        }
 		    }
 		});
@@ -105,6 +120,7 @@ public class CustomerScreen {
 		
 		/*Create buttons for activities*/
 		JButton updateDiverButton = new JButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7");
+		
 		frame.getContentPane().add(updateDiverButton, "cell 2 1,alignx right");
 		
 		JButton addDiverButton = new JButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF");
