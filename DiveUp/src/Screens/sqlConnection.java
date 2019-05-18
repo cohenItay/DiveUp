@@ -216,6 +216,11 @@ public class sqlConnection {
 				d.setDiver((rs.getString("firstName")));
 				d.setLocation((rs.getString("name")));
 				d.setDate(formatter.parse(rs.getString("date")));
+				d.setMaxDepth(rs.getInt("maxDepth"));
+				d.setStartTime(rs.getString("startTime"));
+				d.setEndTime(rs.getString("endTime"));
+				d.setAirStart(rs.getInt("airStart"));
+				d.setAirEnd(rs.getInt("airEnd"));
 				
 			    res.add(d);//add dive to the list
 			}

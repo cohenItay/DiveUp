@@ -4,16 +4,51 @@ import java.util.Date;
 
 public class Dive {
 
-	@Override
-	public String toString() {
-		return "Dive [diveID=" + diveID + ", diverID=" + diver + ", location=" + location + ", date=" + date
-				+ "]";
-	}
+	
 	
 	int diveID;
 	String diver;
 	String location;
 	Date date; //Date function in order to be written in the diving book
+	int maxDepth;
+	String startTime;
+	String endTime;
+	int airStart;
+	int airEnd;
+	
+	
+	
+	
+	public int getMaxDepth() {
+		return maxDepth;
+	}
+	public void setMaxDepth(int maxDepth) {
+		this.maxDepth = maxDepth;
+	}
+	public String getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	public int getAirStart() {
+		return airStart;
+	}
+	public void setAirStart(int airStart) {
+		this.airStart = airStart;
+	}
+	public int getAirEnd() {
+		return airEnd;
+	}
+	public void setAirEnd(int airEnd) {
+		this.airEnd = airEnd;
+	}
 	public int getDiveID() {
 		return diveID;
 	}
