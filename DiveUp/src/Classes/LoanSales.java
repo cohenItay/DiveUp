@@ -2,11 +2,12 @@ package Classes;
 import java.util.Date;
 import java.util.List;
 
+//Change name to "Rent"
 public class LoanSales {
 
 	int saleID;
-	String diverID;
-	List<LoanItem> items;
+	String diverID; //the diver who rents the equipment
+	List<LoanItem> items; //the items that are being rented
 	Date date;
 	double totalPrice;
 	

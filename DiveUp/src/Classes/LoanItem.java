@@ -2,7 +2,7 @@ package Classes;
 
 public class LoanItem extends Item{
 
-	double loanPrice;
+	double loanPrice; 
 
 	public double getLoanPrice() {
 		return loanPrice;

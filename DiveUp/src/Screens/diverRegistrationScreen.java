@@ -66,7 +66,7 @@ public class diverRegistrationScreen {
 		frame.setTitle("Diver Registration");
 		Image image;
 		try {
-			image = ImageIO.read(this.getClass().getResource("/images/icon.png"));
+			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
 			frame.setIconImage(image);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

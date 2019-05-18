@@ -9,6 +9,7 @@ public class Dive {
 		return "Dive [diveID=" + diveID + ", diverID=" + diver + ", location=" + location + ", date=" + date
 				+ "]";
 	}
+	
 	int diveID;
 	String diver;
 	String location;

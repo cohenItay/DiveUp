@@ -6,9 +6,9 @@ public class Sale {
 
 	int saleID;
 	String diverID;
-	List<Item> items;
-	Date date;
-	double totalPrice;
+	List<Item> items;//the list of products that are for sell
+	Date date; //Date of purchase
+	double totalPrice; //the transaction total price  
 	
 	
 	public int getSaleID() {

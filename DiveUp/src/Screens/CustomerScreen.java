@@ -73,7 +73,7 @@ public class CustomerScreen {
 					/*creating new CustomerScreen*/
 					CustomerScreen window = new CustomerScreen();
 					window.frame.setTitle("Divers Screen");
-					Image image = ImageIO.read(this.getClass().getResource("/images/icon.png"));
+					Image image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
 					window.frame.setIconImage(image);
 
 					window.frame.setVisible(true);

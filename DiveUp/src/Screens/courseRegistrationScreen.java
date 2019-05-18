@@ -21,9 +21,9 @@ public class courseRegistrationScreen {
 	public JFrame getFrame()
 	{
 		frame.setTitle("Course Registration");
-		Image image;
+		Image image; //image class object
 		try {
-			image = ImageIO.read(this.getClass().getResource("/images/icon.png"));
+			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
 			frame.setIconImage(image);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

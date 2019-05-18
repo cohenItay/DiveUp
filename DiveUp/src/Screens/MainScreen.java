@@ -22,7 +22,7 @@ public class MainScreen {
 				try {
 					dbConnection.getDivers();
 					MainScreen window = new MainScreen();
-					Image image = ImageIO.read(this.getClass().getResource("/images/icon.png"));
+					Image image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
 					window.frame.setIconImage(image);
 					window.frame.setTitle("DiveUp");
 					window.frame.setVisible(true);

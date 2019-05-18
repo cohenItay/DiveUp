@@ -2,7 +2,7 @@ package Classes;
 
 public class Item extends Asset{
 
-	int amount;
+	int amount; //Quantity remaining in stock
 	
 
 	public int getAmount() {
