@@ -59,7 +59,7 @@ public class CustomerScreen {
 		}
 		for(int i=0;i<divesList.size();i++)
 		{
-			modeldives.addRow(new Object[] {divesList.get(i).getDiveID(),divesList.get(i).getLocation(),divesList.get(i).getDate()
+			modeldives.addRow(new Object[] {divesList.get(i).getDiveNum(),divesList.get(i).getLocation(),divesList.get(i).getDate()
 					,divesList.get(i).getMaxDepth(),divesList.get(i).getMaxDepth(),divesList.get(i).getStartTime()
 					,divesList.get(i).getEndTime(),divesList.get(i).getAirStart(),divesList.get(i).getAirEnd()});
 		}

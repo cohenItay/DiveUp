@@ -214,13 +214,13 @@ public class sqlConnection {
 			/* creating Dive object for each dive in the db table */
 			while (rs.next()) {
 				d = new Dive();
-				d.setDiveID(rs.getInt("diveNum"));
+				d.setDiveNum(rs.getInt("diveNum"));
 				d.setDiver((rs.getString("firstName")));
 				d.setLocation((rs.getString("name")));
 				d.setDate(formatter.parse(rs.getString("date")));
 				d.setMaxDepth(rs.getInt("maxDepth"));
-				d.setStartTime(rs.getString("startTime"));
-				d.setEndTime(rs.getString("endTime"));
+				d.setStartTime(rs.getDate("startTime"));
+				d.setEndTime(rs.getDate("endTime"));
 				d.setAirStart(rs.getInt("airStart"));
 				d.setAirEnd(rs.getInt("airEnd"));
 				

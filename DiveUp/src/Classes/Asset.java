@@ -5,8 +5,8 @@ public abstract class Asset {
 	int id;
 	String name;
 	String desc;
-	double price;
-	
+	double price; //course price & Item SalePrice 
+	;
 	
 	public int getId() {
 		return id;
@@ -32,5 +32,7 @@ public abstract class Asset {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
+	
 	
 }

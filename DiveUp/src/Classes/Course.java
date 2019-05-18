@@ -1,4 +1,5 @@
 package Classes;
+import java.util.Date;
 import java.util.List;
 
 public class Course extends Asset{
@@ -6,6 +7,10 @@ public class Course extends Asset{
 	List<Diver> divers; //list of all Participants
 	Employee instructor; //Scheduling an instructor
 	int MaxDivers; //Max Divers per course
+	int currentAmount;
+	Date startDay;
+	Date endDay;
+	
 	
 	public List<Diver> getDivers() {
 		return divers;
@@ -25,6 +30,7 @@ public class Course extends Asset{
 	public void setMaxDivers(int maxDivers) {
 		MaxDivers = maxDivers;
 	}
+	
 	
 	
 }

@@ -6,35 +6,35 @@ public class Dive {
 
 	
 	
-	int diveID;
-	String diver;
+	int diveNum;
+	String diverID;
 	String location;
 	Date date; //Date function in order to be written in the diving book
-	int maxDepth;
-	String startTime;
-	String endTime;
+	double maxDepth;
+	Date startTime;
+	Date endTime;
 	int airStart;
 	int airEnd;
 	
 	
 	
 	
-	public int getMaxDepth() {
+	public double getMaxDepth() {
 		return maxDepth;
 	}
-	public void setMaxDepth(int maxDepth) {
+	public void setMaxDepth(double maxDepth) {
 		this.maxDepth = maxDepth;
 	}
-	public String getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(String startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
-	public String getEndTime() {
+	public Date getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(String endTime) {
+	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
 	public int getAirStart() {
@@ -49,17 +49,17 @@ public class Dive {
 	public void setAirEnd(int airEnd) {
 		this.airEnd = airEnd;
 	}
-	public int getDiveID() {
-		return diveID;
+	public int getDiveNum() {
+		return diveNum;
 	}
-	public void setDiveID(int diveID) {
-		this.diveID = diveID;
+	public void setDiveNum(int diveNum) {
+		this.diveNum = diveNum;
 	}
 	public String getDiver() {
-		return diver;
+		return diverID;
 	}
 	public void setDiver(String diverID) {
-		this.diver = diverID;
+		this.diverID = diverID;
 	}
 	public String getLocation() {
 		return location;
