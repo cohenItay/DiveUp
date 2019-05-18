@@ -212,7 +212,7 @@ public class sqlConnection {
 			/* creating Dive object for each dive in the db table */
 			while (rs.next()) {
 				d = new Dive();
-				d.setDiveID(rs.getInt("diveID"));
+				d.setDiveID(rs.getInt("diveNum"));
 				d.setDiver((rs.getString("firstName")));
 				d.setLocation((rs.getString("name")));
 				d.setDate(formatter.parse(rs.getString("date")));
