@@ -40,7 +40,7 @@ public class CustomerScreen {
 		{
 		model.addRow(new Object[] {diversList.get(i).getId(), diversList.get(i).getFirstName(),
 				diversList.get(i).getLastName(),diversList.get(i).getLicenseID(),
-				diversList.get(i).getEmail(),diversList.get(i).getPhone()});
+				diversList.get(i).getEmail(),diversList.get(i).getPhone(),diversList.get(i).getInsurance()});
 		}
 	}
 	
@@ -103,7 +103,7 @@ public class CustomerScreen {
 		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270,grow][106.00,grow][270,grow][260,grow][250,grow]"));
 
 		/*Creating the table model and the table for the divers information*/
-		String[] colHeadings = {"ID","First Name","Last Name","License ID","Email","Phone"};
+		String[] colHeadings = {"ID","First Name","Last Name","License ID","Email","Phone","Insurance"};
 		int numRows = 0 ;
 		model = new DefaultTableModel(numRows, colHeadings.length)
 				{
@@ -154,7 +154,7 @@ public class CustomerScreen {
 		
 		
 		
-		String[] Headings = {"Diver Number","Location","Date","Max Depth","Start Time","End Time","Start Air","End Air"};
+		String[] Headings = {"Dive Number","Location","Date","Max Depth","Start Time","End Time","Start Air","End Air"};
 		int numRow = 0 ;
 		modeldives = new DefaultTableModel(numRow, Headings.length)
 				{

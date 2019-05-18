@@ -8,6 +8,7 @@ public class Diver extends Entity {
 		this.licenseID = licenseID;
 	}
 	String licenseID;
+	String insurance;
 	List<Course> completedCourses;
 	List<Course> futureCourses;
 	DivingBook book;
@@ -19,6 +20,13 @@ public class Diver extends Entity {
 	public void setLicenseID(String licenseID) {
 		this.licenseID = licenseID;
 	}
+	public String getInsurance() {
+		return insurance;
+	}
+	public void setInsurance(String insurance) {
+		this.insurance = insurance;
+	}
+	
 	
 	@Override
 	public String toString() {

@@ -81,9 +81,9 @@ public class sqlConnection {
 	}
             
 	/* Adding new Diver to DB */
-	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone)
+	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone,String insurance)
 	{
-		String sql = "INSERT INTO Diver(id,firstName,lastName,licenseID,email,phone) VALUES(?,?,?,?,?,?)";//query string
+		String sql = "INSERT INTO Diver(id,firstName,lastName,licenseID,email,phone,insurance) VALUES(?,?,?,?,?,?,?)";//query string
 		 
 	        PreparedStatement pstmt;
 	        //Insert the parameters to new DB record
@@ -95,6 +95,7 @@ public class sqlConnection {
 			    pstmt.setString(4, licenseID);
 			    pstmt.setString(5, email);
 			    pstmt.setString(6, phone);
+			    pstmt.setString(7, insurance);
 			    pstmt.executeUpdate();
 			     
 			} catch (SQLException e) {
@@ -177,6 +178,7 @@ public class sqlConnection {
 				d.setLastName((rs.getString("lastName")));
 				d.setEmail(rs.getString("email"));
 				d.setPhone(rs.getString("phone"));
+				d.setInsurance(rs.getString("insurance"));
 			    res.add(d);//add diver to the list
 			}
 		} catch (SQLException e) {

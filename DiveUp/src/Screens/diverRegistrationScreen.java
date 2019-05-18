@@ -25,6 +25,7 @@ public class diverRegistrationScreen {
 	private JTextField licenseidTextField;
 	private JTextField emailTextField;
 	private JTextField phoneTextField;
+	private JTextField insuranceTextField;
 
 	/**
 	 * Launch the application.
@@ -73,7 +74,7 @@ public class diverRegistrationScreen {
 			e.printStackTrace();
 		}
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[][][][][][117.00][grow][-60.00,grow][-116.00,grow,fill][][]", "[][fill][fill][][][][][34.00][][grow]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[][][][][][117.00][grow][-60.00,grow][-116.00,grow,fill][grow][]", "[][fill][fill][][][][][34.00][][grow]"));
 		
 		
 		
@@ -139,12 +140,19 @@ public class diverRegistrationScreen {
 			public void actionPerformed(ActionEvent arg0) {
 				sqlConnection dbConnection = sqlConnection.getInstance();
 				dbConnection.addDiver(dbConnection.conn, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
-						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText());
+						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),insuranceTextField.getText());
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 				
 
 			}
 		});
+		
+		insuranceTextField = new JTextField();
+		frame.getContentPane().add(insuranceTextField, "cell 7 7 3 1,growx");
+		insuranceTextField.setColumns(10);
+		
+		JLabel insuranceLabel = new JLabel("\u05D1\u05D9\u05D8\u05D5\u05D7");
+		frame.getContentPane().add(insuranceLabel, "cell 10 7");
 		frame.getContentPane().add(confirmButton, "cell 7 8 3 1,growx");
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows when closing this window
