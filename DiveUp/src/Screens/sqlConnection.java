@@ -219,8 +219,8 @@ public class sqlConnection {
 				d.setLocation((rs.getString("name")));
 				d.setDate(formatter.parse(rs.getString("date")));
 				d.setMaxDepth(rs.getInt("maxDepth"));
-				d.setStartTime(rs.getDate("startTime"));
-				d.setEndTime(rs.getDate("endTime"));
+				d.setStartTime(rs.getString("startTime"));
+				d.setEndTime(rs.getString("endTime"));
 				d.setAirStart(rs.getInt("airStart"));
 				d.setAirEnd(rs.getInt("airEnd"));
 				

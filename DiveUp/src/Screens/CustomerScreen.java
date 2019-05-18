@@ -142,7 +142,7 @@ public class CustomerScreen {
 		JButton addDiverButton = new JButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF");
 		addDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				diverRegistrationScreen register = new diverRegistrationScreen();
+				DiverRegistrationScreen register = new DiverRegistrationScreen();
 			}
 		});
 		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing");

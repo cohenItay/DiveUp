@@ -11,8 +11,8 @@ public class Dive {
 	String location;
 	Date date; //Date function in order to be written in the diving book
 	double maxDepth;
-	Date startTime;
-	Date endTime;
+	String startTime;
+	String endTime;
 	int airStart;
 	int airEnd;
 	
@@ -25,16 +25,16 @@ public class Dive {
 	public void setMaxDepth(double maxDepth) {
 		this.maxDepth = maxDepth;
 	}
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 	public int getAirStart() {

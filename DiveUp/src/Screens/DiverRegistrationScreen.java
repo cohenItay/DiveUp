@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
-public class diverRegistrationScreen {
+public class DiverRegistrationScreen {
 
 	private JFrame frame;
 	private JTextField idTextField;
@@ -35,7 +35,7 @@ public class diverRegistrationScreen {
 			public void run() {
 				try {
 					//Creating new registration window
-					diverRegistrationScreen window = new diverRegistrationScreen();
+					DiverRegistrationScreen window = new DiverRegistrationScreen();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +47,7 @@ public class diverRegistrationScreen {
 	/**
 	 * Create the application.
 	 */
-	public diverRegistrationScreen() {
+	public DiverRegistrationScreen() {
 		initialize();
 	}
 
