@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Diver extends Entity {
 
-	public Diver(String licenseID) {
-		super();
+	public Diver(String licenseID) { //c'tor
+		super(); //calling parent c'tor 
 		this.licenseID = licenseID;
 	}
 	String licenseID;
@@ -23,7 +23,7 @@ public class Diver extends Entity {
 	@Override
 	public String toString() {
 		return "Diver [licenseID=" + licenseID + ", firstName=" + firstName + ", lastName=" + lastName + ", id=" + id
-				+ ", contactInfo=" + contactInfo + "]";
+				+ ", contactInfo=" + email + phone+ "]";
 	}
 	public List<Course> getCompletedCourses() {
 		return completedCourses;

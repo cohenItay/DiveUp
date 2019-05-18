@@ -18,7 +18,7 @@ public abstract class Entity {
 	public Entity() {
 		// TODO Auto-generated constructor stub
 	}
-	Contact contactInfo;
+	
 	
 	public String getFirstName() {
 		return firstName;
@@ -28,6 +28,9 @@ public abstract class Entity {
 	}
 	public String getLastName() {
 		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	public String getEmail() {
 		return email;
@@ -41,22 +44,12 @@ public abstract class Entity {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Contact getContactInfo() {
-		return contactInfo;
-	}
-	public void setContactInfo(Contact contactInfo) {
-		this.contactInfo = contactInfo;
-	}
-	
 	
 	
 }

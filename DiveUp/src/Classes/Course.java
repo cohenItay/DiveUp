@@ -3,9 +3,9 @@ import java.util.List;
 
 public class Course extends Asset{
 
-	List<Diver> divers;
-	Employee instructor;
-	int MaxDivers;
+	List<Diver> divers; //list of all Participants
+	Employee instructor; //Scheduling an instructor
+	int MaxDivers; //Max Divers per course
 	
 	public List<Diver> getDivers() {
 		return divers;

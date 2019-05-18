@@ -12,7 +12,7 @@ public class Dive {
 	int diveID;
 	String diver;
 	String location;
-	Date date;
+	Date date; //Date function in order to be written in the diving book
 	public int getDiveID() {
 		return diveID;
 	}
