@@ -27,6 +27,7 @@ public class CustomerScreen {
 	private List<Dive> divesList;
 	private JButton button;
 	public boolean isFocused = true;
+	public String currentDiver;
 	/**
 	 * Launch the application.
 	 */
@@ -122,6 +123,7 @@ public class CustomerScreen {
 		        int row = diversTable.rowAtPoint(evt.getPoint());
 		        int col = diversTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
+		        	currentDiver = (String)model.getValueAt(row, 0);
 		            updateDiversTable();
 		            updateDiveBook((String)model.getValueAt(row, 0), row);
 		            
@@ -148,6 +150,12 @@ public class CustomerScreen {
 		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing");
 		
 		JButton courseRegisterButton = new JButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1");
+		courseRegisterButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CourseRegistrationScreen register = new CourseRegistrationScreen();
+
+			}
+		});
 		
 	
 		frame.getContentPane().add(courseRegisterButton, "cell 3 1,alignx right");
