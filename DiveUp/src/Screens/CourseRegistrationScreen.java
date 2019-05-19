@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -65,7 +66,7 @@ public void updateCoursesList()
     {
     	if(courses.get(i).getStartDay().compareTo(startDatePicker.getDate()) >=0  && courses.get(i).getEndDay().compareTo(endDatePicker.getDate())<= 0 && courses.get(i).getCurrentAmount() < courses.get(i).getMaxDivers())
     		
-    		coursesList.addItem(courses.get(i).getName() + " " + outputFormatter.format(courses.get(i).getEndDay()) +  " - " + outputFormatter.format(courses.get(i).getStartDay()) + " ("+ courses.get(i).getId()+")");
+    		coursesList.addItem(courses.get(i).getName() + " " + outputFormatter.format(courses.get(i).getEndDay()) +  " - " + outputFormatter.format(courses.get(i).getStartDay()) + " ["+courses.get(i).getCurrentAmount()+"/"+courses.get(i).getMaxDivers() +"]  " +"("+ courses.get(i).getId()+")");
     }
 }
 
@@ -198,7 +199,6 @@ public void updateDiversList()
         JButton confirmButton = new JButton("\u05D4\u05D5\u05E1\u05E4\u05D4");
         confirmButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		
         		int courseID = 0;
         		String diverID = "";
         		Matcher m = Pattern.compile("\\((.*?)\\)").matcher(coursesList.getSelectedItem().toString());
@@ -209,7 +209,13 @@ public void updateDiversList()
         		if(m.find()) {
         		    diverID = m.group(1);
         		}
-        		dbConnection.registerCourse(courseID,diverID);
+        		if(dbConnection.getCurrentAmount(courseID)< dbConnection.getMaxAmount(courseID))
+        			dbConnection.registerCourse(courseID,diverID);
+        		else
+        		{
+        	        JOptionPane.showMessageDialog(frame, "Course already full", "InfoBox: " + "Course Full", JOptionPane.INFORMATION_MESSAGE);
+        			updateCoursesList();
+        		}
         	}
         });
         frame.getContentPane().add(confirmButton, "cell 7 6 2 1,growx");

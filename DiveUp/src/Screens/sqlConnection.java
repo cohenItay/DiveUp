@@ -305,6 +305,22 @@ public class sqlConnection {
 		}	
 	}
 	
+	public int getMaxAmount(int id)
+	{
+		
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select maxDivers from Course where courseID = "+id);
+			return rs.getInt("maxDivers");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return -1;
+		
+		}	
+	}
+	
 	public String getCourseName(int courseID)
 	{
 		Statement stmt;
@@ -326,7 +342,7 @@ public class sqlConnection {
 	{
 		Statement stmt;
 		try {
-			String query = "update Course set currentAmount = ?";
+			String query = "update Course set currentAmount = ? where courseID = "+courseID;
 		      PreparedStatement preparedStmt = conn.prepareStatement(query);
 		      preparedStmt.setInt   (1, currentAmount+1);
 		      preparedStmt.executeUpdate();
@@ -357,7 +373,6 @@ public class sqlConnection {
 		    pstmt.setString(3, courseName);
 		    int currentAmount = getCurrentAmount(courseID);
 		    updateAmount(courseID, currentAmount);
-		    System.out.println(courseID + " " + diverID +" "+courseName + " "+currentAmount);
 		    
 		    pstmt.executeUpdate();
 		     
