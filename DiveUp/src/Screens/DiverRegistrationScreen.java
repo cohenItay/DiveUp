@@ -9,13 +9,17 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
+import res.DNotification;
 import res.DTextField;
 import res.UIConstants;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
+import Controllers.Controller;
+import Controllers.DiverController;
 import Models.sqlConnection;
 
 import javax.imageio.ImageIO;
@@ -25,6 +29,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class DiverRegistrationScreen {
 
@@ -36,7 +42,8 @@ public class DiverRegistrationScreen {
 	private JTextField emailTextField;
 	private JTextField phoneTextField;
 	private JCheckBox isProtected;
-
+	private DiverController c;
+	private DNotification not;
 	/**
 	 * Launch the application.
 	 */
@@ -58,6 +65,7 @@ public class DiverRegistrationScreen {
 	 * Create the application.
 	 */
 	public DiverRegistrationScreen() {
+		c = new DiverController();
 		initialize();
 	}
 
@@ -90,6 +98,15 @@ public class DiverRegistrationScreen {
 		
 		/* adding fields to the form */
 		idTextField = new DTextField(20);
+		idTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				String valid = c.checkIDValidity(idTextField.getText());
+				if(!valid.equals("VALID"))
+			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong ID", JOptionPane.ERROR_MESSAGE);
+
+			}
+		});
 		idTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(idTextField, "cell 7 1 3 1,growx");
 		idTextField.setColumns(10);
@@ -99,6 +116,16 @@ public class DiverRegistrationScreen {
 		frame.getContentPane().add(idLabel, "cell 10 1");
 		
 		firstNameTextField = new DTextField(20);
+		firstNameTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				String valid = c.checkNameValidity(firstNameTextField.getText());
+				if(!valid.equals("VALID"))
+			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong name", JOptionPane.ERROR_MESSAGE);
+		        
+
+			}
+		});
 		firstNameTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(firstNameTextField, "cell 7 2 3 1,growx");
 		firstNameTextField.setColumns(10);
@@ -148,10 +175,12 @@ public class DiverRegistrationScreen {
 		DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				sqlConnection dbConnection = sqlConnection.getInstance();
-				dbConnection.addDiver(dbConnection.conn, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
-						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
-				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+				
+				
+//				sqlConnection dbConnection = sqlConnection.getInstance();
+//				dbConnection.addDiver(dbConnection.conn, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
+//						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
+//				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 				
 
 			}

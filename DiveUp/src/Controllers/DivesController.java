@@ -1,5 +1,5 @@
 package Controllers;
 
-public class DivesController {
+public class DivesController implements Controller{
 
 }
