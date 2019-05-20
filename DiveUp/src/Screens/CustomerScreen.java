@@ -1,17 +1,25 @@
 package Screens;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.SystemColor;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import Classes.Dive;
 import Classes.Diver;
 import Models.sqlConnection;
 import net.miginfocom.swing.MigLayout;
+import res.DButton;
+import res.UIConstants;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -103,7 +111,7 @@ public class CustomerScreen {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270,grow][106.00,grow][270,grow][260,grow][250,grow]"));
-
+		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
 		String[] colHeadings = {"ID","First Name","Last Name","License ID","Email","Phone","Insurance"};
 		int numRows = 0 ;
@@ -116,6 +124,17 @@ public class CustomerScreen {
 				};
 		model.setColumnIdentifiers(colHeadings);
 		diversTable = new JTable(model);
+		diversTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		diversTable.getTableHeader().setReorderingAllowed(false);
+		diversTable.setRowSelectionAllowed(true);
+		diversTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		diversTable.setBorder(new LineBorder(SystemColor.activeCaption));
+		diversTable.setGridColor(UIConstants.BAR_DARK);
+		diversTable.setFillsViewportHeight(true);
+		JTableHeader header = diversTable.getTableHeader();
+	     header.setBackground(UIConstants.SELECTED_BTN);
+	     header.setForeground(Color.white);
+		
 		
 		/*Add listener in order to update the table data when pressed*/
 		diversTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -138,11 +157,15 @@ public class CustomerScreen {
 		frame.getContentPane().add(scrollPane, "cell 0 0 5 1,growx");//add scroll bar to the frame
 		
 		/*Create buttons for activities*/
-		JButton updateDiverButton = new JButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7");
+		DButton updateDiverButton = new DButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7",DButton.Mode.PRIMARY);
+		updateDiverButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		
 		frame.getContentPane().add(updateDiverButton, "cell 2 1,alignx right");
 		
-		JButton addDiverButton = new JButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF");
+		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
 		addDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DiverRegistrationScreen register = new DiverRegistrationScreen();
@@ -150,7 +173,7 @@ public class CustomerScreen {
 		});
 		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing");
 		
-		JButton courseRegisterButton = new JButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1");
+		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);
 		courseRegisterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CourseRegistrationScreen register = new CourseRegistrationScreen();
@@ -174,7 +197,16 @@ public class CustomerScreen {
 				};
 		modeldives.setColumnIdentifiers(Headings);
 		divesTable = new JTable(modeldives);
-		
+		divesTable.setBorder(new LineBorder(SystemColor.activeCaption));
+		divesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		divesTable.getTableHeader().setReorderingAllowed(false);
+		divesTable.setRowSelectionAllowed(true);
+		divesTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		divesTable.setGridColor(UIConstants.BAR_DARK);
+		divesTable.setFillsViewportHeight(true);
+		JTableHeader header2 = divesTable.getTableHeader();
+	     header2.setBackground(UIConstants.SELECTED_BTN);
+	     header2.setForeground(Color.white);
 		
 		divesPane = new JScrollPane(divesTable);
 		frame.getContentPane().add(divesPane, "cell 0 2 5 1,growx");

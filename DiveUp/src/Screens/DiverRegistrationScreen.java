@@ -1,5 +1,6 @@
 package Screens;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -7,6 +8,10 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
+import res.DButton;
+import res.DTextField;
+import res.UIConstants;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -14,10 +19,12 @@ import javax.swing.SwingConstants;
 import Models.sqlConnection;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 public class DiverRegistrationScreen {
 
@@ -28,7 +35,7 @@ public class DiverRegistrationScreen {
 	private JTextField licenseidTextField;
 	private JTextField emailTextField;
 	private JTextField phoneTextField;
-	private JTextField insuranceTextField;
+	private JCheckBox isProtected;
 
 	/**
 	 * Launch the application.
@@ -65,7 +72,7 @@ public class DiverRegistrationScreen {
 		int height = (int)screenSize.getHeight();
 		frame.setSize(width/2, height/2);
 		frame.setLocation(screenSize.width/2-frame.getSize().width/2, screenSize.height/2-frame.getSize().height/2);
-		
+		frame.getContentPane().setBackground(Color.WHITE);
 		//Title and icon add
 		frame.setTitle("Diver Registration");
 		Image image;
@@ -82,7 +89,7 @@ public class DiverRegistrationScreen {
 		
 		
 		/* adding fields to the form */
-		idTextField = new JTextField();
+		idTextField = new DTextField(20);
 		idTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(idTextField, "cell 7 1 3 1,growx");
 		idTextField.setColumns(10);
@@ -91,7 +98,7 @@ public class DiverRegistrationScreen {
 		idLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(idLabel, "cell 10 1");
 		
-		firstNameTextField = new JTextField();
+		firstNameTextField = new DTextField(20);
 		firstNameTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(firstNameTextField, "cell 7 2 3 1,growx");
 		firstNameTextField.setColumns(10);
@@ -100,7 +107,7 @@ public class DiverRegistrationScreen {
 		firstNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(firstNameLabel, "cell 10 2");
 		
-		lastnameTextField = new JTextField();
+		lastnameTextField = new DTextField(20);
 		lastnameTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(lastnameTextField, "cell 7 3 3 1,growx");
 		lastnameTextField.setColumns(10);
@@ -109,7 +116,7 @@ public class DiverRegistrationScreen {
 		lastnameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(lastnameLabel, "cell 10 3");
 		
-		licenseidTextField = new JTextField();
+		licenseidTextField = new DTextField(20);
 		licenseidTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(licenseidTextField, "cell 7 4 3 1,growx");
 		licenseidTextField.setColumns(10);
@@ -118,7 +125,7 @@ public class DiverRegistrationScreen {
 		licenseidLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(licenseidLabel, "cell 10 4");
 		
-		emailTextField = new JTextField();
+		emailTextField = new DTextField(20);
 		emailTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(emailTextField, "cell 7 5 3 1,growx");
 		emailTextField.setColumns(10);
@@ -127,7 +134,7 @@ public class DiverRegistrationScreen {
 		emailLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(emailLabel, "cell 10 5");
 		
-		phoneTextField = new JTextField();
+		phoneTextField = new DTextField(20);
 		phoneTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(phoneTextField, "cell 7 6 3 1,growx");
 		phoneTextField.setColumns(10);
@@ -138,21 +145,24 @@ public class DiverRegistrationScreen {
 		
 		
 		/* when pressing the confirm button, run query to add diver to DB */
-		JButton confirmButton = new JButton("\u05D4\u05E8\u05E9\u05DE\u05D4");
+		DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				sqlConnection dbConnection = sqlConnection.getInstance();
 				dbConnection.addDiver(dbConnection.conn, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
-						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),insuranceTextField.getText());
+						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 				
 
 			}
 		});
 		
-		insuranceTextField = new JTextField();
-		frame.getContentPane().add(insuranceTextField, "cell 7 7 3 1,growx");
-		insuranceTextField.setColumns(10);
+		isProtected = new JCheckBox("");
+		isProtected.setBackground(UIConstants.SELECTED_BTN);
+		isProtected.setForeground(UIConstants.BTN_PRIMARY_FONT_DEFUALT);
+		isProtected.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		isProtected.setHorizontalAlignment(SwingConstants.RIGHT);
+		frame.getContentPane().add(isProtected, "cell 9 7,alignx right");
 		
 		JLabel insuranceLabel = new JLabel("\u05D1\u05D9\u05D8\u05D5\u05D7");
 		frame.getContentPane().add(insuranceLabel, "cell 10 7");

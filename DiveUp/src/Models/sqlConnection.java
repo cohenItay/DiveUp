@@ -82,7 +82,7 @@ public class sqlConnection {
 	}
             
 	/* Adding new Diver to DB */
-	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone,String insurance)
+	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone,boolean insurance)
 	{
 		String sql = "INSERT INTO Diver(id,firstName,lastName,licenseID,email,phone,insurance) VALUES(?,?,?,?,?,?,?)";//query string
 		 
@@ -96,7 +96,10 @@ public class sqlConnection {
 			    pstmt.setString(4, licenseID);
 			    pstmt.setString(5, email);
 			    pstmt.setString(6, phone);
-			    pstmt.setString(7, insurance);
+			    if(insurance)
+			    	pstmt.setString(7, "YES");
+			    else
+			    	pstmt.setString(7, "NO");
 			    pstmt.executeUpdate();
 			     
 			} catch (SQLException e) {
