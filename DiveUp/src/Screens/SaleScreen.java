@@ -1,34 +1,22 @@
 package Screens;
 
 import java.awt.EventQueue;
-import java.awt.Image;
-import java.sql.Connection;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import Models.sqlConnection;
-
-
-public class MainScreen {
+public class SaleScreen {
 
 	private JFrame frame;
-	public static sqlConnection dbConnection;
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		dbConnection = sqlConnection.getInstance();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					dbConnection.getDivers();
-					MainScreen window = new MainScreen();
-					Image image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
-					window.frame.setIconImage(image);
-					window.frame.setTitle("DiveUp");
+					SaleScreen window = new SaleScreen();
 					window.frame.setVisible(true);
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,7 +27,7 @@ public class MainScreen {
 	/**
 	 * Create the application.
 	 */
-	public MainScreen() {
+	public SaleScreen() {
 		initialize();
 	}
 

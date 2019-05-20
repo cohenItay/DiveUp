@@ -20,6 +20,7 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import Classes.Course;
 import Classes.Diver;
+import Models.sqlConnection;
 import net.miginfocom.swing.MigLayout;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;

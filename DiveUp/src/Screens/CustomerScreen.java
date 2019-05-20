@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Classes.Dive;
 import Classes.Diver;
+import Models.sqlConnection;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
