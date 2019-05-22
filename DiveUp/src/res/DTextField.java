@@ -36,7 +36,7 @@ public class DTextField extends JTextField
 
     public void setViolatedBorder(boolean status){
         if(status) {
-            setBorder(BorderFactory.createLineBorder(Color.RED));
+            setBorder(BorderFactory.createLineBorder(Color.RED,2));
         }
         else{
             setBorder(BorderFactory.createLineBorder(UIConstants.BORDER_DARK));

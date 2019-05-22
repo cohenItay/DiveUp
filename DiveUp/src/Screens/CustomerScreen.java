@@ -1,6 +1,7 @@
 package Screens;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -22,10 +23,13 @@ import Models.sqlConnection;
 import net.miginfocom.swing.MigLayout;
 import net.miginfocom.swing.SwingComponentWrapper;
 import res.DButton;
+import res.DTable;
 import res.UIConstants;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class CustomerScreen {
@@ -39,6 +43,7 @@ public class CustomerScreen {
 	private List<Diver> diversList;
 	private List<Dive> divesList;
 	private JButton button;
+	private DTable tableDesign;
 	public boolean isFocused = true;
 	public String currentDiver;
 	/**
@@ -133,16 +138,9 @@ public class CustomerScreen {
 				};
 		model.setColumnIdentifiers(colHeadings);
 		diversTable = new JTable(model);
-		diversTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		diversTable.getTableHeader().setReorderingAllowed(false);
-		diversTable.setRowSelectionAllowed(true);
-		diversTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		diversTable.setGridColor(UIConstants.BAR_DARK);
-		diversTable.setFillsViewportHeight(true);
-		JTableHeader header = diversTable.getTableHeader();
-	     header.setBackground(UIConstants.SELECTED_BTN);
-	     header.setForeground(Color.white);
-		
+		tableDesign= new DTable();
+		diversTable = tableDesign.designTable(diversTable);
+
 		
 		/*Add listener in order to update the table data when pressed*/
 		diversTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -151,12 +149,14 @@ public class CustomerScreen {
 		        int row = diversTable.rowAtPoint(evt.getPoint());
 		        int col = diversTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
-		        	currentDiver = (String)model.getValueAt(row, 1) +"("+(String)model.getValueAt(row, 0)+")";
+		        	currentDiver = (String)model.getValueAt(row, 0);
 		            updateDiversTable();
 		            updateDiveBook((String)model.getValueAt(row, 0), row);
 		            
 		        }
 		    }
+		    
+		    
 		});
 		
 		
@@ -166,6 +166,21 @@ public class CustomerScreen {
 		
 		/*Create buttons for activities*/
 		DButton updateDiverButton = new DButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7",DButton.Mode.PRIMARY);
+		
+			updateDiverButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			updateDiverButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				updateDiverButton.setBackground(UIConstants.SELECTED_BTN);
+			}
+		});
+		
+		
 		updateDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -174,6 +189,20 @@ public class CustomerScreen {
 		frame.getContentPane().add(updateDiverButton, "cell 2 1,alignx right");
 		
 		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
+		addDiverButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			addDiverButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				addDiverButton.setBackground(UIConstants.SELECTED_BTN);
+			}
+		});
+
+		
 		addDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DiverRegistrationScreen register = new DiverRegistrationScreen();
@@ -182,6 +211,20 @@ public class CustomerScreen {
 		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing");
 		
 		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);
+		courseRegisterButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			courseRegisterButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				courseRegisterButton.setBackground(UIConstants.SELECTED_BTN);
+			}
+		});
+
+		
 		courseRegisterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CourseRegistrationScreen register = new CourseRegistrationScreen(getCurrentDiverID());
@@ -204,35 +247,9 @@ public class CustomerScreen {
 			 			}
 				};
 				
-				
-				
-	    
 		modeldives.setColumnIdentifiers(Headings);
-		divesTable = new JTable(modeldives) {
-			@Override
-	        public Component prepareRenderer(TableCellRenderer renderer, int rowIndex,
-	                int columnIndex) {
-	            if(rowIndex %2 == 0) {
-	                Component comp = super.prepareRenderer(renderer, rowIndex, columnIndex);
-	                comp.setBackground(Color.lightGray);
-	                comp.setForeground(Color.white);
-	            } else {
-	            	Component comp = super.prepareRenderer(renderer, rowIndex, columnIndex);
-	            	comp.setBackground(Color.white);
-	                comp.setForeground(Color.darkGray);
-	            }
-
-	            return super.prepareRenderer(renderer, rowIndex, columnIndex);
-	        }
-	    };
-		divesTable.setBackground(Color.lightGray);
-		divesTable.setBorder(new LineBorder(SystemColor.activeCaption));
-		divesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		divesTable.getTableHeader().setReorderingAllowed(false);
-		divesTable.setRowSelectionAllowed(true);
-		divesTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		divesTable.setGridColor(UIConstants.BAR_DARK);
-		divesTable.setFillsViewportHeight(true);
+		divesTable= new JTable(modeldives);
+	    tableDesign.designTable(divesTable);
 		
 		
 		JTableHeader header2 = divesTable.getTableHeader();

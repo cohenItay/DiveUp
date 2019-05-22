@@ -1,6 +1,7 @@
 package Screens;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -33,6 +34,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DiverRegistrationScreen {
 
@@ -152,7 +155,7 @@ public class DiverRegistrationScreen {
 		phoneTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(phoneTextField, "cell 7 6 3 1,growx");
 		phoneTextField.setColumns(10);
-		phoneTextField.setToolTipText("הכנס מספר פלאפון");
+		phoneTextField.setToolTipText("הכנס מסםר פלאפון");
 		
 		JLabel phoneLabel = new JLabel("\u05E4\u05DC\u05D0\u05E4\u05D5\u05DF");
 		phoneLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -161,6 +164,18 @@ public class DiverRegistrationScreen {
 		
 		/* when pressing the confirm button, run query to add diver to DB */
 		DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
+		confirmButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			confirmButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				confirmButton.setBackground(UIConstants.SELECTED_BTN);
+			}
+		});
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
