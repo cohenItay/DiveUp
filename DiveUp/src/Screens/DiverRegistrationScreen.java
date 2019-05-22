@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.Map;
+
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
@@ -35,12 +37,12 @@ import java.awt.event.FocusEvent;
 public class DiverRegistrationScreen {
 
 	private JFrame frame;
-	private JTextField idTextField;
-	private JTextField firstNameTextField;
-	private JTextField lastnameTextField;
-	private JTextField licenseidTextField;
-	private JTextField emailTextField;
-	private JTextField phoneTextField;
+	private DTextField idTextField;
+	private DTextField firstNameTextField;
+	private DTextField lastnameTextField;
+	private DTextField licenseidTextField;
+	private DTextField emailTextField;
+	private DTextField phoneTextField;
 	private JCheckBox isProtected;
 	private DiverController c;
 	private DNotification not;
@@ -104,9 +106,11 @@ public class DiverRegistrationScreen {
 				String valid = c.checkIDValidity(idTextField.getText());
 				if(!valid.equals("VALID"))
 			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong ID", JOptionPane.ERROR_MESSAGE);
+				
 
 			}
 		});
+		
 		idTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(idTextField, "cell 7 1 3 1,growx");
 		idTextField.setColumns(10);
@@ -122,7 +126,7 @@ public class DiverRegistrationScreen {
 				String valid = c.checkNameValidity(firstNameTextField.getText());
 				if(!valid.equals("VALID"))
 			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong name", JOptionPane.ERROR_MESSAGE);
-		        
+		       
 
 			}
 		});
@@ -135,6 +139,14 @@ public class DiverRegistrationScreen {
 		frame.getContentPane().add(firstNameLabel, "cell 10 2");
 		
 		lastnameTextField = new DTextField(20);
+		lastnameTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				String valid = c.checkLastNameValidity(lastnameTextField.getText());
+				if(!valid.equals("VALID"))
+			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong lastname", JOptionPane.ERROR_MESSAGE);
+			}
+		});
 		lastnameTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(lastnameTextField, "cell 7 3 3 1,growx");
 		lastnameTextField.setColumns(10);
@@ -144,6 +156,14 @@ public class DiverRegistrationScreen {
 		frame.getContentPane().add(lastnameLabel, "cell 10 3");
 		
 		licenseidTextField = new DTextField(20);
+		licenseidTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				String valid = c.checkIDValidity(licenseidTextField.getText());
+				if(!valid.equals("VALID"))
+			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong License ID", JOptionPane.ERROR_MESSAGE);
+			}
+		});
 		licenseidTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(licenseidTextField, "cell 7 4 3 1,growx");
 		licenseidTextField.setColumns(10);
@@ -153,6 +173,15 @@ public class DiverRegistrationScreen {
 		frame.getContentPane().add(licenseidLabel, "cell 10 4");
 		
 		emailTextField = new DTextField(20);
+		emailTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				String valid = c.checkEmailValidity(emailTextField.getText());
+				if(!valid.equals("VALID"))
+			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong email", JOptionPane.ERROR_MESSAGE);
+				
+			}
+		});
 		emailTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(emailTextField, "cell 7 5 3 1,growx");
 		emailTextField.setColumns(10);
@@ -162,6 +191,15 @@ public class DiverRegistrationScreen {
 		frame.getContentPane().add(emailLabel, "cell 10 5");
 		
 		phoneTextField = new DTextField(20);
+		phoneTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				String valid = c.checkPhoneValidity(phoneTextField.getText());
+				if(!valid.equals("VALID"))
+			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong phone", JOptionPane.ERROR_MESSAGE);
+					
+			}
+		});
 		phoneTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(phoneTextField, "cell 7 6 3 1,growx");
 		phoneTextField.setColumns(10);
@@ -176,12 +214,35 @@ public class DiverRegistrationScreen {
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				
-//				sqlConnection dbConnection = sqlConnection.getInstance();
-//				dbConnection.addDiver(dbConnection.conn, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
-//						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
-//				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
-				
+				Map<Integer,String> violations = c.checkFullRegistrationForm(idTextField.getText(), 
+						firstNameTextField.getText(), lastnameTextField.getText(),licenseidTextField.getText(),
+						emailTextField.getText(),phoneTextField.getText());
+
+
+                if(violations.size()>0){
+                    c.showViolationNotification(violations);
+
+                    for(Integer vcode:violations.keySet()){
+
+                        //if id is empty
+                        if(vcode==c.id_empty){
+                            idTextField.setViolatedBorder(true);
+                        }
+
+                        //if limit ip range value violated
+                        if(vcode==c.firstName_empty){
+                            firstNameTextField.setViolatedBorder(true);
+                        }
+                    }
+                }
+                else {
+    				sqlConnection dbConnection = sqlConnection.getInstance();
+    				dbConnection.addDiver(dbConnection.conn, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
+    						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
+    				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+    				
+
+                }
 
 			}
 		});
@@ -197,6 +258,7 @@ public class DiverRegistrationScreen {
 		frame.getContentPane().add(insuranceLabel, "cell 10 7");
 		frame.getContentPane().add(confirmButton, "cell 7 8 3 1,growx");
 		frame.setVisible(true);
+		idTextField.requestFocusInWindow();
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows when closing this window
 	}
 

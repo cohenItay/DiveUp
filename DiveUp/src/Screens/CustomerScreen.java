@@ -1,6 +1,8 @@
 package Screens;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemColor;
 import java.util.List;
@@ -12,11 +14,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 
 import Classes.Dive;
 import Classes.Diver;
 import Models.sqlConnection;
 import net.miginfocom.swing.MigLayout;
+import net.miginfocom.swing.SwingComponentWrapper;
 import res.DButton;
 import res.UIConstants;
 
@@ -195,8 +199,29 @@ public class CustomerScreen {
 			 				return false;//This causes all cells to be not editable
 			 			}
 				};
+				
+				
+				
+	    
 		modeldives.setColumnIdentifiers(Headings);
-		divesTable = new JTable(modeldives);
+		divesTable = new JTable(modeldives) {
+			@Override
+	        public Component prepareRenderer(TableCellRenderer renderer, int rowIndex,
+	                int columnIndex) {
+	            if(rowIndex %2 == 0) {
+	                Component comp = super.prepareRenderer(renderer, rowIndex, columnIndex);
+	                comp.setBackground(Color.lightGray);
+	                comp.setForeground(Color.white);
+	            } else {
+	            	Component comp = super.prepareRenderer(renderer, rowIndex, columnIndex);
+	            	comp.setBackground(Color.white);
+	                comp.setForeground(Color.darkGray);
+	            }
+
+	            return super.prepareRenderer(renderer, rowIndex, columnIndex);
+	        }
+	    };
+		divesTable.setBackground(Color.lightGray);
 		divesTable.setBorder(new LineBorder(SystemColor.activeCaption));
 		divesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		divesTable.getTableHeader().setReorderingAllowed(false);
@@ -204,11 +229,14 @@ public class CustomerScreen {
 		divesTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		divesTable.setGridColor(UIConstants.BAR_DARK);
 		divesTable.setFillsViewportHeight(true);
+		
+		
 		JTableHeader header2 = divesTable.getTableHeader();
 	     header2.setBackground(UIConstants.SELECTED_BTN);
 	     header2.setForeground(Color.white);
 		
 		divesPane = new JScrollPane(divesTable);
+		divesPane.setBackground(Color.lightGray);
 		frame.getContentPane().add(divesPane, "cell 0 2 5 1,growx");
 		divesPane.setVisible(false);
 		updateDiversTable();
