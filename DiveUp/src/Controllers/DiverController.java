@@ -14,12 +14,12 @@ public class DiverController implements Controller {
 	public String checkNameValidity(String name) {
 
 		char[] charArray = name.toCharArray();
-		for (char c : charArray) {
-			if (!(c <= 0x05ea && c >= 0x05d0) && !(name.matches("^[a-zA-Z]+$"))) {
+		for (char c : charArray) { //checks each letter of the name
+			if (!(c <= 0x05ea && c >= 0x05d0) && !(name.matches("^[a-zA-Z]+$"))) { //checks that the name contains only letters in hebrew or english
 				return "Name should contain only letters";
 			}
 		}
-		if (name == "")
+		if (name == "") //if no name was entered
 			return "Name cannot be empty";
 		return "VALID";
 
@@ -49,14 +49,14 @@ public class DiverController implements Controller {
 	}
 
 	public String checkIDValidity(String id) {
-		if (id.matches("^\\d{9}$"))
+		if (id.matches("^\\d{9}$")) //check that the ID has 9 digits
 			return "VALID";
 		else
 			return "ID should be 9 digits";
 	}
 
 	public String checkPhoneValidity(String id) {
-		if (id.matches("^\\d{10}$"))
+		if (id.matches("^\\d{10}$")) //check that the phone number has 10 digits
 			return "VALID";
 		else
 			return "Phone should be 10 digits";
