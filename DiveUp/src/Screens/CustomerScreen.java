@@ -149,7 +149,7 @@ public class CustomerScreen {
 		        int row = diversTable.rowAtPoint(evt.getPoint());
 		        int col = diversTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
-		        	currentDiver = (String)model.getValueAt(row, 0);
+		        	currentDiver = "("+(String)model.getValueAt(row, 1)+")"+(String)model.getValueAt(row, 0);
 		            updateDiversTable();
 		            updateDiveBook((String)model.getValueAt(row, 0), row);
 		            
