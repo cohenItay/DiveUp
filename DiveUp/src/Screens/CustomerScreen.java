@@ -45,6 +45,11 @@ public class CustomerScreen {
 	 * Launch the application.
 	 */
 	
+	
+	public String getCurrentDiverID()
+	{
+		return currentDiver;
+	}
 	/*This Function will query the database to get all divers information and update in the table view*/
 	public void updateDiversTable() {
 		model.setRowCount(0);//Clearing the table data
@@ -132,7 +137,6 @@ public class CustomerScreen {
 		diversTable.getTableHeader().setReorderingAllowed(false);
 		diversTable.setRowSelectionAllowed(true);
 		diversTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		diversTable.setBorder(new LineBorder(SystemColor.activeCaption));
 		diversTable.setGridColor(UIConstants.BAR_DARK);
 		diversTable.setFillsViewportHeight(true);
 		JTableHeader header = diversTable.getTableHeader();
@@ -147,7 +151,7 @@ public class CustomerScreen {
 		        int row = diversTable.rowAtPoint(evt.getPoint());
 		        int col = diversTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
-		        	currentDiver = (String)model.getValueAt(row, 0);
+		        	currentDiver = (String)model.getValueAt(row, 1) +"("+(String)model.getValueAt(row, 0)+")";
 		            updateDiversTable();
 		            updateDiveBook((String)model.getValueAt(row, 0), row);
 		            
@@ -180,7 +184,7 @@ public class CustomerScreen {
 		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);
 		courseRegisterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CourseRegistrationScreen register = new CourseRegistrationScreen();
+				CourseRegistrationScreen register = new CourseRegistrationScreen(getCurrentDiverID());
 
 			}
 		});

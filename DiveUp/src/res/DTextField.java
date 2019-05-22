@@ -1,5 +1,6 @@
 package res;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -35,7 +36,7 @@ public class DTextField extends JTextField
 
     public void setViolatedBorder(boolean status){
         if(status) {
-            setBorder(BorderFactory.createLineBorder(UIConstants.ERROR_DEFUALT));
+            setBorder(BorderFactory.createLineBorder(Color.RED));
         }
         else{
             setBorder(BorderFactory.createLineBorder(UIConstants.BORDER_DARK));

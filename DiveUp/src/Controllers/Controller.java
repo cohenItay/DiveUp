@@ -9,12 +9,19 @@ public interface Controller
      */
 
     int id_empty=1;
-    int firstName_empty=421;
-    int lastName_empty=422;
-    int licenseID_empty=423;
-    int email_empty=424;
-    int phone_empty=425;
-    int PASSWORD_EMPTY=426;
+    int firstName_empty=2;
+    int lastName_empty=3;
+    int licenseID_empty=4;
+    int email_empty=5;
+    int phone_empty=6;
+    int PASSWORD_EMPTY=7;
+    int invalid_id=8;
+    int invalid_firstname = 9;
+    int invalid_lastname = 10;
+    int invalid_licenseID = 11;
+    int invalid_email = 12;
+    int invalid_phone = 13;
+    
 
 
 

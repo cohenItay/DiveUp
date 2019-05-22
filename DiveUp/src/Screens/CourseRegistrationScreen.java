@@ -63,6 +63,7 @@ import java.awt.SystemColor;
 
 public class CourseRegistrationScreen {
 
+	
 	private JFrame frame;
 	private sqlConnection dbConnection;
 	private JXDatePicker startDatePicker;
@@ -71,6 +72,7 @@ public class CourseRegistrationScreen {
 	private DefaultTableModel model;
 	private JTable coursesTable;
 	private boolean table_loaded = false;
+	private String diverID;
 	/**
 	 * Launch the application.
 	 */
@@ -112,8 +114,8 @@ public void updateDiversList()
 			public void run() {
 				try {
 					//Creating new registration window
-					CourseRegistrationScreen window = new CourseRegistrationScreen();
-					window.frame.setVisible(true);
+//					CourseRegistrationScreen window = new CourseRegistrationScreen();
+//					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -124,7 +126,8 @@ public void updateDiversList()
 	/**
 	 * Create the application.
 	 */
-	public CourseRegistrationScreen() {
+	public CourseRegistrationScreen(String diverID) {
+		this.diverID = diverID;
 		initialize();
 	}
 
@@ -231,7 +234,9 @@ public void updateDiversList()
         diversCombo.setForeground(Color.black);
         diversCombo.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         updateDiversList();
+        diversCombo.getModel().setSelectedItem(diverID);;
         diversCombo.setBackground(Color.WHITE);
+        
         frame.getContentPane().add(diversCombo, "cell 9 3,growx");
         
         DLabel diverLabel = new DLabel("\u05E6\u05D5\u05DC\u05DC\u05DF");

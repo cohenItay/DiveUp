@@ -68,6 +68,7 @@ public class DiverRegistrationScreen {
 	 */
 	public DiverRegistrationScreen() {
 		c = new DiverController();
+		
 		initialize();
 	}
 
@@ -100,109 +101,58 @@ public class DiverRegistrationScreen {
 		
 		/* adding fields to the form */
 		idTextField = new DTextField(20);
-		idTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				String valid = c.checkIDValidity(idTextField.getText());
-				if(!valid.equals("VALID"))
-			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong ID", JOptionPane.ERROR_MESSAGE);
-				
-
-			}
-		});
-		
 		idTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(idTextField, "cell 7 1 3 1,growx");
 		idTextField.setColumns(10);
+		idTextField.setToolTipText("הכנס ת.ז בעלת 9 ספרות");
 		
 		JLabel idLabel = new JLabel("\u05EA\u05E2\u05D5\u05D3\u05EA \u05D6\u05D4\u05D5\u05EA");
 		idLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(idLabel, "cell 10 1");
 		
 		firstNameTextField = new DTextField(20);
-		firstNameTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				String valid = c.checkNameValidity(firstNameTextField.getText());
-				if(!valid.equals("VALID"))
-			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong name", JOptionPane.ERROR_MESSAGE);
-		       
-
-			}
-		});
 		firstNameTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(firstNameTextField, "cell 7 2 3 1,growx");
 		firstNameTextField.setColumns(10);
-		
+		firstNameTextField.setToolTipText("הכנס שם פרטי");
 		JLabel firstNameLabel = new JLabel("\u05E9\u05DD \u05E4\u05E8\u05D8\u05D9");
 		firstNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(firstNameLabel, "cell 10 2");
 		
 		lastnameTextField = new DTextField(20);
-		lastnameTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				String valid = c.checkLastNameValidity(lastnameTextField.getText());
-				if(!valid.equals("VALID"))
-			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong lastname", JOptionPane.ERROR_MESSAGE);
-			}
-		});
 		lastnameTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(lastnameTextField, "cell 7 3 3 1,growx");
 		lastnameTextField.setColumns(10);
+		lastnameTextField.setToolTipText("הכנס שם משפחה");
 		
 		JLabel lastnameLabel = new JLabel("\u05E9\u05DD \u05DE\u05E9\u05E4\u05D7\u05D4");
 		lastnameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(lastnameLabel, "cell 10 3");
 		
 		licenseidTextField = new DTextField(20);
-		licenseidTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				String valid = c.checkIDValidity(licenseidTextField.getText());
-				if(!valid.equals("VALID"))
-			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong License ID", JOptionPane.ERROR_MESSAGE);
-			}
-		});
 		licenseidTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(licenseidTextField, "cell 7 4 3 1,growx");
 		licenseidTextField.setColumns(10);
+		licenseidTextField.setToolTipText("הכנס רישיון צלילה");
 		
 		JLabel licenseidLabel = new JLabel("\u05E8\u05D9\u05E9\u05D9\u05D5\u05DF \u05E6\u05DC\u05D9\u05DC\u05D4");
 		licenseidLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(licenseidLabel, "cell 10 4");
 		
 		emailTextField = new DTextField(20);
-		emailTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				String valid = c.checkEmailValidity(emailTextField.getText());
-				if(!valid.equals("VALID"))
-			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong email", JOptionPane.ERROR_MESSAGE);
-				
-			}
-		});
 		emailTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(emailTextField, "cell 7 5 3 1,growx");
 		emailTextField.setColumns(10);
-		
+		emailTextField.setToolTipText("הכנס כתובת מייל");
 		JLabel emailLabel = new JLabel("\u05DE\u05D9\u05D9\u05DC");
 		emailLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(emailLabel, "cell 10 5");
 		
 		phoneTextField = new DTextField(20);
-		phoneTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				String valid = c.checkPhoneValidity(phoneTextField.getText());
-				if(!valid.equals("VALID"))
-			        JOptionPane.showMessageDialog(null, valid, "InfoBox: " + "Wrong phone", JOptionPane.ERROR_MESSAGE);
-					
-			}
-		});
 		phoneTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(phoneTextField, "cell 7 6 3 1,growx");
 		phoneTextField.setColumns(10);
+		phoneTextField.setToolTipText("הכנס מספר פלאפון");
 		
 		JLabel phoneLabel = new JLabel("\u05E4\u05DC\u05D0\u05E4\u05D5\u05DF");
 		phoneLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -220,20 +170,39 @@ public class DiverRegistrationScreen {
 
 
                 if(violations.size()>0){
-                    c.showViolationNotification(violations);
+//                    c.showViolationNotification(violations);
 
                     for(Integer vcode:violations.keySet()){
 
-                        //if id is empty
-                        if(vcode==c.id_empty){
+                        //if id violated
+                        if(vcode==c.id_empty || vcode==c.invalid_id){
                             idTextField.setViolatedBorder(true);
                         }
 
-                        //if limit ip range value violated
-                        if(vcode==c.firstName_empty){
+                        //if firstname violated
+                        if(vcode==c.firstName_empty || vcode==c.invalid_firstname){
                             firstNameTextField.setViolatedBorder(true);
                         }
+                        //if lastname violated
+                        if(vcode==c.lastName_empty || vcode==c.invalid_lastname){
+                            lastnameTextField.setViolatedBorder(true);
+                        }
+                        
+                        //if licenseID violated
+                        if(vcode==c.licenseID_empty || vcode==c.invalid_licenseID){
+                            licenseidTextField.setViolatedBorder(true);
+                        }
+                        //email violated
+                        if(vcode==c.email_empty || vcode==c.invalid_email){
+                            emailTextField.setViolatedBorder(true);
+                        }
+                        //phone violated
+                        if(vcode==c.phone_empty || vcode==c.invalid_phone){
+                            phoneTextField.setViolatedBorder(true);
+                        }
                     }
+                    
+                    JOptionPane.showMessageDialog(null, "נא תקן את השדות המסומנים באדום", "בעיה בהרשמה " + "פרטים שגויים", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
     				sqlConnection dbConnection = sqlConnection.getInstance();

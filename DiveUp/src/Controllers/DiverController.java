@@ -67,30 +67,74 @@ public class DiverController implements Controller {
 		Map<Integer,String> violations=new HashMap<>();
 
 
-        //check if source name empty
+        //check if valid id
         if(id==null || id.equals("")){
             violations.put(id_empty,"id is empty");
+            
         }
+        if(!checkIDValidity(id).equals("VALID"))
+		{
+			violations.put(invalid_id, "Invalid ID");
+		}
         
+        
+        //Check if firstname is valid
         if(firstName==null || firstName.equals("")){
             violations.put(firstName_empty,"First name is empty");
         }
         
+        
+        if(!checkNameValidity(firstName).equals("VALID"))
+		{
+			violations.put(invalid_firstname, "Invalid Firstname");
+		}
+        
+        
+        
+        // check if lastename is valid
+        
         if(lastName==null || lastName.equals("")){
             violations.put(lastName_empty,"Lastname is empty");
         }
+        
+        
+        if(!checkLastNameValidity(lastName).equals("VALID"))
+		{
+			violations.put(invalid_lastname, "Invalid lastname");
+		}
+        
             
+        //check if valid license id
         if(licenseID==null || licenseID.equals("")){
             violations.put(licenseID_empty,"LicenseID is empty");
         }
         
+        if(!checkIDValidity(licenseID).equals("VALID"))
+		{
+			violations.put(invalid_licenseID, "Invalid licenseID");
+		}
+        
+        
+        // check if mail is valid
         if(mail==null || mail.equals("")){
             violations.put(email_empty,"mail is empty");
         }
         
+        if(!checkEmailValidity(mail).equals("VALID"))
+		{
+			violations.put(invalid_email, "Invalid email");
+		}
+        
+        
+        //check if phone is valid
         if(phone==null || phone.equals("")){
             violations.put(phone_empty,"phone is empty");
         }
+        
+        if(!checkPhoneValidity(phone).equals("VALID"))
+		{
+			violations.put(invalid_phone, "Invalid phone");
+		}
             
 		return violations;
 	}
