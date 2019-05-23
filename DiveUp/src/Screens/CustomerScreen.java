@@ -11,21 +11,16 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
-
 import Classes.Dive;
 import Classes.Diver;
-import Models.sqlConnection;
+import Controllers.DiverController;
+import Controllers.DivesController;
 import net.miginfocom.swing.MigLayout;
-import net.miginfocom.swing.SwingComponentWrapper;
 import res.DButton;
 import res.DTable;
 import res.UIConstants;
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -42,10 +37,11 @@ public class CustomerScreen {
 	private JScrollPane divesPane;
 	private List<Diver> diversList;
 	private List<Dive> divesList;
-	private JButton button;
 	private DTable tableDesign;
 	public boolean isFocused = true;
 	public String currentDiver;
+	private DiverController diversController;
+	private DivesController divesControler; 
 	/**
 	 * Launch the application.
 	 */
@@ -58,8 +54,7 @@ public class CustomerScreen {
 	/*This Function will query the database to get all divers information and update in the table view*/
 	public void updateDiversTable() {
 		model.setRowCount(0);//Clearing the table data
-		sqlConnection dbConnection = sqlConnection.getInstance();//connection to the DB
-		diversList = dbConnection.getDivers();//Getting divers list from the DB
+		diversList = diversController.getDivers();//Getting divers list from the DB
 		for(int i=0;i<diversList.size();i++)//For every diver add its information to the table
 		{
 		model.addRow(new Object[] {diversList.get(i).getId(), diversList.get(i).getFirstName(),
@@ -71,8 +66,7 @@ public class CustomerScreen {
 	public void updateDiveBook(String id, int row)
 	{	
 		modeldives.setRowCount(0);
-		sqlConnection dbConnection = sqlConnection.getInstance();
-		divesList = dbConnection.getDiveBook(id);
+		divesList = divesControler.getDivesBook(id);
 		if(divesList.size()>0)
 		{
 			divesPane.setVisible(true);
@@ -260,6 +254,9 @@ public class CustomerScreen {
 		divesPane.setBackground(Color.lightGray);
 		frame.getContentPane().add(divesPane, "cell 0 2 5 1,growx");
 		divesPane.setVisible(false);
+		
+		diversController = new DiverController();
+		divesControler = new DivesController();
 		updateDiversTable();
 	}
 }

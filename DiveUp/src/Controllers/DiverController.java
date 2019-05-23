@@ -1,14 +1,23 @@
 package Controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import Classes.Diver;
+import Models.sqlConnection;
 import res.DNotification;
 
 public class DiverController implements Controller {
 	Pattern pattern = Pattern.compile("[A-Za-z0-9_]+");
 	private Notifier    notifier;
+	
+	
+	public List<Diver> getDivers(){
+		sqlConnection dbConnection = sqlConnection.getInstance();//connection to the DB
+		return dbConnection.getDivers();//Getting divers list from the DB
+	}
 	
 	
 	public String checkNameValidity(String name) {
