@@ -22,10 +22,12 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import Classes.Course;
 import Classes.Diver;
+import Controllers.CoursesController;
 import Models.sqlConnection;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DLabel;
+import res.DTable;
 import res.UIConstants;
 
 import javax.imageio.ImageIO;
@@ -73,6 +75,8 @@ public class CourseRegistrationScreen {
 	private JTable coursesTable;
 	private boolean table_loaded = false;
 	private String diverID;
+	private Integer currentCourse;
+	private CoursesController courseController;
 	/**
 	 * Launch the application.
 	 */
@@ -80,7 +84,7 @@ public class CourseRegistrationScreen {
 	
 	
 	
-public void updateCoursesList()
+public void updateCoursesList(int row)
 {
 	model.setRowCount(0);//Clearing the table data
 	dbConnection = sqlConnection.getInstance();
@@ -95,6 +99,8 @@ public void updateCoursesList()
     				outputFormatter.format(courses.get(i).getStartDay()),outputFormatter.format(courses.get(i).getEndDay())});
     		
     }
+    if(row != -1)
+    	coursesTable.setRowSelectionInterval(row, row);
 }
 
 public void updateDiversList()
@@ -109,13 +115,19 @@ public void updateDiversList()
     }
 }
 
+
+public int getCurrentCourse()
+{
+	return currentCourse;
+}
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					//Creating new registration window
-//					CourseRegistrationScreen window = new CourseRegistrationScreen();
-//					window.frame.setVisible(true);
+					CourseRegistrationScreen window = new CourseRegistrationScreen("");
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -174,7 +186,7 @@ public void updateDiversList()
 		startDatePicker.getEditor().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 			if(table_loaded)
-				updateCoursesList();
+				updateCoursesList(-1);
 			}
 		});
 		
@@ -214,16 +226,27 @@ public void updateDiversList()
 				};
 		model.setColumnIdentifiers(colHeadings);
 		coursesTable = new JTable(model);
-		coursesTable.setBorder(new LineBorder(SystemColor.activeCaption));
-		coursesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		coursesTable.getTableHeader().setReorderingAllowed(false);
-		coursesTable.setRowSelectionAllowed(true);
-		coursesTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		coursesTable.setGridColor(UIConstants.BAR_DARK);
-		coursesTable.setFillsViewportHeight(true);
-		JTableHeader header = coursesTable.getTableHeader();
-	     header.setBackground(UIConstants.SELECTED_BTN);
-	     header.setForeground(Color.white);
+		DTable designTable = new DTable();
+		coursesTable = designTable.designTable(coursesTable);
+		
+		coursesTable.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int row = coursesTable.rowAtPoint(evt.getPoint());
+		        int col = coursesTable.columnAtPoint(evt.getPoint());
+		        if (row >= 0 && col >= 0) {
+		        	currentCourse = (Integer)model.getValueAt(row, 0);
+		            updateCoursesList(row);
+		            
+		            
+		        }
+		    }
+		    
+		    
+		});
+		
+		
+		
         JScrollPane scrollPane = new JScrollPane(coursesTable);
         scrollPane.getViewport().setBackground(UIConstants.BTN_INLINE_FONT_DEFUALT);
         frame.getContentPane().add(scrollPane, "cell 4 0 7 1,grow");
@@ -243,26 +266,27 @@ public void updateDiversList()
         frame.getContentPane().add(diverLabel, "cell 10 3,alignx right");
         
         DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
-        frame.getContentPane().add(confirmButton, "cell 9 8,growx");
-        /*
-        JButton confirmButton = new JButton("\u05D4\u05D5\u05E1\u05E4\u05D4");
         confirmButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		//Need to parse ID and diverID from table;
-        		}
-        		if(dbConnection.getCurrentAmount(courseID)< dbConnection.getMaxAmount(courseID))
-        			dbConnection.registerCourse(courseID,diverID);
-        		else
+        		String diverID="";
+        		
+        		Pattern pattern = Pattern.compile("\\((.*?)\\)");
+        		Matcher matcher = pattern.matcher(diversCombo.getSelectedItem().toString());
+        		
+        		if (matcher.find())
         		{
-        	        JOptionPane.showMessageDialog(frame, "Course already full", "InfoBox: " + "Course Full", JOptionPane.INFORMATION_MESSAGE);
-        			updateCoursesList();
+        		    diverID = matcher.group(1);
         		}
+        		
+        		courseController.registerNewCourse(currentCourse, diverID);
         	}
         });
+        frame.getContentPane().add(confirmButton, "cell 9 8,growx");
         
-        frame.getContentPane().add(confirmButton, "cell 7 6 2 1,growx");
-		*/
-        updateCoursesList();
+        
+        
+        courseController = new CoursesController();
+        updateCoursesList(-1);
         table_loaded = true;
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows whsen closing this window
