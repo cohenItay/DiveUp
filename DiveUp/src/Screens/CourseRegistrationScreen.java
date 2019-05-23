@@ -75,7 +75,7 @@ public class CourseRegistrationScreen {
 	private JTable coursesTable;
 	private boolean table_loaded = false;
 	private String diverID;
-	private Integer currentCourse;
+	private Integer currentCourse=-1;
 	private CoursesController courseController;
 	/**
 	 * Launch the application.
@@ -278,7 +278,12 @@ public int getCurrentCourse()
         		    diverID = matcher.group(1);
         		}
         		
-        		courseController.registerNewCourse(currentCourse, diverID);
+        		if(courseController.validateCourseRegistration(currentCourse, diverID))
+        			courseController.registerNewCourse(currentCourse, diverID);
+        		else
+        		{
+        			JOptionPane.showMessageDialog(null, "אנא בחר צוללן וקורס", "בעיה בהרשמה " + "פרטים חסרים", JOptionPane.ERROR_MESSAGE);
+        		}
         	}
         });
         frame.getContentPane().add(confirmButton, "cell 9 8,growx");
