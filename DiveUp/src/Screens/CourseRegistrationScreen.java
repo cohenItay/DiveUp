@@ -23,6 +23,8 @@ import org.jdesktop.swingx.JXDatePicker;
 import Classes.Course;
 import Classes.Diver;
 import Controllers.CoursesController;
+import Models.courseSqlQueries;
+import Models.diverSqlQueries;
 import Models.sqlConnection;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
@@ -67,7 +69,8 @@ public class CourseRegistrationScreen {
 
 	
 	private JFrame frame;
-	private sqlConnection dbConnection;
+	private diverSqlQueries dbConnection;
+	private courseSqlQueries dbConnection2;
 	private JXDatePicker startDatePicker;
 	private JXDatePicker endDatePicker;
 	private JComboBox diversCombo;
@@ -87,8 +90,8 @@ public class CourseRegistrationScreen {
 public void updateCoursesList(int row)
 {
 	model.setRowCount(0);//Clearing the table data
-	dbConnection = sqlConnection.getInstance();
-    List<Course> courses = dbConnection.getCourses();
+	dbConnection2 = new courseSqlQueries();
+    List<Course> courses = dbConnection2.getCourses();
     DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
     for(int i=0;i<courses.size();i++)
     {
@@ -106,7 +109,7 @@ public void updateCoursesList(int row)
 public void updateDiversList()
 {
 	
-	dbConnection = sqlConnection.getInstance();//connection to the DB
+	dbConnection = new diverSqlQueries();//connection to the DB
 	List<Diver>diversList = dbConnection.getDivers();
 	((JLabel)diversCombo.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
     for(int i =0 ; i<diversList.size();i++)

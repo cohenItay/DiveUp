@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 
 import Controllers.Controller;
 import Controllers.DiverController;
+import Models.diverSqlQueries;
 import Models.sqlConnection;
 
 import javax.imageio.ImageIO;
@@ -49,6 +50,7 @@ public class DiverRegistrationScreen {
 	private JCheckBox isProtected;
 	private DiverController c;
 	private DNotification not;
+	private diverSqlQueries dbConnection;
 	/**
 	 * Launch the application.
 	 */
@@ -220,8 +222,8 @@ public class DiverRegistrationScreen {
                     JOptionPane.showMessageDialog(null, "נא תקן את השדות המסומנים באדום", "בעיה בהרשמה " + "פרטים שגויים", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-    				sqlConnection dbConnection = sqlConnection.getInstance();
-    				dbConnection.addDiver(dbConnection.conn, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
+    				
+    				dbConnection.addDiver(dbConnection.connection, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
     						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
     				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
     				
@@ -243,6 +245,7 @@ public class DiverRegistrationScreen {
 		frame.getContentPane().add(confirmButton, "cell 7 8 3 1,growx");
 		frame.setVisible(true);
 		idTextField.requestFocusInWindow();
+		dbConnection = new diverSqlQueries();
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows when closing this window
 	}
 

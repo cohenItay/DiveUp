@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.courseSqlQueries;
 import Models.sqlConnection;
 
 public class CoursesController implements Controller {
@@ -7,7 +8,7 @@ public class CoursesController implements Controller {
 	public void registerNewCourse(int courseID,String diverID)
 	{
 		
-		sqlConnection dbConnection = sqlConnection.getInstance();
+		courseSqlQueries dbConnection = new courseSqlQueries();
 		dbConnection.registerCourse(courseID, diverID);
 	}
 	

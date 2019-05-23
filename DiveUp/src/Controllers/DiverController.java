@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import Classes.Diver;
+import Models.diverSqlQueries;
 import Models.sqlConnection;
 import res.DNotification;
 
@@ -15,7 +16,7 @@ public class DiverController implements Controller {
 	
 	
 	public List<Diver> getDivers(){
-		sqlConnection dbConnection = sqlConnection.getInstance();//connection to the DB
+		diverSqlQueries  dbConnection = new diverSqlQueries();//connection to the DB
 		return dbConnection.getDivers();//Getting divers list from the DB
 	}
 	
