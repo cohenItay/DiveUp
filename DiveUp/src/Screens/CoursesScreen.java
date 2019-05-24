@@ -37,7 +37,7 @@ public class CoursesScreen {
 	private JScrollPane divesPane;
 	private List<Course> coursesList;
 	private DTable tableDesign;
-	public int currentCourse;
+	public int currentCourse=0;
 	private courseSqlQueries dbConnection;
 	private CoursesController courseController;
 	private DivesController divesControler;
@@ -80,6 +80,7 @@ public class CoursesScreen {
 	    				outputFormatter.format(courses.get(i).getStartDay()),outputFormatter.format(courses.get(i).getEndDay())});
 	    		
 	    }
+	    coursesTable.setRowSelectionInterval(row, row);
 	}
 	/**
 	 * Create the application.
@@ -121,7 +122,7 @@ public class CoursesScreen {
 		        int col = coursesTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
 		        	currentCourse = (Integer)model.getValueAt(row, 0);
-		            updateCoursesList(currentCourse);
+		            updateCoursesList(row);
 		            
 		        }
 		    }
