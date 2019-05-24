@@ -32,9 +32,9 @@ public class SaleController implements Controller {
 		for(int i =0;i<table.getRowCount();i++)
 		{
 			if(i==table.getRowCount()-1)
-				items = items.concat((String)table.getValueAt(i, 2)) ;
+				items = items.concat((String)table.getValueAt(i, 2)+"(כמות:"+(String)table.getValueAt(i, 1)+")") ;
 			else
-				items = items.concat((String)table.getValueAt(i, 2)+","); 
+				items = items.concat((String)table.getValueAt(i, 2)+"(כמות:"+(String)table.getValueAt(i, 1)+")"+","); 
 		}
 		return items;
 	}
@@ -48,6 +48,11 @@ public class SaleController implements Controller {
 	{
 		saleSQLQueries  dbConnection = new saleSQLQueries();//connection to the DB
 		return dbConnection.getSales();//Getting divers list from the DB
+	}
+	public List<Sale> getCustomerSales(String id)
+	{
+		saleSQLQueries  dbConnection = new saleSQLQueries();//connection to the DB
+		return dbConnection.getCustomerSales(id);//Getting divers list from the DB
 	}
 	
 }

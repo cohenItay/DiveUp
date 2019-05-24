@@ -130,5 +130,44 @@ public class saleSQLQueries {
 	return res;
 	}
 
-	
+
+	public List<Sale> getCustomerSales(String id)
+	{
+		List<Sale> res = new ArrayList<>();//creating sales list
+		Statement stmt;
+		try {
+			/* getting all information from sales table */
+			stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from Sale where diverID = "+"\"" + id + "\"");
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			Sale s;
+			
+			/* creating sale object for each sale in the db table */
+			while (rs.next()) {
+				s = new Sale();
+				s.setSaleID(rs.getInt("saleID"));
+				s.setDiverID(rs.getString("diverID"));
+				s.setItems(rs.getString("itemsList"));
+				s.setDate(rs.getString("date"));
+				s.setTotalPrice(rs.getDouble("totalPrice"));
+				res.add(s);//add sale to the list
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
+		
+		}
+	return res;
+	}
+
 }

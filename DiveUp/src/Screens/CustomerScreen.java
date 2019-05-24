@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import Classes.Dive;
 import Classes.Diver;
+import Classes.Sale;
 import Controllers.DiverController;
 import Controllers.DivesController;
 import Controllers.Reporter;
@@ -116,8 +117,6 @@ public class CustomerScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		Reporter r = new Reporter();
-		r.createReport();
 		frame = new JFrame();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -31,25 +31,23 @@ public static void errorMessage(String infoMessage, String titleBar)
 }
 
 
-	public void createReport()
+	public void createSalesReport(List<Sale> salesList,String customer)
 	{
 	     try {
 	    	 	Date today = new Date();
 	    	 	DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_(hh_mm)");
 	    	 	String date = dateFormat.format(today);
-	            String filename = path+date+"_SalesReport"+".xls" ;
+	            String filename = path+date+"_"+customer+"_SalesReport"+".xls" ;
 	            HSSFWorkbook workbook = new HSSFWorkbook();
 	            HSSFSheet sheet = workbook.createSheet("SalesSheet");  
 	            	
 	            HSSFRow rowhead = sheet.createRow((short)0);
 	            rowhead.createCell(0).setCellValue("סכום");
-	            rowhead.createCell(1).setCellValue("רשימת פריטים");
-	            rowhead.createCell(2).setCellValue("תאריך");
+	            rowhead.createCell(1).setCellValue("תאריך");
+	            rowhead.createCell(2).setCellValue("רשימת פריטים");
 	            rowhead.createCell(3).setCellValue("ת.ז צוללן");
 	            rowhead.createCell(4).setCellValue("מזהה");
-
 	            
-	            List<Sale> salesList =sController.getSales() ;
 	            double sum=0;
 	            int i=1;
 	            for(i=0;i<salesList.size();i++)
@@ -81,7 +79,12 @@ public static void errorMessage(String infoMessage, String titleBar)
 	            int answer = JOptionPane.showConfirmDialog(null, "האם תרצה לצפות בדוח", "דוח המכירות נוצר", JOptionPane.YES_NO_OPTION);
 	            if(answer == JOptionPane.YES_OPTION)
 	            {
-	            	Desktop.getDesktop().open(new File(filename));
+	            	try {
+	            		Desktop.getDesktop().open(new File(filename));	
+	            	}
+	            	catch ( Exception ex2 ) {
+	    	        	errorMessage(ex2.getLocalizedMessage(), "נכשל בפתיחת הדוח");
+	    	        }   	
 	            }
 
 	            

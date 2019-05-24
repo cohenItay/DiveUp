@@ -27,6 +27,7 @@ import Classes.Diver;
 import Classes.Item;
 import Controllers.DiverController;
 import Controllers.ItemController;
+import Controllers.Reporter;
 import Controllers.SaleController;
 import Models.diverSqlQueries;
 import Models.itemSqlQueries;
@@ -371,6 +372,7 @@ public class SaleScreen {
 		updateItemList(currentItem);
 		updateDivers();
 		itemsTable.clearSelection();
+		
 	}
 
 }
