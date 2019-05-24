@@ -22,6 +22,7 @@ public class diverSqlQueries{
 	}
 	
 	
+	//Add diver to DB
 	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone,boolean insurance)
 	{
 		String sql = "INSERT INTO Diver(id,firstName,lastName,licenseID,email,phone,insurance) VALUES(?,?,?,?,?,?,?)";//query string
@@ -66,7 +67,7 @@ public class diverSqlQueries{
 	
 	
 	
-	
+	//Get all divers from the DB
 	public List<Diver> getDivers()
 	{
 		List<Diver> res = new ArrayList<>();//creating divers list

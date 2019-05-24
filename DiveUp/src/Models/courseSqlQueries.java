@@ -25,13 +25,13 @@ import Classes.Course;
 		}
 		
 		
-
+		//get courses list
 		public List<Course> getCourses()
 		{
-			List<Course> res = new ArrayList<>();//creating divers list
+			List<Course> res = new ArrayList<>();//creating courses list
 			Statement stmt;
 			try {
-				/* getting all information from diver table */
+				/* getting all information from courses table */
 				stmt = connection.createStatement();
 				ResultSet rs = stmt.executeQuery("select * from Course,CourseType where Course.typeID = CourseType.typeID");
 				
@@ -39,7 +39,7 @@ import Classes.Course;
 				int columnsNumber = rsmd.getColumnCount();
 				Course c;
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-				/* creating Diver object for each diver in the db table */
+				/* creating Item object for each item in the db table */
 				while (rs.next()) {
 					c = new Course();
 					c.setID(rs.getInt("courseID"));
@@ -51,7 +51,7 @@ import Classes.Course;
 					c.setStartDay(formatter.parse(rs.getString("startDate")));
 					c.setEndDay(formatter.parse(rs.getString("endDate")));
 					c.setDesc(rs.getString("desc"));
-				    res.add(c);//add diver to the list
+				    res.add(c);//add item to the list
 				}
 			} catch (SQLException | ParseException e) {
 				// TODO Auto-generated catch block
@@ -69,6 +69,7 @@ import Classes.Course;
 		return res;
 		}
 		
+		//get current registered divers amount for a specific course by id
 		public int getCurrentAmount(int id)
 		{
 			
@@ -85,6 +86,7 @@ import Classes.Course;
 			}	
 		}
 		
+		//get maximum available divers for course by id
 		public int getMaxAmount(int id)
 		{
 			
@@ -101,6 +103,7 @@ import Classes.Course;
 			}	
 		}
 		
+		//get coursename by id
 		public String getCourseName(int courseID)
 		{
 			Statement stmt;
@@ -117,7 +120,7 @@ import Classes.Course;
 		
 		}
 		
-		
+		//update course registered amount
 		public void updateAmount(int courseID,int currentAmount)
 		{
 			Statement stmt;

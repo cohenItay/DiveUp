@@ -1,10 +1,11 @@
 package Controllers;
 
-import Models.courseSqlQueries;
 import Models.itemSqlQueries;
 
 public class ItemController implements Controller {
 
+	
+	//Add new item to DB
 	public void addNewItem()
 	{
 		
@@ -12,6 +13,7 @@ public class ItemController implements Controller {
 		
 	}
 	
+	//validate item fields
 	public boolean validateItem(int courseID, String diverID)
 	{
 		return true;

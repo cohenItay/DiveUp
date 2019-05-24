@@ -11,16 +11,15 @@ import Models.sqlConnection;
 import res.DNotification;
 
 public class DiverController implements Controller {
-	Pattern pattern = Pattern.compile("[A-Za-z0-9_]+");
-	private Notifier    notifier;
+
 	
-	
+	//getting divers list from DB
 	public List<Diver> getDivers(){
 		diverSqlQueries  dbConnection = new diverSqlQueries();//connection to the DB
 		return dbConnection.getDivers();//Getting divers list from the DB
 	}
 	
-	
+	//Checking firstname validity
 	public String checkNameValidity(String name) {
 
 		char[] charArray = name.toCharArray();
@@ -35,6 +34,8 @@ public class DiverController implements Controller {
 
 	}
 
+	
+	//checking lastname validity
 	public String checkLastNameValidity(String lastName) {
 
 		char[] charArray = lastName.toCharArray();
@@ -49,6 +50,8 @@ public class DiverController implements Controller {
 
 	}
 
+	
+	//checking mail validity
 	public String checkEmailValidity(String mail) {
 
 		if (mail.matches(
@@ -58,6 +61,7 @@ public class DiverController implements Controller {
 			return "Illegal mail address";
 	}
 
+	//checking id validity
 	public String checkIDValidity(String id) {
 		if (id.matches("^\\d{9}$")) //check that the ID has 9 digits
 			return "VALID";
@@ -65,6 +69,7 @@ public class DiverController implements Controller {
 			return "ID should be 9 digits";
 	}
 
+	//checking phone validty
 	public String checkPhoneValidity(String id) {
 		if (id.matches("^\\d{10}$")) //check that the phone number has 10 digits
 			return "VALID";
@@ -72,6 +77,7 @@ public class DiverController implements Controller {
 			return "Phone should be 10 digits";
 	}
 
+	//check all fields validity 
 	public Map<Integer,String> checkFullRegistrationForm(String id, String firstName, String lastName, String licenseID,String mail, String phone) {
 		
 		Map<Integer,String> violations=new HashMap<>();
@@ -150,24 +156,6 @@ public class DiverController implements Controller {
 	}
 
 	
-	
-	 public void showViolationNotification(Map<Integer,String> violations){
-
-	        StringBuilder violationsStr=new StringBuilder("");
-
-	        for(String violation :violations.values()){
-	            if(!violationsStr.toString().equals("")){
-	                violationsStr.append(", ");
-	            }
-	            violationsStr.append(violation);
-	        }
-//	        NotifierImpl notfier=new NotifierImpl();
-	        notifier.show(new DNotification("Error saving source data",violationsStr.toString(),DNotification.Type.ERROR,true));
-	    }
-	 
-	 public void cleanViolationNotification(){
-	        notifier.clean();
-	    }
 
 	@Override
 	public void init() {

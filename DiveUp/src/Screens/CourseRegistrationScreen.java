@@ -118,7 +118,7 @@ public void updateDiversList()
     }
 }
 
-
+//get the selected couse from the table
 public int getCurrentCourse()
 {
 	return currentCourse;

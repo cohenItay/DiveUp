@@ -25,7 +25,7 @@ public class itemSqlQueries {
 	
 
 	
-	
+	//Get all items from the DB
 	public List<Item> getItems()
 	{
 		List<Item> res = new ArrayList<>();//creating items list
