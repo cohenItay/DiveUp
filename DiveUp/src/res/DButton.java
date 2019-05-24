@@ -40,6 +40,7 @@ public class DButton extends JButton{
                 setBackground(UIConstants.SELECTED_BTN);
                 setForeground(UIConstants.BTN_PRIMARY_FONT_DEFUALT);
                 setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+                setFont(new Font("Tahona",Font.BOLD,20));
                 break;
             case SECONDERY:
                 setForeground(UIConstants.SELECTED_BTN);

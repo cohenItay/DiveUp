@@ -6,8 +6,8 @@ public class Sale {
 
 	int saleID;
 	String diverID;
-	List<Item> items;//the list of products that are for sell
-	Date date; //Date of purchase
+	String items;//the list of products that are for sell
+	String date; //Date of purchase
 	double totalPrice; //the transaction total price  
 	
 	
@@ -23,16 +23,16 @@ public class Sale {
 	public void setDiverID(String diverID) {
 		this.diverID = diverID;
 	}
-	public List<Item> getItems() {
+	public String getItems() {
 		return items;
 	}
-	public void setItems(List<Item> items) {
+	public void setItems(String items) {
 		this.items = items;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	public double getTotalPrice() {

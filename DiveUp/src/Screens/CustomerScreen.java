@@ -17,6 +17,7 @@ import Classes.Dive;
 import Classes.Diver;
 import Controllers.DiverController;
 import Controllers.DivesController;
+import Controllers.Reporter;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DTable;
@@ -115,13 +116,15 @@ public class CustomerScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Reporter r = new Reporter();
+		r.createReport();
 		frame = new JFrame();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270,grow][106.00,grow][270,grow][260,grow][250,grow]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
-		String[] colHeadings = {"ID","First Name","Last Name","License ID","Email","Phone","Insurance"};
+		String[] colHeadings = {"ת.ז","שם פרטי","שם משפחה","רישיון צלילה","מייל","טלפון","ביטוח"};
 		int numRows = 0 ;
 		model = new DefaultTableModel(numRows, colHeadings.length)
 				{

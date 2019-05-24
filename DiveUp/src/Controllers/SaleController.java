@@ -1,7 +1,10 @@
 package Controllers;
 
-import javax.swing.JTable;
+import java.util.List;
 
+import javax.swing.JTable;
+import Classes.Sale;
+import Models.diverSqlQueries;
 import Models.saleSQLQueries;
 
 public class SaleController implements Controller {
@@ -39,6 +42,12 @@ public class SaleController implements Controller {
 	public void addSale(String diverID,String itemsList,String date,double totalPrice)
 	{
 		dbConnection.addSale(diverID, itemsList, date, totalPrice);
+	}
+	
+	public List<Sale> getSales()
+	{
+		saleSQLQueries  dbConnection = new saleSQLQueries();//connection to the DB
+		return dbConnection.getSales();//Getting divers list from the DB
 	}
 	
 }
