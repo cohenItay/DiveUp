@@ -99,7 +99,7 @@ public class CoursesScreen {
 		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270,grow][106.00,grow][270,grow][260,grow][250,grow]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
-		String[] colHeadings = {"ID","First Name","Last Name","License ID","Email","Phone","Insurance"};
+		String[] colHeadings = {"ID","Name","Desc","Instructor","Amount","Max Amount","Price","Start Date","End Date"};
 		int numRows = 0 ;
 		model = new DefaultTableModel(numRows, colHeadings.length)
 				{
