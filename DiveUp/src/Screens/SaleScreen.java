@@ -8,11 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -57,7 +61,7 @@ public class SaleScreen {
 	private List<Item> cart;
 	private List<Diver> diversList;
 	private DTable tableDesign;
-	public int currentItem = 0;
+	public int currentItem = -1;
 	private itemSqlQueries dbConnection;
 	private diverSqlQueries diverConnection;
 	private ItemController iController;
@@ -66,7 +70,7 @@ public class SaleScreen {
 	private JTextField sumTextField;
 	private JComboBox diverComboBox;
 	private JComboBox amountComboBox;
-
+	private boolean firstTime = true;
 	/**
 	 * Launch the application.
 	 */
@@ -133,6 +137,15 @@ public class SaleScreen {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	public static void message(String infoMessage, String titleBar)
+    {
+        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+    }
+	public static void errorMessage(String infoMessage, String titleBar)
+    {
+        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.ERROR_MESSAGE);
+    }
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -201,6 +214,7 @@ public class SaleScreen {
 		frame.getContentPane().add(isLoaned, "cell 5 5,alignx right");
 
 		diverComboBox = new JComboBox();
+		diverComboBox.setToolTipText("אנא לחץ כדי להחליף לקוח");
 		diverComboBox.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -220,23 +234,35 @@ public class SaleScreen {
 		addToCartButton.setFont(new Font("Arial", Font.PLAIN, 18));
 		addToCartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				// adding item from the items table to the cartTable
-				Item i = dbConnection.getItemByID(currentItem);
-				double price = 0;
-				String productName = "";
-				if (isLoaned.isSelected()) {
-					price = i.getLoanPrice() * Integer.valueOf(amountComboBox.getSelectedItem().toString());
-					productName = i.getName() + "(השכרה)";
-				} else {
-					price = i.getPrice() * Integer.valueOf(amountComboBox.getSelectedItem().toString());
-					productName = i.getName();
-				}
-
+				if(currentItem!=-1)
+				{
+					if(firstTime)
+					{
+						message("על מנת למחוק פריט,יש לסמן אותו בעגלה וללחוץ על כפתור delete","הודעה");
+						firstTime = false;
+					}
+					Item i = dbConnection.getItemByID(currentItem);
+					double price = 0;
+					String productName = "";
+					if (isLoaned.isSelected()) {
+						price = i.getLoanPrice() * Integer.valueOf(amountComboBox.getSelectedItem().toString());
+						productName = i.getName() + "(השכרה)";
+					} else {
+						price = i.getPrice() * Integer.valueOf(amountComboBox.getSelectedItem().toString());
+						productName = i.getName();
+					}
+				
 				iController.updateAmount(i.getId(), Integer.valueOf(amountComboBox.getSelectedItem().toString()));
 				modelCart.addRow(new Object[] { price, amountComboBox.getSelectedItem().toString(), productName });
 				sumTextField.setText(String.valueOf(sController.priceCalculate(cartTable)));
 				updateItemList(-1);
-
+				}
+				else
+				{
+					errorMessage("אנא בחר מוצר","לא נבחר מוצר");
+				}
 			}
 		});
 		frame.getContentPane().add(addToCartButton, "cell 4 9 2 1,alignx right,gapx 0");
@@ -270,8 +296,18 @@ public class SaleScreen {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-					int id = iController.getID((String) cartTable.getValueAt(cartTable.getSelectedRow(), 2));
-
+					
+					Pattern pattern = Pattern.compile("\\((.*?)\\)");
+					String itemName = (String) cartTable.getValueAt(cartTable.getSelectedRow(), 2);
+	        		Matcher matcher = pattern.matcher(itemName);
+	        		
+	        		if (matcher.find())
+	        		{
+	        		    itemName = itemName.replace("("+matcher.group(1)+")","");
+	        		}
+					
+					int id = iController.getID(itemName);
+					
 					iController.updateAmount(id, Integer.valueOf(amountComboBox.getSelectedItem().toString()) * -1);
 					modelCart.removeRow(cartTable.getSelectedRow());
 					sumTextField.setText(String.valueOf(sController.priceCalculate(cartTable)));
@@ -305,9 +341,11 @@ public class SaleScreen {
 				String customerID = diverComboBox.getSelectedItem().toString();
 				String items = sController.getAllItems(cartTable);
 				if(customerID.equals("") || items.equals("") || (itemsTable.getSelectedRow() == -1 && items.equals("")))
-                    JOptionPane.showMessageDialog(null, "נא הוסף פריטים", "בעיה בהזמנה", JOptionPane.ERROR_MESSAGE);
+                    errorMessage("עגלת הקניות ריקה", "שגיאה");
 				else
 					sController.addSale(customerID,items ,dateFormat.format(date), Double.valueOf(sumTextField.getText()));
+				message("הקניה בוצעה בהצלחה","הודעה");
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 			}
 		});
 		frame.getContentPane().add(saleButton, "cell 4 13 2 1,alignx right");
