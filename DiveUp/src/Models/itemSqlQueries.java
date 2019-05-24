@@ -1,6 +1,7 @@
 package Models;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -102,5 +103,53 @@ public class itemSqlQueries {
 		}
 	return i;
 	}
+	
+public int getCurrentAmount(int itemID)
+{
+	Statement stmt;
+	try {
+		stmt = connection.createStatement();
+		ResultSet rs = stmt.executeQuery("select amount from Item where id = "+itemID);
+		return rs.getInt("amount");
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		return -1;
+	
+	}
+}
+
+public int getID(String name)
+{
+	Statement stmt;
+	try {
+		stmt = connection.createStatement();
+		ResultSet rs = stmt.executeQuery("select id from Item where name = "+"\"" + name + "\"");
+		return rs.getInt("id");
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		return -1;
+	
+	}
+}
+	
+public void updateAmount(int itemID, int amount) {
+	String query = "update Item set amount = ? where id = ?";
+    PreparedStatement preparedStmt;
+	try {
+		preparedStmt = connection.prepareStatement(query);
+	    preparedStmt.setInt(1, getCurrentAmount(itemID)-amount);
+	    preparedStmt.setInt(2, itemID);
+	    // execute the java preparedstatement
+	    preparedStmt.executeUpdate();
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+}
+
 
 }
