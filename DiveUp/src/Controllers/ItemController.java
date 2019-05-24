@@ -4,7 +4,9 @@ import Models.itemSqlQueries;
 
 public class ItemController implements Controller {
 
-	private itemSqlQueries dbConnection;
+	private itemSqlQueries dbConnection;//instance to run item queries
+	
+	//connection to items DB queries
 	public ItemController()
 	{
 		dbConnection = new itemSqlQueries();
@@ -22,15 +24,19 @@ public class ItemController implements Controller {
 		return true;
 	}
 	
+	// adding amount of item , when sending negative amount , it will decrease amount(will use for buying items)
 	public void updateAmount(int itemID,int amount)
 	{
 		dbConnection.updateAmount(itemID,amount); 
 	}
+	
+	//get item current amount
 	public int getItemAmount(int itemID)
 	{
 		return dbConnection.getCurrentAmount(itemID);
 	}
 	
+	//get item id by name
 	public int getID(String name)
 	{
 		return dbConnection.getID(name);

@@ -11,13 +11,18 @@ public class CoursesController implements Controller {
 	{
 		//opening sqlQuries instance
 		courseSqlQueries dbConnection = new courseSqlQueries();
+		
+		//if course is not full
 		if(dbConnection.getCurrentAmount(courseID) < dbConnection.getMaxAmount(courseID))
 		{
+			//register the diver to the course
 			dbConnection.registerCourse(courseID, diverID);
+			//succeed
 			return true;
 		}
 		else
 		{
+			//course is full
 			return false;
 		}
 		

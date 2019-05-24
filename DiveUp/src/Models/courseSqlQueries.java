@@ -16,12 +16,12 @@ import Classes.Course;
 
 	public class courseSqlQueries{
 
-		private sqlConnection dbconnection;
-		public Connection connection;
+		private sqlConnection dbconnection;//create sql connection instance
+		public Connection connection;//create connection instance
 		public courseSqlQueries()
 		{
-			dbconnection=sqlConnection.getInstance();
-			connection = dbconnection.conn;
+			dbconnection=sqlConnection.getInstance();//initiate sql connection
+			connection = dbconnection.conn;//get connection from sql connection
 		}
 		
 		
@@ -141,7 +141,7 @@ import Classes.Course;
 		}
 
 		
-		
+		//add customer registration to course to DB
 		public void registerCourse(int courseID, String diverID)
 		{
 			String sql = "INSERT INTO RegisteredCourses(courseID,diverID,courseName) VALUES(?,?,?)";

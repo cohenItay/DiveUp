@@ -66,6 +66,7 @@ public class itemSqlQueries {
 	return res;
 	}
 	
+	//get all item information by id
 	public Item getItemByID(int id)
 	{
 	
@@ -104,6 +105,7 @@ public class itemSqlQueries {
 	return i;
 	}
 	
+//get item current amount
 public int getCurrentAmount(int itemID)
 {
 	Statement stmt;
@@ -119,6 +121,7 @@ public int getCurrentAmount(int itemID)
 	}
 }
 
+//get item id by name
 public int getID(String name)
 {
 	Statement stmt;
@@ -133,7 +136,8 @@ public int getID(String name)
 	
 	}
 }
-	
+
+//update item amount
 public void updateAmount(int itemID, int amount) {
 	String query = "update Item set amount = ? where id = ?";
     PreparedStatement preparedStmt;

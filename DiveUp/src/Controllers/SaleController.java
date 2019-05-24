@@ -9,13 +9,14 @@ import Models.saleSQLQueries;
 
 public class SaleController implements Controller {
 
-	private saleSQLQueries dbConnection;
+	private saleSQLQueries dbConnection;//define sales queries instance
 	
 	public SaleController()
 	{
-		dbConnection = new saleSQLQueries();
+		dbConnection = new saleSQLQueries();//initiate sales queries instance
 	}
 	
+	//calculate sale price by items in cart
 	public double priceCalculate(JTable table)
 	{
 		double totalPrice = 0;
@@ -26,6 +27,8 @@ public class SaleController implements Controller {
 		return totalPrice;
 	}
 	
+	
+	//get all items name from the cart
 	public String getAllItems(JTable table)
 	{
 		String items="";
@@ -39,16 +42,20 @@ public class SaleController implements Controller {
 		return items;
 	}
 	
+	//add new sale to the DB
 	public void addSale(String diverID,String itemsList,String date,double totalPrice)
 	{
 		dbConnection.addSale(diverID, itemsList, date, totalPrice);
 	}
 	
+	//get all sales from the DB
 	public List<Sale> getSales()
 	{
 		saleSQLQueries  dbConnection = new saleSQLQueries();//connection to the DB
 		return dbConnection.getSales();//Getting divers list from the DB
 	}
+	
+	//get all sales by customer id
 	public List<Sale> getCustomerSales(String id)
 	{
 		saleSQLQueries  dbConnection = new saleSQLQueries();//connection to the DB

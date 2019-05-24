@@ -22,6 +22,8 @@ public class saleSQLQueries {
 		dbconnection=sqlConnection.getInstance();
 		connection = dbconnection.conn;
 	}
+	
+	//get sale id Primary key for new sale
 	public int getNewSaleID()
 	{
 		Statement stmt;
@@ -33,7 +35,7 @@ public class saleSQLQueries {
 			
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
-			/* creating Item object for each item in the db table */
+			/* creating Sale object for each item in the db table */
 			if (rs.next()) {
 				return rs.getInt("saleID")+1;
 			}
@@ -53,6 +55,7 @@ public class saleSQLQueries {
 	return -1;
 
 	}
+	//add sale to DB
 	public void addSale(String diverID,String itemsList,String date,double totalPrice)
 	{
 		
@@ -90,7 +93,7 @@ public class saleSQLQueries {
 		     
 		}
 	
-	
+	//get sales from database
 	public List<Sale> getSales()
 	{
 		List<Sale> res = new ArrayList<>();//creating sales list
@@ -130,7 +133,7 @@ public class saleSQLQueries {
 	return res;
 	}
 
-
+//get customer sales by id
 	public List<Sale> getCustomerSales(String id)
 	{
 		List<Sale> res = new ArrayList<>();//creating sales list
