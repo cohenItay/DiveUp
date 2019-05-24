@@ -65,5 +65,42 @@ public class itemSqlQueries {
 	return res;
 	}
 	
+	public Item getItemByID(int id)
+	{
+	
+		Statement stmt;
+		Item i=new Item();
+		try {
+			/* getting all information from items table */
+			stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from Item where Item.id = "+id);
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			/* creating Item object for each item in the db table */
+			if (rs.next()) {
+				i = new Item();
+				i.setId(rs.getInt("id"));
+				i.setName(rs.getString("name"));
+				i.setDesc(rs.getString("desc"));
+				i.setPrice(rs.getDouble("salePrice"));
+				i.setLoanPrice(rs.getDouble("loanPrice"));
+				i.setAmount(rs.getInt("amount"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
+		
+		}
+	return i;
+	}
 
 }

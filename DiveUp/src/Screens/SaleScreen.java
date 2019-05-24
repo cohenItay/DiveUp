@@ -15,25 +15,42 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import Classes.Diver;
 import Classes.Item;
+import Controllers.DiverController;
 import Controllers.ItemController;
+import Models.diverSqlQueries;
 import Models.itemSqlQueries;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DTable;
 import res.UIConstants;
+import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class SaleScreen {
 
 	private JFrame frame;
 	private DefaultTableModel model;
+	private DefaultTableModel modelCart;
 	private JTable itemsTable;
+	private JTable cartTable;
 	private List<Item> itemsList;
+	private List<Item> cart;
+	private List<Diver> diversList;
 	private DTable tableDesign;
 	public int currentItem=0;
 	private itemSqlQueries dbConnection;
+	private diverSqlQueries diverConnection;
 	private ItemController iController;
-
+	private DiverController dController;
+	private JTextField textField;
+	private JComboBox diverComboBox;
+	private JComboBox amountComboBox;
 	/**
 	 * Launch the application.
 	 */
@@ -62,16 +79,26 @@ public class SaleScreen {
 	{
 		model.setRowCount(0);//Clearing the table data
 		dbConnection = new itemSqlQueries();
-	    List<Item> items = dbConnection.getItems();
+	    itemsList = dbConnection.getItems();
 	    
-	    for(int i=0;i<items.size();i++)
+	    for(int i=0;i<itemsList.size();i++)
 	    {
-	    		model.addRow(new Object[] {items.get(i).getId(), items.get(i).getName(),
-	    				items.get(i).getDesc(),items.get(i).getPrice(),
-	    				items.get(i).getLoanPrice(),items.get(i).getAmount()});
+	    		model.addRow(new Object[] {itemsList.get(i).getId(), itemsList.get(i).getName(),
+	    				itemsList.get(i).getDesc(),itemsList.get(i).getPrice(),
+	    				itemsList.get(i).getLoanPrice(),itemsList.get(i).getAmount()});
 	    		
 	    }
 	    itemsTable.setRowSelectionInterval(row, row);
+	}
+	
+	
+	public void updateDivers()
+	{
+		diversList = diverConnection.getDivers();
+		for(int i = 0 ;i<diversList.size();i++)
+		{
+			diverComboBox.addItem(diversList.get(i).getFirstName() +"("+diversList.get(i).getId()+")");
+		}
 	}
 	/**
 	 * Create the application.
@@ -87,10 +114,10 @@ public class SaleScreen {
 		frame = new JFrame();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270,grow][106.00,grow][270,grow][260,grow][250,grow]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[400][400][400][400][40px][::100px]", "[136.00][::5px][5px:n][25.00][][17.00][30px:n][30px:n][80px:n][30px:n][10px:n][30px:n][31.00]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
-		String[] colHeadings = {"ID","Name","Sale Price","Loan Price","Amount"};
+		String[] colHeadings = {"ID","Name","Description","Sale Price","Loan Price","Amount"};
 		int numRows = 0 ;
 		model = new DefaultTableModel(numRows, colHeadings.length)
 				{
@@ -104,6 +131,7 @@ public class SaleScreen {
 		tableDesign= new DTable();
 		itemsTable = tableDesign.designTable(itemsTable);
 
+		
 		
 		/*Add listener in order to update the table data when pressed*/
 		itemsTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -124,83 +152,107 @@ public class SaleScreen {
 		
 		
 		JScrollPane scrollPane = new JScrollPane(itemsTable);//add scroll bar to the table
-		frame.getContentPane().add(scrollPane, "cell 0 0 5 1,growx");//add scroll bar to the frame
+		frame.getContentPane().add(scrollPane, "cell 0 0 6 2,growx");
 		
-		/*Create buttons for activities*/
-		DButton updateDiverButton = new DButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7",DButton.Mode.PRIMARY);
-		updateDiverButton.setText("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9\u05DD");
+		JLabel diverLabel = new JLabel("\u05DC\u05E7\u05D5\u05D7");
+		frame.getContentPane().add(diverLabel, "cell 5 3,alignx center");
 		
-			updateDiverButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			updateDiverButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				updateDiverButton.setBackground(UIConstants.SELECTED_BTN);
-			}
-		});
+		JCheckBox isLoaned = new JCheckBox("\u05D4\u05E9\u05DB\u05E8\u05D4");
+		isLoaned.setHorizontalAlignment(SwingConstants.RIGHT);
+		frame.getContentPane().add(isLoaned, "cell 5 5,alignx right");
 		
+		diverComboBox = new JComboBox();
+		frame.getContentPane().add(diverComboBox, "cell 3 3 2 1,alignx right,growx");
 		
-		updateDiverButton.addActionListener(new ActionListener() {
+		JButton addToCartButton = new JButton("\u05D4\u05D5\u05E1\u05E3 \u05DC\u05E1\u05DC \u05D4\u05E7\u05E0\u05D9\u05D5\u05EA");
+		addToCartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//adding item from the items table to the cartTable
+				Item i = dbConnection.getItemByID(currentItem);
+				double price=0;
+				String productName = "";
+				if(isLoaned.isSelected())
+				{
+					price = i.getLoanPrice();
+					productName = i.getName() +"(השכרה)";
+				}
+				else
+				{
+					price = i.getPrice();
+					productName = i.getName();
+				}
+				modelCart.addRow(new Object[] {price,amountComboBox.getSelectedItem().toString(),productName});
+				
+				
 			}
 		});
+		frame.getContentPane().add(addToCartButton, "cell 4 7 2 1,growx");
 		
-		frame.getContentPane().add(updateDiverButton, "cell 2 1,alignx right");
+		amountComboBox = new JComboBox();
+		amountComboBox.addItem("1");
+		amountComboBox.setSelectedItem("1");
+		frame.getContentPane().add(amountComboBox, "cell 4 6,growx");
 		
-		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
-		addDiverButton.setText("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E4\u05E8\u05D9\u05D8");
-		addDiverButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			addDiverButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				addDiverButton.setBackground(UIConstants.SELECTED_BTN);
-			}
+		JLabel amountLabel = new JLabel("\u05DB\u05DE\u05D5\u05EA");
+		frame.getContentPane().add(amountLabel, "cell 5 6,alignx center");
+		
+		
+		String[] colHeadingsCart = {"Price","Amount","Name"};
+		int numRowsCart = 0 ;
+		modelCart = new DefaultTableModel(numRowsCart, colHeadingsCart.length)
+				{
+			 		public boolean isCellEditable(int row, int column)
+			 			{
+			 				return false;//This causes all cells to be not editable
+			 			}
+				};
+		modelCart.setColumnIdentifiers(colHeadingsCart);
+
+		
+		cartTable = new JTable(modelCart);
+		tableDesign= new DTable();
+		cartTable = tableDesign.designTable(cartTable);
+		
+		JScrollPane cartScroll = new JScrollPane(cartTable);
+		frame.getContentPane().add(cartScroll, "cell 0 8 6 1,grow");
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		frame.getContentPane().add(textField, "cell 4 9,growx");
+		textField.setColumns(10);
+		
+		JLabel sumLabel = new JLabel("\u05E1\u05DB\u05D5\u05DD \u05DB\u05D5\u05DC\u05DC");
+		frame.getContentPane().add(sumLabel, "cell 5 9,alignx center");
+		
+		JButton saleButton = new JButton("\u05DE\u05DB\u05D9\u05E8\u05D4");
+		frame.getContentPane().add(saleButton, "cell 4 11 2 1,alignx right");
+				
+		
+				/*Add listener in order to update the table data when pressed*/
+		itemsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int row = itemsTable.rowAtPoint(evt.getPoint());
+		        int col = itemsTable.columnAtPoint(evt.getPoint());
+		        if (row >= 0 && col >= 0) {
+		        	currentItem = (Integer)model.getValueAt(row, 0);
+		            updateCoursesList(row);
+		            
+		        }
+		    }
+		    
+		    
 		});
 
 		
-		addDiverButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		});
-		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing");
 		
-		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);
-		courseRegisterButton.setText("\u05DE\u05DB\u05D9\u05E8\u05D4 \u05DC\u05DC\u05E7\u05D5\u05D7");
-		courseRegisterButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			courseRegisterButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				courseRegisterButton.setBackground(UIConstants.SELECTED_BTN);
-			}
-		});
-
 		
-		courseRegisterButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		});
 		
-	
-		frame.getContentPane().add(courseRegisterButton, "cell 3 1,alignx right");
-				
+		
+		diverConnection = new diverSqlQueries();
 		iController = new ItemController();
 		updateCoursesList(currentItem);
+		updateDivers();
 	}
 
 	}

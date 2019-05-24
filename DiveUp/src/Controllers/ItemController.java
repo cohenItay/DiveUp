@@ -19,17 +19,7 @@ public class ItemController implements Controller {
 		return true;
 	}
 	
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }
 

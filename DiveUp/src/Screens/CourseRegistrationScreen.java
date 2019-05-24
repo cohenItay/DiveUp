@@ -282,12 +282,20 @@ public int getCurrentCourse()
         		}
         		
         		if(courseController.validateCourseRegistration(currentCourse, diverID))
-        			courseController.registerNewCourse(currentCourse, diverID);
+        		{
+        			
+        			boolean succeed = courseController.registerNewCourse(currentCourse, diverID);
+        			
+        			if(!succeed)
+        				JOptionPane.showMessageDialog(null, "הקורס הנוכחי מלא", "בעיה בהרשמה " + "קורס מלא", JOptionPane.ERROR_MESSAGE);
+        		}
         		else
         		{
         			JOptionPane.showMessageDialog(null, "אנא בחר צוללן וקורס", "בעיה בהרשמה " + "פרטים חסרים", JOptionPane.ERROR_MESSAGE);
         		}
+        		updateCoursesList(-1);
         	}
+        
         });
         frame.getContentPane().add(confirmButton, "cell 9 8,growx");
         

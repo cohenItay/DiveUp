@@ -7,11 +7,20 @@ public class CoursesController implements Controller {
 
 	
 	//Register new course
-	public void registerNewCourse(int courseID,String diverID)
+	public boolean registerNewCourse(int courseID,String diverID)
 	{
 		//opening sqlQuries instance
 		courseSqlQueries dbConnection = new courseSqlQueries();
-		dbConnection.registerCourse(courseID, diverID);
+		if(dbConnection.getCurrentAmount(courseID) < dbConnection.getMaxAmount(courseID))
+		{
+			dbConnection.registerCourse(courseID, diverID);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
 	}
 	
 	//Validate course and diver selected
@@ -24,16 +33,6 @@ public class CoursesController implements Controller {
 		return false;
 	}
 	
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

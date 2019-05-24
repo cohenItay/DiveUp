@@ -22,12 +22,4 @@ public interface Controller
     int invalid_email = 12;
     int invalid_phone = 13;
     
-
-
-
-
-    //void init() throws PcapNativeException, IOException;
-    void init();
-    //void refresh() throws PcapNativeException, IOException;
-    void refresh();
 }
