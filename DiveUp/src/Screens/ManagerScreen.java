@@ -14,6 +14,7 @@ import javax.swing.JMenuItem;
 import java.awt.Window.Type;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
+import res.UIConstants;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -59,7 +60,8 @@ public class ManagerScreen {
 		frame.getContentPane().setLayout(new MigLayout("", "[fill,20%][fill,20%][20%][fill,20%][fill,20%]", "[][90px][][80px][][80px][][80px][][80px][][80px][]"));
 		
 		JLabel titleLabel = new JLabel("DiveUp - \u05E2\u05DE\u05D5\u05D3 \u05DE\u05E0\u05D4\u05DC");
-		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 32));
+		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
+		titleLabel.setForeground(UIConstants.SELECTED_BTN);
 		frame.getContentPane().add(titleLabel, "cell 2 0,alignx center");
 		
 		DButton diversButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05DC\u05E7\u05D5\u05D7\u05D5\u05EA",DButton.Mode.PRIMARY);
@@ -83,6 +85,11 @@ public class ManagerScreen {
 		frame.getContentPane().add(itemsButton, "cell 2 8,growx");
 		
 		DButton reportsButton = new DButton("\u05D3\u05D5\u05D7\u05D5\u05EA",DButton.Mode.PRIMARY);
+		reportsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			ReportsScreen rs = new ReportsScreen();
+			}
+		});
 		
 		frame.getContentPane().add(reportsButton, "cell 2 10,growx");
 		

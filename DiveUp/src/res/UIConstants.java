@@ -8,8 +8,9 @@ import javax.swing.*;
 
 public interface UIConstants
 {
-	String reportsPath = System.getProperty("user.dir")+"/Reports";
-	
+	String reportsPath = System.getProperty("user.dir")+"/Reports/";
+	String salesReportsPath = reportsPath+"Sales/";
+	String employeesReportsPath = reportsPath+"Employees/";
 	
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int)screenSize.getHeight();

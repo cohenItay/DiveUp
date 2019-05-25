@@ -1,11 +1,14 @@
 package Screens;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +16,9 @@ import javax.swing.JLabel;
 import Controllers.Reporter;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
+import res.UIConstants;
+
+import javax.swing.JButton;
 
 public class ReportsScreen {
 
@@ -51,10 +57,11 @@ public class ReportsScreen {
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[fill,20%][fill,20%][20%][fill,20%][fill,20%]", "[][90px][][80px][][80px][][80px][][80px][][80px][]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%,fill][20%][20%,fill][20%,fill]", "[][90px][][80px][][80px][][80px][][80px][80px][80px][][]"));
 		
 		JLabel titleLabel = new JLabel("DiveUp - \u05D3\u05D5\u05D7\u05D5\u05EA");
-		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 32));
+		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
+		titleLabel.setForeground(UIConstants.SELECTED_BTN);
 		frame.getContentPane().add(titleLabel, "cell 2 0,alignx center");
 		
 		DButton diversButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05DC\u05E7\u05D5\u05D7\u05D5\u05EA",DButton.Mode.PRIMARY);
@@ -80,11 +87,30 @@ public class ReportsScreen {
 		frame.getContentPane().add(salesButton, "cell 2 6,growx");
 		
 		DButton itemsButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05D4\u05D6\u05DE\u05E0\u05D5\u05EA",DButton.Mode.PRIMARY);
+		itemsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			r.createEmployeesReport(r.getEmployeeController().getEmployees(), "ALL");
+			}
+		});
 		itemsButton.setText("\u05E2\u05D5\u05D1\u05D3\u05D9\u05DD");
 		frame.getContentPane().add(itemsButton, "cell 2 8,growx");
 		
+		DButton folderButton = new DButton("\u05EA\u05D9\u05E7\u05D9\u05D9\u05EA \u05D3\u05D5\u05D7\u05D5\u05EA",DButton.Mode.PRIMARY);
+		folderButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Desktop.getDesktop().open(new File(UIConstants.reportsPath));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+		});
+		frame.getContentPane().add(folderButton, "cell 2 10,growx");
+		
 		DButton exitButton = new DButton("\u05D9\u05E6\u05D9\u05D0\u05D4",DButton.Mode.PRIMARY);
-		frame.getContentPane().add(exitButton, "cell 2 10,growx");
+		frame.getContentPane().add(exitButton, "cell 2 12,growx");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
