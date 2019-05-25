@@ -2,44 +2,35 @@ package Screens;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+
+import Classes.Diver;
+import Controllers.DiverController;
+import Models.diverSqlQueries;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DNotification;
 import res.DTextField;
 import res.UIConstants;
+import java.awt.Font;
 
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-
-import Controllers.Controller;
-import Controllers.DiverController;
-import Models.diverSqlQueries;
-import Models.sqlConnection;
-
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.JCheckBox;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class DiverRegistrationScreen {
+public class CustomerEditScreen {
 
 	private JFrame frame;
 	private DTextField idTextField;
@@ -52,6 +43,7 @@ public class DiverRegistrationScreen {
 	private DiverController c;
 	private DNotification not;
 	private diverSqlQueries dbConnection;
+	private Diver diver;
 	/**
 	 * Launch the application.
 	 */
@@ -59,8 +51,7 @@ public class DiverRegistrationScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//Creating new registration window
-					DiverRegistrationScreen window = new DiverRegistrationScreen();
+					CustomerEditScreen window = new CustomerEditScreen(null);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -72,9 +63,8 @@ public class DiverRegistrationScreen {
 	/**
 	 * Create the application.
 	 */
-	public DiverRegistrationScreen() {
-		c = new DiverController();
-		
+	public CustomerEditScreen(Diver d) {
+		this.diver = d;
 		initialize();
 	}
 
@@ -88,7 +78,7 @@ public class DiverRegistrationScreen {
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.getContentPane().setBackground(Color.WHITE);
 		//Title and icon add
-		frame.setTitle("הרשמת לקוח");
+		frame.setTitle("עדכון פרטי לקוח");
 		Image image;
 		try {
 			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
@@ -104,17 +94,18 @@ public class DiverRegistrationScreen {
 		
 		/* adding fields to the form */
 		
-		JLabel titleLabel = new JLabel("הרשמה");
-		titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		JLabel titleLabel = new JLabel("עריכה");
+		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setForeground(UIConstants.SELECTED_BTN);
 		frame.getContentPane().add(titleLabel, "cell 5 0");
 		idTextField = new DTextField(20);
+		idTextField.setEditable(false);
 		idTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(idTextField, "cell 5 3,grow");
 		idTextField.setColumns(10);
-		idTextField.setToolTipText("הכנס ת.ז בעלת 9 ספרות");
-		
+		idTextField.setText(diver.getId());
+		idTextField.setForeground(Color.LIGHT_GRAY);
 		JLabel idLabel = new JLabel("\u05EA\u05E2\u05D5\u05D3\u05EA \u05D6\u05D4\u05D5\u05EA");
 		idLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		idLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -125,7 +116,7 @@ public class DiverRegistrationScreen {
 		firstNameTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(firstNameTextField, "cell 5 5,grow");
 		firstNameTextField.setColumns(10);
-		firstNameTextField.setToolTipText("הכנס שם פרטי");
+		firstNameTextField.setText(diver.getFirstName());
 		JLabel firstNameLabel = new JLabel("\u05E9\u05DD \u05E4\u05E8\u05D8\u05D9");
 		firstNameLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		firstNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -136,7 +127,7 @@ public class DiverRegistrationScreen {
 		lastnameTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(lastnameTextField, "cell 5 7,grow");
 		lastnameTextField.setColumns(10);
-		lastnameTextField.setToolTipText("הכנס שם משפחה");
+		lastnameTextField.setText(diver.getLastName());
 		
 		JLabel lastnameLabel = new JLabel("\u05E9\u05DD \u05DE\u05E9\u05E4\u05D7\u05D4");
 		lastnameLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -145,11 +136,12 @@ public class DiverRegistrationScreen {
 		frame.getContentPane().add(lastnameLabel, "cell 7 7,alignx right");
 		
 		licenseidTextField = new DTextField(20);
+		licenseidTextField.setEditable(false);
 		licenseidTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(licenseidTextField, "cell 5 9,grow");
 		licenseidTextField.setColumns(10);
-		licenseidTextField.setToolTipText("הכנס רישיון צלילה");
-		
+		licenseidTextField.setText(diver.getLicenseID());
+		licenseidTextField.setForeground(Color.LIGHT_GRAY);
 		JLabel licenseidLabel = new JLabel("\u05E8\u05D9\u05E9\u05D9\u05D5\u05DF \u05E6\u05DC\u05D9\u05DC\u05D4");
 		licenseidLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		licenseidLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -160,7 +152,7 @@ public class DiverRegistrationScreen {
 		emailTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(emailTextField, "cell 5 11,grow");
 		emailTextField.setColumns(10);
-		emailTextField.setToolTipText("הכנס כתובת מייל");
+		emailTextField.setText(diver.getEmail());
 		JLabel emailLabel = new JLabel("\u05DE\u05D9\u05D9\u05DC");
 		emailLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		emailLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -171,7 +163,7 @@ public class DiverRegistrationScreen {
 		phoneTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(phoneTextField, "cell 5 13,grow");
 		phoneTextField.setColumns(10);
-		phoneTextField.setToolTipText("הכנס מסםר פלאפון");
+		phoneTextField.setText(diver.getPhone());
 		
 		JLabel phoneLabel = new JLabel("\u05E4\u05DC\u05D0\u05E4\u05D5\u05DF");
 		phoneLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -187,6 +179,13 @@ public class DiverRegistrationScreen {
 		isProtected.setForeground(UIConstants.BTN_PRIMARY_FONT_DEFUALT);
 		isProtected.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		isProtected.setHorizontalAlignment(SwingConstants.RIGHT);
+		if(diver.getInsurance()!=null)
+			if(diver.getInsurance().equals("YES") || diver.getInsurance().equals("yes"))
+				isProtected.setSelected(true);
+			else
+				isProtected.setSelected(false);
+		else
+			isProtected.setSelected(false);
 		frame.getContentPane().add(isProtected, "cell 5 15,alignx right,growy");
 		
 		JLabel insuranceLabel = new JLabel("\u05D1\u05D9\u05D8\u05D5\u05D7");
@@ -194,6 +193,7 @@ public class DiverRegistrationScreen {
 		insuranceLabel.setForeground(UIConstants.BORDER_DARK);
 		frame.getContentPane().add(insuranceLabel, "cell 7 15,alignx right");
 		DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
+		confirmButton.setText("עדכן");
 		confirmButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -264,7 +264,9 @@ public class DiverRegistrationScreen {
 		frame.setVisible(true);
 		idTextField.requestFocusInWindow();
 		dbConnection = new diverSqlQueries();
+		c = new DiverController();
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows when closing this window
 	}
+
 
 }

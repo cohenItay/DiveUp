@@ -71,8 +71,8 @@ public class ReportsScreen {
 			e1.printStackTrace();
 		}
 		frame.getContentPane().setBackground(Color.WHITE);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%,fill][20%][20%,fill][20%,fill]", "[][90px][30px:n][50px:n][80px][50px:n][80px][50px:n][80px][50px:n][80px][50px:n][80px][50px:n][]"));
 		
 		JLabel titleLabel = new JLabel("DiveUp - \u05D3\u05D5\u05D7\u05D5\u05EA");

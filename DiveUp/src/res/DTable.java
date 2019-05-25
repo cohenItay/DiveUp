@@ -26,7 +26,7 @@ public class DTable extends JTable {
 	public JTable designTable(JTable table,Mode mode)
 	{
 		this.mode = mode;
-		table.setForeground(UIConstants.SELECTED_BTN);
+		table.setForeground(UIConstants.BORDER_DARK);
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		((DefaultTableCellRenderer)table.getDefaultRenderer(String.class)).setHorizontalAlignment(SwingConstants.RIGHT);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -114,10 +114,10 @@ public class ManagerScreen {
 		coursesButton.setText("\u05E0\u05D9\u05D4\u05D5\u05DC \u05E7\u05D5\u05E8\u05E1\u05D9\u05DD");
 		frame.getContentPane().add(coursesButton, "cell 2 5,grow");
 		
-		DButton salesButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05E7\u05D5\u05E8\u05E1\u05D9\u05DD",DButton.Mode.PRIMARY);
-		salesButton.setFont(new Font("Dialog", Font.BOLD, 40));
-		salesButton.setText("\u05E0\u05D9\u05D4\u05D5\u05DC \u05DE\u05DB\u05D9\u05E8\u05D5\u05EA");
-		frame.getContentPane().add(salesButton, "cell 2 7,grow");
+		DButton employeesButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05E7\u05D5\u05E8\u05E1\u05D9\u05DD",DButton.Mode.PRIMARY);
+		employeesButton.setFont(new Font("Dialog", Font.BOLD, 40));
+		employeesButton.setText("\u05E0\u05D9\u05D4\u05D5\u05DC \u05E2\u05D5\u05D1\u05D3\u05D9\u05DD");
+		frame.getContentPane().add(employeesButton, "cell 2 7,grow");
 		
 		DButton itemsButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05D4\u05D6\u05DE\u05E0\u05D5\u05EA",DButton.Mode.PRIMARY);
 		itemsButton.setFont(new Font("Dialog", Font.BOLD, 40));

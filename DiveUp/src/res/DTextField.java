@@ -2,6 +2,7 @@ package res;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -18,18 +19,19 @@ public class DTextField extends JTextField
         setForeground(UIConstants.BTN_PRIMARY_FONT_DEFUALT);
         //setBorder(BorderFactory.createLineBorder(UIConstants.BORDER_DEFUALT));
         setCaretColor(UIConstants.TXT_BASE_DARK);
+        setFont(new Font("Tahoma",Font.BOLD,24));
         DIM.width+=size;
 
         addFocusListener(new FocusListener()
         {
             public void focusGained(FocusEvent e)
             {
-                setBorder(BorderFactory.createLineBorder(UIConstants.SELECTED_BTN));
+                setBorder(BorderFactory.createLineBorder(UIConstants.TXT_BASE_DARK,4));
             }
 
             public void focusLost(FocusEvent e)
             {
-                setBorder(BorderFactory.createLineBorder(UIConstants.BORDER_DARK));
+                setBorder(BorderFactory.createLineBorder(UIConstants.TXT_BASE_DARK,2));
             }
         });
     }

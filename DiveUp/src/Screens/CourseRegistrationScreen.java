@@ -62,6 +62,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
+import java.awt.Font;
 
 public class CourseRegistrationScreen {
 
@@ -163,12 +164,17 @@ public int getCurrentCourse()
 			e.printStackTrace();
 		}
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[][][][][][-58.00][78.00][-60.00][46.00][366.00,grow][::80px]", "[174.00][fill][fill][14.00,grow][][][][15.00][][grow]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[][60px:n][60px:n][60px:n][60px:n][60px:n][60px:n][80px:n][60px:n][60px:n][60px:n][200px:n]", "[][20px:n][174.00][fill][fill][14.00,grow][][][][15.00][40px:n][grow]"));
+		
+		JLabel titleLabel = new JLabel("הרשמה לקורס");
+		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
+		titleLabel.setForeground(UIConstants.SELECTED_BTN);
+		frame.getContentPane().add(titleLabel, "cell 8 0,alignx center");
 		
 		JPanel datePanel = new JPanel();
-		frame.getContentPane().add(datePanel, "cell 9 1,alignx right,growy");
+		frame.getContentPane().add(datePanel, "cell 10 3,alignx right,growy");
 		JPanel endDatePanel = new JPanel();
-        frame.getContentPane().add(endDatePanel, "cell 9 2,alignx right,growy");
+        frame.getContentPane().add(endDatePanel, "cell 10 4,alignx right,growy");
         
         frame.getContentPane().setBackground(Color.WHITE);
         datePanel.setBackground(Color.WHITE);
@@ -176,9 +182,10 @@ public int getCurrentCourse()
 		
 		/* adding fields to the form */
 		startDatePicker = new JXDatePicker();
+		startDatePicker.getEditor().setFont(new Font("Tahoma", Font.PLAIN, 24));
 		startDatePicker.getEditor().setHorizontalAlignment(SwingConstants.RIGHT);
 		startDatePicker.getEditor().setBackground(Color.WHITE);
-		startDatePicker.getEditor().setForeground(Color.black);
+		startDatePicker.getEditor().setForeground(UIConstants.BORDER_DARK);
 		startDatePicker.getEditor().setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		startDatePicker.getEditor().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -193,23 +200,28 @@ public int getCurrentCourse()
         datePanel.add(startDatePicker);
         
         endDatePicker = new JXDatePicker();
+        endDatePicker.getEditor().setFont(new Font("Tahoma", Font.PLAIN, 24));
         endDatePicker.getEditor().setHorizontalAlignment(SwingConstants.RIGHT);
         endDatePicker.getEditor().setHorizontalAlignment(SwingConstants.RIGHT);
 		endDatePicker.getEditor().setBackground(Color.WHITE);
-		endDatePicker.getEditor().setForeground(Color.black);
+		endDatePicker.getEditor().setForeground(UIConstants.BORDER_DARK);
 		endDatePicker.getEditor().setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         endDatePicker.setDate(Calendar.getInstance().getTime());
 		endDatePicker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
         endDatePanel.add(endDatePicker);
         
                 DLabel startDateLabel = new DLabel("\u05EA\u05D0\u05E8\u05D9\u05DA \u05D4\u05EA\u05D7\u05DC\u05D4");
-        frame.getContentPane().add(startDateLabel, "cell 10 1,alignx right");
+                startDateLabel.setFont(new Font("Tahoma", Font.BOLD, 28));
+                startDateLabel.setForeground(UIConstants.BORDER_DARK);
+        frame.getContentPane().add(startDateLabel, "cell 11 3,alignx right");
         
         
         
         DLabel endDateLabel = new DLabel("\u05EA\u05D0\u05E8\u05D9\u05DA \u05E1\u05D9\u05D5\u05DD");
+        endDateLabel.setFont(new Font("Tahoma", Font.BOLD, 28));
         endDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        frame.getContentPane().add(endDateLabel, "cell 10 2,alignx right");
+        endDateLabel.setForeground(UIConstants.BORDER_DARK);
+        frame.getContentPane().add(endDateLabel, "cell 11 4,alignx right");
         
         
         String[] colHeadings = {"ID","Name","Desc","Instructor","Amount","Max Amount","Price","Start Date","End Date"};
@@ -246,21 +258,24 @@ public int getCurrentCourse()
 		
         JScrollPane scrollPane = new JScrollPane(coursesTable);
         scrollPane.getViewport().setBackground(UIConstants.BTN_INLINE_FONT_DEFUALT);
-        frame.getContentPane().add(scrollPane, "cell 4 0 7 1,grow");
+        frame.getContentPane().add(scrollPane, "cell 0 2 12 1,grow");
         
         
         diversCombo = new JComboBox();
+        diversCombo.setFont(new Font("Tahoma", Font.PLAIN, 22));
         diversCombo.setBackground(UIConstants.SELECTED_BTN);
         diversCombo.setForeground(Color.black);
         diversCombo.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         updateDiversList();
         diversCombo.getModel().setSelectedItem(diverID);;
         diversCombo.setBackground(Color.WHITE);
-        
-        frame.getContentPane().add(diversCombo, "cell 9 3,growx");
+        diversCombo.setForeground(UIConstants.BORDER_DARK);
+        frame.getContentPane().add(diversCombo, "cell 10 5,alignx center");
         
         DLabel diverLabel = new DLabel("\u05E6\u05D5\u05DC\u05DC\u05DF");
-        frame.getContentPane().add(diverLabel, "cell 10 3,alignx right");
+        diverLabel.setFont(new Font("Tahoma", Font.BOLD, 28));
+        diverLabel.setForeground(UIConstants.BORDER_DARK);
+        frame.getContentPane().add(diverLabel, "cell 11 5,alignx right");
         
         DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
         confirmButton.addActionListener(new ActionListener() {
@@ -291,7 +306,7 @@ public int getCurrentCourse()
         	}
         
         });
-        frame.getContentPane().add(confirmButton, "cell 9 8,growx");
+        frame.getContentPane().add(confirmButton, "cell 11 10,grow");
         
         
         

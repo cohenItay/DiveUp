@@ -9,6 +9,9 @@ import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -29,6 +32,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
@@ -47,6 +51,7 @@ public class CustomerScreen {
 	public String currentDiver;
 	private DiverController diversController;
 	private DivesController divesControler; 
+	private Diver currentDiverInstance;
 	/**
 	 * Launch the application.
 	 */
@@ -121,6 +126,14 @@ public class CustomerScreen {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		Image image;
+		try {
+			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
+			frame.setIconImage(image);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%,fill][20%,fill][20%,fill][20%,fill]", "[160px][30px:110px][250px:380][40px:n][50px:n,grow][40px:n][200px:n][260][250]"));
@@ -187,12 +200,22 @@ public class CustomerScreen {
 		
 		updateDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Pattern pattern = Pattern.compile("\\((.*?)\\)");
+        		Matcher matcher = pattern.matcher(currentDiver);
+        		String diverID="";
+        		if (matcher.find())
+        		{
+        			diverID = currentDiver.replace("("+matcher.group(1)+")","");
+        		}
+			currentDiverInstance = diversController.getDiverByID(diverID);
+			CustomerEditScreen ce = new CustomerEditScreen(currentDiverInstance);
 			}
 		});
 		
 		frame.getContentPane().add(updateDiverButton, "cell 2 4,grow");
 		
 		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
+		addDiverButton.setText("הוספת לקוח");
 		addDiverButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {

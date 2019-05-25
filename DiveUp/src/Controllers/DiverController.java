@@ -157,7 +157,12 @@ public class DiverController implements Controller {
 
 	
 
-	
+	public Diver getDiverByID(String id)
+	{
+		diverSqlQueries  dbConnection = new diverSqlQueries();//connection to the DB
+		return dbConnection.getDiverByID(id);//Getting divers list from the DB
+
+	}
 	
 	
 	

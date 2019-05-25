@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Classes.Diver;
+import Classes.Item;
 
 public class diverSqlQueries{
 
@@ -107,5 +108,45 @@ public class diverSqlQueries{
 		}
 	return res;
 	}
+	
+	
+	public Diver getDiverByID(String id)
+	{
+	
+		Statement stmt;
+		Diver d=null;
+		try {
+			/* getting all information from Diver table */
+			stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from Diver where id ="+id);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			/* creating Item object for each item in the db table */
+			if (rs.next()) {
+				d=new Diver(rs.getString("licenseID"));
+				d.setId(id);
+				d.setFirstName(rs.getString("firstName"));
+				d.setLastName(rs.getString("lastName"));
+				d.setEmail(rs.getString("email"));
+				d.setPhone(rs.getString("phone"));
+				d.setInsurance(rs.getString("insurance"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
+		
+		}
+	return d;
+	}
+	
+	
 	
 }
