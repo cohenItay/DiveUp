@@ -52,7 +52,7 @@ public static void errorMessage(String infoMessage, String titleBar)
 	{
 	     try {
 	    	 	Date today = new Date();//getting current date
-	    	 	DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_(hh_mm)");//create time format
+	    	 	DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_(HH_mm)");//create time format
 	    	 	String date = dateFormat.format(today);//parse the date to be in the above format
 	            String filename = UIConstants.salesReportsPath+date+"_"+customer+"_SalesReport"+".xls" ;//define file path
 	            HSSFWorkbook workbook = new HSSFWorkbook(); //create new excel workbook
@@ -125,7 +125,7 @@ public static void errorMessage(String infoMessage, String titleBar)
 	{
 	     try {
 	    	 	Date today = new Date();//getting current date
-	    	 	DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_(hh_mm)");//create time format
+	    	 	DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_(HH_mm)");//create time format
 	    	 	String date = dateFormat.format(today);//parse the date to be in the above format
 	            String filename = UIConstants.employeesReportsPath+date+"_"+employee+"_EmployeesReport"+".xls" ;//define file path
 	            HSSFWorkbook workbook = new HSSFWorkbook(); //create new excel workbook
