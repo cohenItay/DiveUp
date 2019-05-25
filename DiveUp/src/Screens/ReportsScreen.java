@@ -9,6 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +30,7 @@ public class ReportsScreen {
 
 	private JFrame frame;
 	private Reporter r;
+	private JLabel clockLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -63,6 +70,27 @@ public class ReportsScreen {
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
 		titleLabel.setForeground(UIConstants.SELECTED_BTN);
 		frame.getContentPane().add(titleLabel, "cell 2 0,alignx center");
+		clockLabel = new JLabel("");
+		clockLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
+		clockLabel.setForeground(UIConstants.HOVER_SELECTED_MAIN_BACKGROUND);
+		frame.getContentPane().add(clockLabel, "cell 2 1,alignx center");
+		Date d = new Date();
+		Runnable helloRunnable = new Runnable() {
+		    public void run() {
+		    	Date d = new Date();
+		    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy (HH:mm:ss)");
+		    	clockLabel.setText(dateFormat.format(d));
+		    }
+		};
+
+		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(helloRunnable, 0, 1, TimeUnit.SECONDS);
+		
+		
+		
+		
+		
+		
 		
 		DButton diversButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05DC\u05E7\u05D5\u05D7\u05D5\u05EA",DButton.Mode.PRIMARY);
 		diversButton.setText("\u05DC\u05E7\u05D5\u05D7\u05D5\u05EA");
