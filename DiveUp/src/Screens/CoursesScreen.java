@@ -111,7 +111,7 @@ public class CoursesScreen {
 		model.setColumnIdentifiers(colHeadings);
 		coursesTable = new JTable(model);
 		tableDesign= new DTable();
-		coursesTable = tableDesign.designTable(coursesTable);
+		coursesTable = tableDesign.designTable(coursesTable,DTable.Mode.PRIMARY);
 
 		
 		/*Add listener in order to update the table data when pressed*/

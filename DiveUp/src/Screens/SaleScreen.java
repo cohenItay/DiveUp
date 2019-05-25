@@ -182,7 +182,7 @@ public class SaleScreen {
 		itemsTable = new JTable(model);
 		itemsTable.setFont(new Font("Arial", Font.PLAIN, 18));
 		tableDesign = new DTable();
-		itemsTable = tableDesign.designTable(itemsTable);
+		itemsTable = tableDesign.designTable(itemsTable,DTable.Mode.PRIMARY);
 
 		/* Add listener in order to update the table data when pressed */
 		itemsTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -318,7 +318,7 @@ public class SaleScreen {
 			}
 		});
 		tableDesign = new DTable();
-		cartTable = tableDesign.designTable(cartTable);
+		cartTable = tableDesign.designTable(cartTable,DTable.Mode.SECONDERY);
 		JScrollPane cartScroll = new JScrollPane(cartTable);
 		frame.getContentPane().add(cartScroll, "cell 0 10 6 1,grow");
 

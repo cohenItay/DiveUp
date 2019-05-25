@@ -224,7 +224,7 @@ public int getCurrentCourse()
 		model.setColumnIdentifiers(colHeadings);
 		coursesTable = new JTable(model);
 		DTable designTable = new DTable();
-		coursesTable = designTable.designTable(coursesTable);
+		coursesTable = designTable.designTable(coursesTable,DTable.Mode.PRIMARY);
 		
 		coursesTable.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override

@@ -123,7 +123,7 @@ public class CustomerScreen {
 		frame = new JFrame();
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[fill,20%][fill,20%][fill,20%][fill,20%][fill,20%]", "[160px][30px:110px][380][40px:n][106.00,grow][40px:n][270][260][250]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%,fill][20%,fill][20%,fill][20%,fill]", "[160px][30px:110px][250px:380][40px:n][50px:n,grow][40px:n][200px:n][260][250]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
 		String[] colHeadings = {"ת.ז","שם פרטי","שם משפחה","רישיון צלילה","מייל","טלפון","ביטוח"};
@@ -138,7 +138,7 @@ public class CustomerScreen {
 		model.setColumnIdentifiers(colHeadings);
 		diversTable = new JTable(model);
 		tableDesign= new DTable();
-		diversTable = tableDesign.designTable(diversTable);
+		diversTable = tableDesign.designTable(diversTable,DTable.Mode.PRIMARY);
 
 		
 		/*Add listener in order to update the table data when pressed*/
@@ -160,6 +160,7 @@ public class CustomerScreen {
 		
 		JLabel titleLabel = new JLabel("עמוד לקוחות");
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 32));
+		titleLabel.setForeground(UIConstants.SELECTED_BTN);
 		frame.getContentPane().add(titleLabel, "cell 2 0,alignx center");
 		
 		
@@ -189,7 +190,7 @@ public class CustomerScreen {
 			}
 		});
 		
-		frame.getContentPane().add(updateDiverButton, "cell 2 4,growx");
+		frame.getContentPane().add(updateDiverButton, "cell 2 4,grow");
 		
 		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
 		addDiverButton.addMouseListener(new MouseAdapter() {
@@ -211,7 +212,7 @@ public class CustomerScreen {
 				DiverRegistrationScreen register = new DiverRegistrationScreen();
 			}
 		});
-		frame.getContentPane().add(addDiverButton, "cell 4 4,growx");
+		frame.getContentPane().add(addDiverButton, "cell 4 4,grow");
 		
 		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);
 		courseRegisterButton.addMouseListener(new MouseAdapter() {
@@ -236,7 +237,7 @@ public class CustomerScreen {
 		});
 		
 	
-		frame.getContentPane().add(courseRegisterButton, "cell 3 4,growx");
+		frame.getContentPane().add(courseRegisterButton, "cell 3 4,grow");
 		
 		
 		
@@ -252,7 +253,7 @@ public class CustomerScreen {
 				
 		modeldives.setColumnIdentifiers(Headings);
 		divesTable= new JTable(modeldives);
-	    tableDesign.designTable(divesTable);
+	    tableDesign.designTable(divesTable,DTable.Mode.SECONDERY);
 		
 		
 		JTableHeader header2 = divesTable.getTableHeader();
@@ -261,7 +262,7 @@ public class CustomerScreen {
 		
 		divesPane = new JScrollPane(divesTable);
 		divesPane.setBackground(Color.lightGray);
-		frame.getContentPane().add(divesPane, "cell 0 6 5 1,growx");
+		frame.getContentPane().add(divesPane, "cell 0 6 5 1,growy");
 		
 		DButton exitButton = new DButton("יציאה",DButton.Mode.PRIMARY);
 		frame.getContentPane().add(exitButton, "cell 2 8,growx");

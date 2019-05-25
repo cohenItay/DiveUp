@@ -42,7 +42,7 @@ public class DButton extends JButton{
                 setBackground(UIConstants.SELECTED_BTN);
                 setForeground(UIConstants.BTN_PRIMARY_FONT_DEFUALT);
                 setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-                setFont(new Font("Tahona",Font.BOLD,20));
+                setFont(new Font("Tahona",Font.BOLD,30));
                 addMouseListener(new MouseAdapter() {
         			@Override
         			public void mouseEntered(MouseEvent arg0) {

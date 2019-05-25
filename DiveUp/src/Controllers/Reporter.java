@@ -7,6 +7,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
@@ -57,14 +59,16 @@ public static void errorMessage(String infoMessage, String titleBar)
 	            String filename = UIConstants.salesReportsPath+date+"_"+customer+"_SalesReport"+".xls" ;//define file path
 	            HSSFWorkbook workbook = new HSSFWorkbook(); //create new excel workbook
 	            HSSFSheet sheet = workbook.createSheet("SalesSheet");   // create sheet in notebook
-	            	
+	               
+	            
 	            HSSFRow rowhead = sheet.createRow((short)0); // create first row
 	            /*Fill Header Columns*/
 	            rowhead.createCell(0).setCellValue("סכום");
 	            rowhead.createCell(1).setCellValue("תאריך");
 	            rowhead.createCell(2).setCellValue("רשימת פריטים");
-	            rowhead.createCell(3).setCellValue("ת.ז צוללן");
-	            rowhead.createCell(4).setCellValue("מזהה");
+	            rowhead.createCell(3).setCellValue("שם");
+	            rowhead.createCell(4).setCellValue("ת.ז צוללן");
+	            rowhead.createCell(5).setCellValue("מזהה");
 	            
 	            
 	            /*Fill all the table from the sales list */
@@ -72,10 +76,25 @@ public static void errorMessage(String infoMessage, String titleBar)
 	            int i=1;
 	            for(i=0;i<salesList.size();i++)
 	            {
+	            	
+	            	Pattern pattern = Pattern.compile("\\((.*?)\\)");
+					String diverName = salesList.get(i).getDiverID();
+	        		Matcher matcher = pattern.matcher(diverName);
+	        		String diverID="";
+	        		if (matcher.find())
+	        		{
+	        			diverID = matcher.group(1);
+	        		    diverName = diverName.replace("("+matcher.group(1)+")","");
+	        		}
+					
+	            	
+	            	
 	            	HSSFRow row = sheet.createRow((short)i+1);
-		            row.createCell(4).setCellValue(salesList.get(i).getSaleID());
+	            	row.createCell(5).setCellValue(salesList.get(i).getSaleID());
+		            sheet.autoSizeColumn(5);
+	            	row.createCell(4).setCellValue(diverID);
 		            sheet.autoSizeColumn(4);
-		            row.createCell(3).setCellValue(salesList.get(i).getDiverID());
+		            row.createCell(3).setCellValue(diverName);
 		            sheet.autoSizeColumn(3);
 		            row.createCell(2).setCellValue(salesList.get(i).getItems());
 		            sheet.autoSizeColumn(2);
@@ -129,7 +148,7 @@ public static void errorMessage(String infoMessage, String titleBar)
 	    	 	String date = dateFormat.format(today);//parse the date to be in the above format
 	            String filename = UIConstants.employeesReportsPath+date+"_"+employee+"_EmployeesReport"+".xls" ;//define file path
 	            HSSFWorkbook workbook = new HSSFWorkbook(); //create new excel workbook
-	            HSSFSheet sheet = workbook.createSheet("SalesSheet");   // create sheet in notebook
+	            HSSFSheet sheet = workbook.createSheet("EmployeesSheet");   // create sheet in notebook
 	            	
 	            HSSFRow rowhead = sheet.createRow((short)0); // create first row
 	            /*Fill Header Columns*/
