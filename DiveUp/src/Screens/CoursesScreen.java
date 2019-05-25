@@ -49,8 +49,8 @@ public class CoursesScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CoursesScreen window = new CoursesScreen();
-					window.frame.setVisible(true);
+//					CoursesScreen window = new CoursesScreen();
+//					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -93,9 +93,9 @@ public class CoursesScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame = new JFrame(); 
+		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270,grow][106.00,grow][270,grow][260,grow][250,grow]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
@@ -138,23 +138,9 @@ public class CoursesScreen {
 		/*Create buttons for activities*/
 		DButton updateDiverButton = new DButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7",DButton.Mode.PRIMARY);
 		updateDiverButton.setText("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05E7\u05D5\u05E8\u05E1");
-		
-			updateDiverButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			updateDiverButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				updateDiverButton.setBackground(UIConstants.SELECTED_BTN);
-			}
-		});
-		
-		
 		updateDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 			}
 		});
 		
@@ -162,42 +148,14 @@ public class CoursesScreen {
 		
 		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
 		addDiverButton.setText("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E7\u05D5\u05E8\u05E1");
-		addDiverButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			addDiverButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				addDiverButton.setBackground(UIConstants.SELECTED_BTN);
-			}
-		});
-
-		
-		addDiverButton.addActionListener(new ActionListener() {
+				addDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 			}
 		});
 		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing");
 		
-		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);
-		courseRegisterButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			courseRegisterButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				courseRegisterButton.setBackground(UIConstants.SELECTED_BTN);
-			}
-		});
-
-		
+		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);	
 		courseRegisterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CourseRegistrationScreen courseRegistration = new CourseRegistrationScreen("");
@@ -206,7 +164,7 @@ public class CoursesScreen {
 		
 	
 		frame.getContentPane().add(courseRegisterButton, "cell 3 1,alignx right");
-				
+		frame.setVisible(true);
 		courseController = new CoursesController();
 		updateCoursesList(currentCourse);
 	}

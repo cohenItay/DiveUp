@@ -150,11 +150,7 @@ public int getCurrentCourse()
 	private void initialize() {
 		frame = new JFrame();
 		/* set the size and the location of the frame */
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int width = (int)screenSize.getWidth();
-		int height = (int)screenSize.getHeight();
-		frame.setSize(width/2+150, height/2+150);
-		frame.setLocation(screenSize.width/2-frame.getSize().width/2-50, screenSize.height/2-frame.getSize().height/2-50);
+		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		
 		//Title and icon add
 		frame.setTitle("Course Registration");

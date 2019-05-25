@@ -149,6 +149,7 @@ public class SaleScreen {
 	
 	private void initialize() {
 		frame = new JFrame();
+		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		/* set the size and the location of the frame */
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -372,7 +373,7 @@ public class SaleScreen {
 		updateItemList(currentItem);
 		updateDivers();
 		itemsTable.clearSelection();
-		
+		frame.setVisible(true);
 	}
 
 }

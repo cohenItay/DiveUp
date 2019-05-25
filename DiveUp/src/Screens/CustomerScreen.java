@@ -2,10 +2,12 @@ package Screens;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -28,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
 public class CustomerScreen {
 
@@ -118,9 +121,9 @@ public class CustomerScreen {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270,grow][106.00,grow][270,grow][260,grow][250,grow]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[fill,20%][fill,20%][fill,20%][fill,20%][fill,20%]", "[160px][30px:110px][380][40px:n][106.00,grow][40px:n][270][260][250]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
 		String[] colHeadings = {"ת.ז","שם פרטי","שם משפחה","רישיון צלילה","מייל","טלפון","ביטוח"};
@@ -155,10 +158,14 @@ public class CustomerScreen {
 		    
 		});
 		
+		JLabel titleLabel = new JLabel("עמוד לקוחות");
+		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 32));
+		frame.getContentPane().add(titleLabel, "cell 2 0,alignx center");
+		
 		
 		
 		JScrollPane scrollPane = new JScrollPane(diversTable);//add scroll bar to the table
-		frame.getContentPane().add(scrollPane, "cell 0 0 5 1,growx");//add scroll bar to the frame
+		frame.getContentPane().add(scrollPane, "cell 0 2 5 1,growx");//add scroll bar to the frame
 		
 		/*Create buttons for activities*/
 		DButton updateDiverButton = new DButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7",DButton.Mode.PRIMARY);
@@ -182,7 +189,7 @@ public class CustomerScreen {
 			}
 		});
 		
-		frame.getContentPane().add(updateDiverButton, "cell 2 1,alignx right");
+		frame.getContentPane().add(updateDiverButton, "cell 2 4,growx");
 		
 		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
 		addDiverButton.addMouseListener(new MouseAdapter() {
@@ -204,7 +211,7 @@ public class CustomerScreen {
 				DiverRegistrationScreen register = new DiverRegistrationScreen();
 			}
 		});
-		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing");
+		frame.getContentPane().add(addDiverButton, "cell 4 4,growx");
 		
 		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);
 		courseRegisterButton.addMouseListener(new MouseAdapter() {
@@ -229,7 +236,7 @@ public class CustomerScreen {
 		});
 		
 	
-		frame.getContentPane().add(courseRegisterButton, "cell 3 1,alignx right");
+		frame.getContentPane().add(courseRegisterButton, "cell 3 4,growx");
 		
 		
 		
@@ -254,11 +261,27 @@ public class CustomerScreen {
 		
 		divesPane = new JScrollPane(divesTable);
 		divesPane.setBackground(Color.lightGray);
-		frame.getContentPane().add(divesPane, "cell 0 2 5 1,growx");
+		frame.getContentPane().add(divesPane, "cell 0 6 5 1,growx");
+		
+		DButton exitButton = new DButton("יציאה",DButton.Mode.PRIMARY);
+		frame.getContentPane().add(exitButton, "cell 2 8,growx");
 		divesPane.setVisible(false);
+		exitButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			exitButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				exitButton.setBackground(UIConstants.SELECTED_BTN);
+			}
+		});
 		
 		diversController = new DiverController();
 		divesControler = new DivesController();
 		updateDiversTable();
+		frame.setVisible(true);
 	}
 }

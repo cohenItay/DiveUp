@@ -8,10 +8,21 @@ import javax.swing.*;
 
 public interface UIConstants
 {
+	String reportsPath = System.getProperty("user.dir")+"/Reports";
+	
+	
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	int height = (int)screenSize.getHeight();
+	int width =  (int)screenSize.getWidth();
+	
+	int miniScreenWidth =width/2+250;
+	int miniScreenHeight = height/2+150;
+	int miniScreenx = width/5;
+	int miniScreeny = height /6;
     /**
-        Available colors
-    */
-
+    Available colors
+*/
+	
     //Components Colors
     Color BAR_DEFUALT  =new Color(0x20, 0x20,0x20);
     Color BAR_DARK  =new Color(0x00, 0x00,0x00);

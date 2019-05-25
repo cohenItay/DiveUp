@@ -15,15 +15,22 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import Classes.Sale;
+import res.UIConstants;
 
 public class Reporter {
 	
-String path = System.getProperty("user.dir")+"/Reports"; //path to save reports
-SaleController sController;// creating sales controller
+
+private SaleController sController;// creating sales controller
+
 
 public Reporter()
 {
 	sController = new SaleController();//initiate sales controller
+}
+
+public SaleController getSaleController()
+{
+	return sController;
 }
 
 
@@ -40,7 +47,7 @@ public static void errorMessage(String infoMessage, String titleBar)
 	    	 	Date today = new Date();//getting current date
 	    	 	DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_(hh_mm)");//create time format
 	    	 	String date = dateFormat.format(today);//parse the date to be in the above format
-	            String filename = path+date+"_"+customer+"_SalesReport"+".xls" ;//define file path
+	            String filename = UIConstants.reportsPath+date+"_"+customer+"_SalesReport"+".xls" ;//define file path
 	            HSSFWorkbook workbook = new HSSFWorkbook(); //create new excel workbook
 	            HSSFSheet sheet = workbook.createSheet("SalesSheet");   // create sheet in notebook
 	            	

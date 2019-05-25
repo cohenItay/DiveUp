@@ -2,6 +2,8 @@ package res;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DButton extends JButton{
 
@@ -41,6 +43,18 @@ public class DButton extends JButton{
                 setForeground(UIConstants.BTN_PRIMARY_FONT_DEFUALT);
                 setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
                 setFont(new Font("Tahona",Font.BOLD,20));
+                addMouseListener(new MouseAdapter() {
+        			@Override
+        			public void mouseEntered(MouseEvent arg0) {
+        			getParent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        			setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
+        			}
+        			@Override
+        			public void mouseExited(MouseEvent e) {
+        				getParent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        				setBackground(UIConstants.SELECTED_BTN);
+        			}
+        		});
                 break;
             case SECONDERY:
                 setForeground(UIConstants.SELECTED_BTN);
