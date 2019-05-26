@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import Models.SendEmailTLS;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.UIConstants;
@@ -32,6 +33,7 @@ public class MainScreen {
 
 	private JFrame frmDiveup;
 	private JLabel clockLabel;
+	private SendEmailTLS se;
 	/**
 	 * Launch the application.
 	 */
@@ -61,7 +63,8 @@ public class MainScreen {
 	private void initialize() {
 		frmDiveup = new JFrame();
 		frmDiveup.setTitle("DiveUp"); 
-		frmDiveup.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frmDiveup.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
 		Image image;
 		try {
 			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
