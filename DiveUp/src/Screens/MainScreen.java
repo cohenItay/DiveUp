@@ -65,6 +65,10 @@ public class MainScreen {
 		frmDiveup.setTitle("DiveUp"); 
 		frmDiveup.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
+		SendEmailTLS se = new SendEmailTLS("maorlolz1@gmail.com", "ברוך הבא למועדון הצלילה DiveUp", "תודה שהצטרפת למועדון הצלילה מספר אחת בארץ");
+		
+		
+		
 		Image image;
 		try {
 			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
