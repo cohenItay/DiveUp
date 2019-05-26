@@ -14,7 +14,7 @@ public interface Controller
     int licenseID_empty=4;
     int email_empty=5;
     int phone_empty=6;
-    int PASSWORD_EMPTY=7;
+    int PASSWORD_EMPTY=7; //manager screen 
     int invalid_id=8;
     int invalid_firstname = 9;
     int invalid_lastname = 10;

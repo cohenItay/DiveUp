@@ -19,7 +19,7 @@ import Classes.Diver;
 public class sqlConnection {
 	
 	private static sqlConnection dbConnection;//class instance
-	public static Connection conn;//connection instabce
+	public static Connection conn;//connection instance
 	
 	/*Private constructor in order to implement singleton DP*/
 	private sqlConnection() {
