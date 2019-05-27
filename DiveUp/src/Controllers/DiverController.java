@@ -165,5 +165,10 @@ public class DiverController implements Controller {
 	}
 	
 	
+	public void updateDiver(String diverID,String firstName,String lastName,String licenseID,String email,String phone,String insurance) {
+		
+		diverSqlQueries dbConnection = new diverSqlQueries();
+		dbConnection.updateDiver(diverID, firstName, lastName, licenseID, email, phone, insurance);
+	}
 	
 }

@@ -147,6 +147,27 @@ public class diverSqlQueries{
 	return d;
 	}
 	
+	public void updateDiver(String diverID,String firstName,String lastName,String licenseID,String email,String phone,String insurance) {
+		String query = "update Diver set firstName = ?, lastName = ?, licenseID = ? ,email = ?,phone = ? , insurance = ?  where id = ?";
+	    PreparedStatement preparedStmt;
+		try {
+			preparedStmt = connection.prepareStatement(query);
+		    preparedStmt.setString(1, firstName);
+		    preparedStmt.setString(2, lastName);
+		    preparedStmt.setString(3, licenseID);
+		    preparedStmt.setString(4, email);
+		    preparedStmt.setString(5, phone);
+		    preparedStmt.setString(6, insurance);
+		    preparedStmt.setString(7, diverID);
+		    // execute the java preparedstatement
+		    preparedStmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	
 	
 }

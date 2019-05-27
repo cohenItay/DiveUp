@@ -270,8 +270,8 @@ public class CustomerScreen {
 						daysBetween++;
 						if(daysBetween ==2)
 						{
-							SendEmailTLS send= new SendEmailTLS(l.get(i).getEmail(), "תזכורת קורס צלילה - "+c.get(j).getName()+"("+dateFormat.format(c.get(j).getStartDay())+")", "שלום "+l.get(i).getFirstName() +"<br>"
-							+ "זוהי תזכורת בנוגע לקורס "+c.get(j).getName()+" שיתקיים בתאריך "+dateFormat.format(c.get(j).getStartDay())+"<br> !בהצלחה");	
+//							SendEmailTLS send= new SendEmailTLS(l.get(i).getEmail(), "תזכורת קורס צלילה - "+c.get(j).getName()+"("+dateFormat.format(c.get(j).getStartDay())+")", "שלום "+l.get(i).getFirstName() +"<br>"
+//							+ "זוהי תזכורת בנוגע לקורס "+c.get(j).getName()+" שיתקיים בתאריך "+dateFormat.format(c.get(j).getStartDay())+"<br> !בהצלחה");	
 						
 						}
 						

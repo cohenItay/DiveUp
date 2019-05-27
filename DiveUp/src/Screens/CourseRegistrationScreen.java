@@ -335,9 +335,19 @@ public int getCurrentCourse()
         		
         		if(courseController.validateCourseRegistration(currentCourse, diverID))
         		{
-        			
-        			boolean succeed = courseController.registerNewCourse(currentCourse, diverID);
-        			
+        			boolean isRegistered = false;
+        			boolean succeed=true;
+        			List<Course> clientCourses = courseController.getCoursesByID(diverID);
+        			for(int i =0;i<clientCourses.size();i++)
+        			{
+        				
+        				if(clientCourses.get(i).getId() == currentCourse)
+        					isRegistered = true;
+        			}
+        			if(!isRegistered)
+        				succeed = courseController.registerNewCourse(currentCourse, diverID);
+        			else
+        				errorMessage("הלקוח כבר רשום לקורס זה", "שגיאה בהרשמה לקורס");
         			if(!succeed)
         				errorMessage("הקורס הנוכחי מלא", "בעיה בהרשמה ");
         				

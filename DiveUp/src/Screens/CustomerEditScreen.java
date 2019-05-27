@@ -291,9 +291,13 @@ public class CustomerEditScreen {
                     errorMessage("נא תקן את השדות המסומנים באדום", "פרטים שגויים");
                 }
                 else {
-    				
-    				dbConnection.addDiver(dbConnection.connection, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
-    						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
+    				String insurance = "";
+    				if(isProtected.isSelected())
+    					insurance = "YES";
+    				else
+    					insurance = "NO";
+    				dbConnection.updateDiver(idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
+    						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),insurance);
     				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
     				
 
