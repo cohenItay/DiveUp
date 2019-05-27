@@ -308,6 +308,7 @@ public class DiverRegistrationScreen {
 		idTextField.requestFocusInWindow();
 		dbConnection = new diverSqlQueries();
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows when closing this window
+		
 	}
 
 }

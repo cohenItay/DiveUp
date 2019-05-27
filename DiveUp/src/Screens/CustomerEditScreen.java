@@ -307,6 +307,7 @@ public class CustomerEditScreen {
 		dbConnection = new diverSqlQueries();
 		c = new DiverController();
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows when closing this window
+		
 	}
 
 

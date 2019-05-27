@@ -167,6 +167,7 @@ public class CoursesScreen {
 		frame.setVisible(true);
 		courseController = new CoursesController();
 		updateCoursesList(currentCourse);
+		
 	}
 
 	}

@@ -1,6 +1,11 @@
 package Controllers;
 
+import java.util.List;
+
+import Classes.Course;
+import Classes.Diver;
 import Models.courseSqlQueries;
+import Models.diverSqlQueries;
 import Models.sqlConnection;
 
 public class CoursesController implements Controller {
@@ -38,6 +43,15 @@ public class CoursesController implements Controller {
 		return false;
 	}
 	
+	public List<Course> getCourses(){
+		courseSqlQueries  dbConnection = new courseSqlQueries();//connection to the DB
+		return dbConnection.getCourses();//Getting divers list from the DB
+	}
+	
+	public List<Course> getCoursesByID(String id){
+		courseSqlQueries  dbConnection = new courseSqlQueries();//connection to the DB
+		return dbConnection.getCoursesByID(id);//Getting divers list from the DB
+	}
 	
 
 }

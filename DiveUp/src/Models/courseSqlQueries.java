@@ -33,7 +33,7 @@ import Classes.Course;
 			try {
 				/* getting all information from courses table */
 				stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("select * from Course,CourseType where Course.typeID = CourseType.typeID");
+				ResultSet rs = stmt.executeQuery("select  * from Course,CourseType where Course.typeID = CourseType.typeID");
 				
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int columnsNumber = rsmd.getColumnCount();
@@ -175,5 +175,49 @@ import Classes.Course;
 
 		}
 
+		public List<Course> getCoursesByID(String id)
+		{
+			List<Course> res = new ArrayList<>();//creating courses list
+			Statement stmt;
+			try {
+				/* getting all information from courses table */
+				stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery("select * from Course,RegisteredCourses where Course.courseID = RegisteredCourses.courseID and RegisteredCourses.diverID =  "+id);
+				
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				Course c;
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+				/* creating Item object for each item in the db table */
+				while (rs.next()) {
+					c = new Course();
+					c.setID(rs.getInt("courseID"));
+					c.setName(rs.getString("courseName"));
+					c.setInstructor(rs.getString("employeeID"));
+					c.setCurrentAmount(rs.getInt("currentAmount"));
+					c.setMaxDivers(rs.getInt("maxDivers"));
+					c.setPrice(rs.getDouble("price"));
+					c.setStartDay(formatter.parse(rs.getString("startDate")));
+					c.setEndDay(formatter.parse(rs.getString("endDate")));
+					c.setDesc(rs.getString("desc"));
+				    res.add(c);//add item to the list
+				}
+			} catch (SQLException | ParseException e) {
+				// TODO Auto-generated catch block
+				String err = e.getMessage();
+				if (err.contains("query does not return ResultSet"))
+				{
+					;//Query completed, didn't have to return value
+				}
+				else
+				{
+					e.printStackTrace();
+				}
+			
+			}
+		return res;
+		}
+		
+		
 
 }

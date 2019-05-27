@@ -60,7 +60,7 @@ public class SendEmailTLS implements Runnable{
             
           
             BodyPart messageBodyPart = new MimeBodyPart();
-            String htmlText = "<H1>"+content+"</H1><img src=\"cid:image\">";
+            String htmlText = "<H3 align="+"\"right\">"+content+"</H3><img src=\"cid:image\">";
             try {
 				messageBodyPart.setContent(new String(htmlText.getBytes("UTF8"),"ISO-8859-1"), "text/html");
 			} catch (UnsupportedEncodingException e) {

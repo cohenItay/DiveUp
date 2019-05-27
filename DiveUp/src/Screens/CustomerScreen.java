@@ -8,7 +8,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,12 +26,17 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import org.apache.poi.hssf.record.DConRefRecord;
+
+import Classes.Course;
 import Classes.Dive;
 import Classes.Diver;
 import Classes.Sale;
+import Controllers.CoursesController;
 import Controllers.DiverController;
 import Controllers.DivesController;
 import Controllers.Reporter;
+import Models.SendEmailTLS;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DTable;
@@ -40,6 +47,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -58,7 +67,8 @@ public class CustomerScreen {
 	public boolean isFocused = true;
 	public String currentDiver;
 	private DiverController diversController;
-	private DivesController divesControler; 
+	private DivesController divesControler;
+	private CoursesController coursesController;
 	private Diver currentDiverInstance;
 	private DTextPane jtp;
 	private Document doc;
@@ -245,15 +255,47 @@ public class CustomerScreen {
 		
 		updateDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				Date today = new Date();
+				List<Diver> l = diversController.getDivers();
+				for(int i=0;i<l.size();i++)
+				{
+					List<Course> c = coursesController.getCoursesByID(l.get(i).getId());
+					
+					for( int j=0;j<c.size();j++)
+					{
+						
+						long difference = c.get(j).getStartDay().getTime() - today.getTime();
+					    float daysBetween = (difference / (1000*60*60*24));
+						daysBetween++;
+						if(daysBetween ==2)
+						{
+							SendEmailTLS send= new SendEmailTLS(l.get(i).getEmail(), "תזכורת קורס צלילה - "+c.get(j).getName()+"("+dateFormat.format(c.get(j).getStartDay())+")", "שלום "+l.get(i).getFirstName() +"<br>"
+							+ "זוהי תזכורת בנוגע לקורס "+c.get(j).getName()+" שיתקיים בתאריך "+dateFormat.format(c.get(j).getStartDay())+"<br> !בהצלחה");	
+						
+						}
+						
+					}
+				}
+				
+				
+				
 				Pattern pattern = Pattern.compile("\\((.*?)\\)");
-        		Matcher matcher = pattern.matcher(currentDiver);
-        		String diverID="";
-        		if (matcher.find())
-        		{
-        			diverID = currentDiver.replace("("+matcher.group(1)+")","");
-        		}
-			currentDiverInstance = diversController.getDiverByID(diverID);
-			CustomerEditScreen ce = new CustomerEditScreen(currentDiverInstance);
+				if(currentDiver != null)
+				{
+					Matcher matcher = pattern.matcher(currentDiver);
+					String diverID="";
+					if (matcher.find())
+					{
+						diverID = currentDiver.replace("("+matcher.group(1)+")","");
+					}
+					currentDiverInstance = diversController.getDiverByID(diverID);
+					CustomerEditScreen ce = new CustomerEditScreen(currentDiverInstance);
+				}
+				else
+				{
+					errorMessage("נא לבחור לקוח", "לא נבחר לקוח");
+				}
 			}
 		});
 		
@@ -350,7 +392,9 @@ public class CustomerScreen {
 		
 		diversController = new DiverController();
 		divesControler = new DivesController();
+		coursesController = new CoursesController();
 		updateDiversTable();
 		frame.setVisible(true);
+		
 	}
 }

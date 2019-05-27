@@ -161,6 +161,7 @@ public class ReportsScreen {
 		});
 		r = new Reporter();
 		frame.setVisible(true);
+		
 	}
 	}
 

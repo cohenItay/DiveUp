@@ -164,7 +164,7 @@ public class MainScreen {
 		});
 		exitButton.setText("\u05D9\u05E6\u05D9\u05D0\u05D4");
 		frmDiveup.getContentPane().add(exitButton, "cell 3 11,grow");
-		
+		frmDiveup.pack();
 	}
 
 }

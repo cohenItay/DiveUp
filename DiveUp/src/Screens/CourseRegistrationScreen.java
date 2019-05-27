@@ -360,6 +360,7 @@ public int getCurrentCourse()
         table_loaded = true;
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows whsen closing this window
+		
 	}
 
 }

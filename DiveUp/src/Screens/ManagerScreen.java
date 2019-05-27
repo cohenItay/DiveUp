@@ -144,6 +144,7 @@ public class ManagerScreen {
 		});
 		
 		frame.setVisible(true);
+		frame.setResizable(true);
 	}
 
 

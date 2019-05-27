@@ -406,6 +406,7 @@ public class SaleScreen {
 		updateDivers();
 		itemsTable.clearSelection();
 		frame.setVisible(true);
+		
 	}
 
 }
