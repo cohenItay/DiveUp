@@ -19,6 +19,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import Classes.Diver;
 import Controllers.DiverController;
@@ -27,6 +32,7 @@ import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DNotification;
 import res.DTextField;
+import res.DTextPane;
 import res.UIConstants;
 import java.awt.Font;
 
@@ -44,6 +50,8 @@ public class CustomerEditScreen {
 	private DNotification not;
 	private diverSqlQueries dbConnection;
 	private Diver diver;
+	private DTextPane jtp;
+	private Document doc;
 	/**
 	 * Launch the application.
 	 */
@@ -68,6 +76,39 @@ public class CustomerEditScreen {
 		initialize();
 	}
 
+	public void message(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+		
+	    doc = jtp.getStyledDocument();
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.INFORMATION_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+	public void errorMessage(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+	    doc = jtp.getDocument();
+	    SimpleAttributeSet right = new SimpleAttributeSet();
+	    StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+	    ((StyledDocument) doc).setParagraphAttributes(0, doc.getLength(), right, false);
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.ERROR_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+	
+	
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -247,7 +288,7 @@ public class CustomerEditScreen {
                         }
                     }
                     
-                    JOptionPane.showMessageDialog(null, "נא תקן את השדות המסומנים באדום", "בעיה בהרשמה " + "פרטים שגויים", JOptionPane.ERROR_MESSAGE);
+                    errorMessage("נא תקן את השדות המסומנים באדום", "פרטים שגויים");
                 }
                 else {
     				

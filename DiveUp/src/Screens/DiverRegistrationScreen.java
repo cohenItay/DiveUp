@@ -15,15 +15,22 @@ import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DNotification;
 import res.DTextField;
+import res.DTextPane;
 import res.UIConstants;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import Controllers.Controller;
 import Controllers.DiverController;
+import Models.SendEmailTLS;
 import Models.diverSqlQueries;
 import Models.sqlConnection;
 
@@ -52,6 +59,8 @@ public class DiverRegistrationScreen {
 	private DiverController c;
 	private DNotification not;
 	private diverSqlQueries dbConnection;
+	private DTextPane jtp;
+	private Document doc;
 	/**
 	 * Launch the application.
 	 */
@@ -78,6 +87,39 @@ public class DiverRegistrationScreen {
 		initialize();
 	}
 
+	public void message(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+		
+	    doc = jtp.getStyledDocument();
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.INFORMATION_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+	public void errorMessage(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+	    doc = jtp.getDocument();
+	    SimpleAttributeSet right = new SimpleAttributeSet();
+	    StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+	    ((StyledDocument) doc).setParagraphAttributes(0, doc.getLength(), right, false);
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp,titleBar, JOptionPane.ERROR_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+	
+	
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -246,13 +288,14 @@ public class DiverRegistrationScreen {
                             phoneTextField.setViolatedBorder(true);
                         }
                     }
+                    errorMessage("נא תקן את השדות המסומנים באדום", "פרטים שגויים");
                     
-                    JOptionPane.showMessageDialog(null, "נא תקן את השדות המסומנים באדום", "בעיה בהרשמה " + "פרטים שגויים", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
     				
     				dbConnection.addDiver(dbConnection.connection, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
     						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
+    				SendEmailTLS se = new SendEmailTLS(emailTextField.getText(), "ברוך הבא למועדון הצלילה DiveUp",firstNameTextField.getText()+"\n" +"תודה שהצטרפת למועדון הצלילה מספר אחת בארץ");
     				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
     				
 

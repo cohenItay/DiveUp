@@ -74,16 +74,16 @@ public class ManagerScreen {
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%,fill][20%][20%,fill][20%,fill]", "[][][40px][48px:n][80px][48px:n][80px][48px:n][80px][48px:n][80px][48px:n][80px][48px:n]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[20%][34%][20%][20%][20%][20%]", "["+UIConstants.width/100+"px:n][]["+UIConstants.width/30+"px]["+UIConstants.width/100+"px:n]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]"));
 		
 		JLabel titleLabel = new JLabel("DiveUp - \u05E2\u05DE\u05D5\u05D3 \u05DE\u05E0\u05D4\u05DC");
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 65));
 		titleLabel.setForeground(UIConstants.SELECTED_BTN);
 		frame.getContentPane().add(titleLabel, "cell 2 0,alignx center");
 		clockLabel = new JLabel("");
-		clockLabel.setFont(new Font("Tahoma", Font.BOLD, 45));
+		clockLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
 		clockLabel.setForeground(UIConstants.HOVER_SELECTED_MAIN_BACKGROUND);
-		frame.getContentPane().add(clockLabel, "cell 2 1,alignx center");
+		frame.getContentPane().add(clockLabel, "cell 2 2,alignx center");
 		Date d = new Date();
 		Runnable helloRunnable = new Runnable() {
 		    public void run() {
@@ -107,22 +107,22 @@ public class ManagerScreen {
 			CustomerScreen c = new CustomerScreen();
 			}
 		});
-		frame.getContentPane().add(diversButton, "cell 2 3,grow");
+		frame.getContentPane().add(diversButton, "cell 2 4,grow");
 		
 		DButton coursesButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05DE\u05DC\u05D0\u05D9",DButton.Mode.PRIMARY);
 		coursesButton.setFont(new Font("Dialog", Font.BOLD, 40));
 		coursesButton.setText("\u05E0\u05D9\u05D4\u05D5\u05DC \u05E7\u05D5\u05E8\u05E1\u05D9\u05DD");
-		frame.getContentPane().add(coursesButton, "cell 2 5,grow");
+		frame.getContentPane().add(coursesButton, "cell 2 6,grow");
 		
 		DButton employeesButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05E7\u05D5\u05E8\u05E1\u05D9\u05DD",DButton.Mode.PRIMARY);
 		employeesButton.setFont(new Font("Dialog", Font.BOLD, 40));
 		employeesButton.setText("\u05E0\u05D9\u05D4\u05D5\u05DC \u05E2\u05D5\u05D1\u05D3\u05D9\u05DD");
-		frame.getContentPane().add(employeesButton, "cell 2 7,grow");
+		frame.getContentPane().add(employeesButton, "cell 2 8,grow");
 		
 		DButton itemsButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05D4\u05D6\u05DE\u05E0\u05D5\u05EA",DButton.Mode.PRIMARY);
 		itemsButton.setFont(new Font("Dialog", Font.BOLD, 40));
 		itemsButton.setText("\u05E0\u05D9\u05D4\u05D5\u05DC \u05DE\u05DC\u05D0\u05D9");
-		frame.getContentPane().add(itemsButton, "cell 2 9,grow");
+		frame.getContentPane().add(itemsButton, "cell 2 10,grow");
 		
 		DButton reportsButton = new DButton("\u05D3\u05D5\u05D7\u05D5\u05EA",DButton.Mode.PRIMARY);
 		reportsButton.setFont(new Font("Dialog", Font.BOLD, 40));
@@ -132,11 +132,11 @@ public class ManagerScreen {
 			}
 		});
 		
-		frame.getContentPane().add(reportsButton, "cell 2 11,grow");
+		frame.getContentPane().add(reportsButton, "cell 2 12,grow");
 		
 		DButton exitButton = new DButton("\u05D9\u05E6\u05D9\u05D0\u05D4",DButton.Mode.PRIMARY);
 		exitButton.setFont(new Font("Dialog", Font.BOLD, 40));
-		frame.getContentPane().add(exitButton, "cell 2 13,grow");
+		frame.getContentPane().add(exitButton, "cell 2 14,grow");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window

@@ -18,6 +18,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 import Classes.Dive;
 import Classes.Diver;
 import Classes.Sale;
@@ -27,6 +33,7 @@ import Controllers.Reporter;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DTable;
+import res.DTextPane;
 import res.UIConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -35,6 +42,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class CustomerScreen {
 
@@ -52,6 +60,8 @@ public class CustomerScreen {
 	private DiverController diversController;
 	private DivesController divesControler; 
 	private Diver currentDiverInstance;
+	private DTextPane jtp;
+	private Document doc;
 	/**
 	 * Launch the application.
 	 */
@@ -121,6 +131,41 @@ public class CustomerScreen {
 		initialize();
 	}
 
+	public void message(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+		
+	    doc = jtp.getStyledDocument();
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, "Title", JOptionPane.INFORMATION_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+	public void errorMessage(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+	    doc = jtp.getDocument();
+	    SimpleAttributeSet right = new SimpleAttributeSet();
+	    StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+	    ((StyledDocument) doc).setParagraphAttributes(0, doc.getLength(), right, false);
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, "Title", JOptionPane.ERROR_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+	
+	
+	
+	
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */

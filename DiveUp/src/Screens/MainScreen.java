@@ -65,7 +65,6 @@ public class MainScreen {
 		frmDiveup.setTitle("DiveUp"); 
 		frmDiveup.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
-		SendEmailTLS se = new SendEmailTLS("maorlolz1@gmail.com", "ברוך הבא למועדון הצלילה DiveUp", "תודה שהצטרפת למועדון הצלילה מספר אחת בארץ");
 		
 		
 		
@@ -80,8 +79,8 @@ public class MainScreen {
 		
 		frmDiveup.getContentPane().setBackground(Color.WHITE);
 		frmDiveup.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmDiveup.getContentPane().setLayout(new MigLayout("", "[20%,fill][][20%,fill][20%][20%,fill][20%:20%,fill]", "[][100px][30px:n][60px:n][80px][60px:n][80px][60px:n][80px][60px:n][80px][60px:n][]"));
-		
+		frmDiveup.getContentPane().setLayout(new MigLayout("", "[20%][5%][20%][20%][20%][20%]", "[][100px][30px:n][60px:n][80px][60px:n][80px][60px:n][80px][60px:n][80px][60px:n][]"));
+		frmDiveup.setTitle("DiveUp");
 		clockLabel = new JLabel("");
 		clockLabel.setFont(new Font("Tahoma", Font.BOLD, 45));
 		clockLabel.setForeground(UIConstants.HOVER_SELECTED_MAIN_BACKGROUND);

@@ -21,7 +21,12 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext.SmallAttributeSet;
+import javax.swing.text.StyledDocument;
 
 import Classes.Diver;
 import Classes.Item;
@@ -34,6 +39,7 @@ import Models.itemSqlQueries;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DTable;
+import res.DTextPane;
 import res.UIConstants;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -72,6 +78,8 @@ public class SaleScreen {
 	private JComboBox diverComboBox;
 	private JComboBox amountComboBox;
 	private boolean firstTime = true;
+	private DTextPane jtp;
+	private Document doc;
 	/**
 	 * Launch the application.
 	 */
@@ -138,13 +146,35 @@ public class SaleScreen {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	public static void message(String infoMessage, String titleBar)
+	public void message(String infoMessage, String titleBar)
     {
-        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+		jtp = new DTextPane();
+		
+	    doc = jtp.getStyledDocument();
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.INFORMATION_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
     }
-	public static void errorMessage(String infoMessage, String titleBar)
+	public void errorMessage(String infoMessage, String titleBar)
     {
-        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.ERROR_MESSAGE);
+		jtp = new DTextPane();
+	    doc = jtp.getDocument();
+	    SimpleAttributeSet right = new SimpleAttributeSet();
+	    StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+	    ((StyledDocument) doc).setParagraphAttributes(0, doc.getLength(), right, false);
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.ERROR_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
     }
 	
 	private void initialize() {
@@ -345,9 +375,11 @@ public class SaleScreen {
 				if(customerID.equals("") || items.equals("") || (itemsTable.getSelectedRow() == -1 && items.equals("")))
                     errorMessage("עגלת הקניות ריקה", "שגיאה");
 				else
+				{
 					sController.addSale(customerID,items ,dateFormat.format(date), Double.valueOf(sumTextField.getText()));
-				message("הקניה בוצעה בהצלחה","הודעה");
+				errorMessage("הקניה בוצעה בהצלחה","הודעה");
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+				}
 			}
 		});
 		frame.getContentPane().add(saleButton, "cell 4 13 2 1,alignx right");

@@ -28,6 +28,7 @@ import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DLabel;
 import res.DTable;
+import res.DTextPane;
 import res.UIConstants;
 
 import javax.imageio.ImageIO;
@@ -37,6 +38,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -53,7 +55,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Caret;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import javax.swing.event.PopupMenuEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
@@ -79,6 +86,8 @@ public class CourseRegistrationScreen {
 	private String diverID;
 	private Integer currentCourse=-1;
 	private CoursesController courseController;
+	private JTextPane jtp;
+	private Document doc;
 	/**
 	 * Launch the application.
 	 */
@@ -145,6 +154,40 @@ public int getCurrentCourse()
 		initialize();
 	}
 
+	
+	public void message(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+		
+	    doc = jtp.getStyledDocument();
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.INFORMATION_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+	public void errorMessage(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+	    doc = jtp.getDocument();
+	    SimpleAttributeSet right = new SimpleAttributeSet();
+	    StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+	    ((StyledDocument) doc).setParagraphAttributes(0, doc.getLength(), right, false);
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.ERROR_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+	
+	
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -296,11 +339,13 @@ public int getCurrentCourse()
         			boolean succeed = courseController.registerNewCourse(currentCourse, diverID);
         			
         			if(!succeed)
-        				JOptionPane.showMessageDialog(null, "הקורס הנוכחי מלא", "בעיה בהרשמה " + "קורס מלא", JOptionPane.ERROR_MESSAGE);
+        				errorMessage("הקורס הנוכחי מלא", "בעיה בהרשמה ");
+        				
         		}
         		else
         		{
-        			JOptionPane.showMessageDialog(null, "אנא בחר צוללן וקורס", "בעיה בהרשמה " + "פרטים חסרים", JOptionPane.ERROR_MESSAGE);
+        			errorMessage("אנא בחר צוללן וקורס", "פרטים חסרים");
+        			
         		}
         		updateCoursesList(-1);
         	}

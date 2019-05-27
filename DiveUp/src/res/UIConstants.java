@@ -21,8 +21,8 @@ public interface UIConstants
 	int miniScreenx = width/5;
 	int miniScreeny = height /6;
 	
-	int messageWidth = miniScreenWidth/3;
-	int messageHeight = miniScreenHeight/4;
+	int messageWidth = miniScreenWidth/2;
+	int messageHeight = miniScreenHeight/9;
 	
     /**
     Available colors
