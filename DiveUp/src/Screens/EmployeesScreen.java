@@ -308,7 +308,7 @@ public class EmployeesScreen {
 				pan.add(sendButton,BorderLayout.SOUTH);
 				
 				JDialog dialog = new JDialog();
-				dialog.setSize(UIConstants.miniScreenWidth/2, UIConstants.miniScreenHeight/2);
+				dialog.setBounds(UIConstants.miniScreenx/2+UIConstants.width/4, UIConstants.miniScreeny/2+UIConstants.height/4, UIConstants.miniScreenWidth/2,UIConstants.miniScreenHeight/2);
 				dialog.add(pan);
 				dialog.setTitle("שליחת מייל");
 				Image image;
