@@ -86,9 +86,9 @@ public class EmployeesScreen {
 		employeesList = employeesController.getEmployees();//Getting divers list from the DB
 		for(int i=0;i<employeesList.size();i++)//For every employee add its information to the table
 		{
-				model.addRow(new Object[] {employeesList.get(i).getId(), employeesList.get(i).getFirstName(),
-				employeesList.get(i).getLastName(),
-				employeesList.get(i).getEmail(),employeesList.get(i).getPhone(),employeesList.get(i).getSeniority(),employeesList.get(i).getSalary()});
+				model.addRow(new Object[] {employeesList.get(i).getSalary(), employeesList.get(i).getPhone(),
+				employeesList.get(i).getEmail(),
+				employeesList.get(i).getSeniority(),employeesList.get(i).getLastName(),employeesList.get(i).getFirstName(),employeesList.get(i).getId()});
 		}
 	}
 	
@@ -154,7 +154,7 @@ public class EmployeesScreen {
 		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%,fill][20%,fill][20%,fill][20%,fill]", "[160px][30px:110px][250px:380][40px:n][50px:n,grow][40px:n][200px:n][260][250]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
-		String[] colHeadings = {"ת.ז","שם פרטי","שם משפחה","רישיון צלילה","מייל","טלפון","ביטוח"};
+		String[] colHeadings = {"משכורת","טלפון","מייל","ותק","שם משפחה","שם","ת.ז"};
 		int numRows = 0 ;
 		model = new DefaultTableModel(numRows, colHeadings.length)
 				{
