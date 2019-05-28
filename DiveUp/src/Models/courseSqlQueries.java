@@ -120,6 +120,22 @@ import Classes.Course;
 		
 		}
 		
+		public String getCourseStartDay(int courseID)
+		{
+			Statement stmt;
+			try {
+				stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery("select startDate from Course where courseID = "+courseID);
+				return rs.getString("startDate");
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				return "";
+			
+			}
+		
+		}
+		
 		//update course registered amount
 		public void updateAmount(int courseID,int currentAmount)
 		{

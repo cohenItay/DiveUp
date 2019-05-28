@@ -21,6 +21,8 @@ import org.jdesktop.swingx.JXDatePicker;
 import Classes.Course;
 import Classes.Diver;
 import Controllers.CoursesController;
+import Controllers.DiverController;
+import Models.SendEmailTLS;
 import Models.courseSqlQueries;
 import Models.diverSqlQueries;
 import Models.sqlConnection;
@@ -49,6 +51,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+
 import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 import javax.swing.table.DefaultTableModel;
@@ -86,6 +90,7 @@ public class CourseRegistrationScreen {
 	private String diverID;
 	private Integer currentCourse=-1;
 	private CoursesController courseController;
+	private DiverController diverController;
 	private JTextPane jtp;
 	private Document doc;
 	/**
@@ -324,7 +329,7 @@ public int getCurrentCourse()
         confirmButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		String diverID="";
-        		
+        		String diverName = "";
         		Pattern pattern = Pattern.compile("\\((.*?)\\)");
         		Matcher matcher = pattern.matcher(diversCombo.getSelectedItem().toString());
         		
@@ -348,10 +353,31 @@ public int getCurrentCourse()
         				succeed = courseController.registerNewCourse(currentCourse, diverID);
         			else
         				errorMessage("הלקוח כבר רשום לקורס זה", "שגיאה בהרשמה לקורס");
-        			if(!succeed)
+        			
+        			if(succeed)
+        			{
+        				
+        				Pattern pattern2 = Pattern.compile("\\((.*?)\\)");
+        				if(diversCombo.getSelectedItem().toString() != null)
+        				{
+        					Matcher matcher2 = pattern2.matcher(diversCombo.getSelectedItem().toString());
+        					String employeeID="";
+        					if (matcher2.find())
+        					{
+        						diverID = matcher2.group(1);
+        						diverName = diversCombo.getSelectedItem().toString().replace("("+matcher2.group(1)+")","");
+        						
+        					}
+
+        					SendEmailTLS sm = new SendEmailTLS(diverController.getDiverByID(diverID).getEmail(), "ברכות על ההרשמה לקורס "+courseController.getCourseName(currentCourse), "היי "+diverName +"<br> תודה שנרשמת לקורס "+courseController.getCourseName(currentCourse)
+        					+" בתאריך " +courseController.getCourseStartDay(currentCourse)+"<br>"+"מצפים לראותך");
+        					message("ההרשמה התבצעה בהצלחה","ההרשמה התבצעה בהצלחה");
+        					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+        			}
+        				else
         				errorMessage("הקורס הנוכחי מלא", "בעיה בהרשמה ");
         				
-        		}
+        		}}
         		else
         		{
         			errorMessage("אנא בחר צוללן וקורס", "פרטים חסרים");
@@ -364,7 +390,7 @@ public int getCurrentCourse()
         frame.getContentPane().add(confirmButton, "cell 11 10,grow");
         
         
-        
+        diverController = new DiverController();
         courseController = new CoursesController();
         updateCoursesList(-1);
         table_loaded = true;

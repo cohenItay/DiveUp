@@ -54,4 +54,15 @@ public class CoursesController implements Controller {
 	}
 	
 
+	public String getCourseName(int courseID)
+	{
+		courseSqlQueries dbConnection = new courseSqlQueries();
+		return dbConnection.getCourseName(courseID);
+	}
+	
+	public String getCourseStartDay(int courseID)
+	{
+		courseSqlQueries dbConnection = new courseSqlQueries();
+		return dbConnection.getCourseStartDay(courseID);
+	}
 }
