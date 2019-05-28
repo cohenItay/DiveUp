@@ -28,6 +28,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainScreen {
 
@@ -62,6 +64,11 @@ public class MainScreen {
 	 */
 	private void initialize() {
 		frmDiveup = new JFrame();
+		frmDiveup.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		frmDiveup.setTitle("DiveUp"); 
 		frmDiveup.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		

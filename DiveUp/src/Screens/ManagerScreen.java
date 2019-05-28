@@ -29,6 +29,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ManagerScreen {
 
@@ -62,6 +64,7 @@ public class ManagerScreen {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+
 		frame.setTitle("DiveUp"); 
 		Image image;
 		try {
@@ -75,7 +78,7 @@ public class ManagerScreen {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[20%][34%][20%][20%][20%][20%]", "["+UIConstants.width/100+"px:n][]["+UIConstants.width/30+"px]["+UIConstants.width/100+"px:n]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]["+UIConstants.width/30+"px]["+UIConstants.width/38+"px:n]"));
-		
+		frame.setResizable(false);
 		JLabel titleLabel = new JLabel("DiveUp - \u05E2\u05DE\u05D5\u05D3 \u05DE\u05E0\u05D4\u05DC");
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 65));
 		titleLabel.setForeground(UIConstants.SELECTED_BTN);
@@ -115,6 +118,11 @@ public class ManagerScreen {
 		frame.getContentPane().add(coursesButton, "cell 2 6,grow");
 		
 		DButton employeesButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05E7\u05D5\u05E8\u05E1\u05D9\u05DD",DButton.Mode.PRIMARY);
+		employeesButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EmployeesScreen es = new EmployeesScreen();
+			}
+		});
 		employeesButton.setFont(new Font("Dialog", Font.BOLD, 40));
 		employeesButton.setText("\u05E0\u05D9\u05D4\u05D5\u05DC \u05E2\u05D5\u05D1\u05D3\u05D9\u05DD");
 		frame.getContentPane().add(employeesButton, "cell 2 8,grow");
@@ -128,7 +136,7 @@ public class ManagerScreen {
 		reportsButton.setFont(new Font("Dialog", Font.BOLD, 40));
 		reportsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			ReportsScreen rs = new ReportsScreen();
+				
 			}
 		});
 		
@@ -144,7 +152,7 @@ public class ManagerScreen {
 		});
 		
 		frame.setVisible(true);
-		frame.setResizable(true);
+		frame.setBounds(50, 50, UIConstants.width-100, UIConstants.height-100);
 	}
 
 

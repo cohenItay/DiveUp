@@ -245,8 +245,8 @@ public class EmployeesScreen {
 					if (matcher.find())
 					{
 						employeeID = matcher.group(1);
-						System.out.println(employeeID);
 					}
+				
 					currentEmployeeInstance = employeesController.getEmployeeByID(employeeID);
 					EmployeeEditScreen ce = new EmployeeEditScreen(currentEmployeeInstance);
 				}
@@ -337,9 +337,9 @@ public class EmployeesScreen {
 								}
 							
 							String mailToSend = employeesController.getEmployeeByID(employeeID).getEmail();
-							
+							System.out.println(mailToSend);
 							SendEmailTLS se = new SendEmailTLS(mailToSend, "הודעה מהנהלת DiveUp", textToSend.getText());
-//							dialog.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+							dialog.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 						}
 					});
 				}

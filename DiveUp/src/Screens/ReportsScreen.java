@@ -160,6 +160,7 @@ public class ReportsScreen {
 			}
 		});
 		r = new Reporter();
+		frame.setBounds(50, 50, UIConstants.width-100, UIConstants.height-100);
 		frame.setVisible(true);
 		
 	}

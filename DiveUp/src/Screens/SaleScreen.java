@@ -377,7 +377,7 @@ public class SaleScreen {
 				else
 				{
 					sController.addSale(customerID,items ,dateFormat.format(date), Double.valueOf(sumTextField.getText()));
-				errorMessage("הקניה בוצעה בהצלחה","הודעה");
+				message("הקניה בוצעה בהצלחה","הודעה");
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 				}
 			}
