@@ -60,5 +60,44 @@ public class employeeSqlQueries {
 		}
 	return res;
 	}
+	
+	
+	
+	public Employee getEmployeeByID(String id)
+	{
+	
+		Statement stmt;
+		Employee e=null;
+		try {
+			/* getting all information from Employee table */
+			stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from Employee where employeeID ="+id);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			/* creating Item object for each item in the db table */
+			if (rs.next()) {
+				e=new Employee(rs.getString("seniority"),rs.getDouble("salary"));
+				e.setId(id);
+				e.setFirstName(rs.getString("firstName"));
+				e.setLastName(rs.getString("lastName"));
+				e.setEmail(rs.getString("email"));
+				e.setPhone(rs.getString("phone"));
+				
+			}
+		} catch (SQLException er) {
+			// TODO Auto-generated catch block
+			String err = er.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				er.printStackTrace();
+			}
+		
+		}
+	return e;
+	}
 
 }

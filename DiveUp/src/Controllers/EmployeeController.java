@@ -4,6 +4,7 @@ import java.util.List;
 
 import Classes.Diver;
 import Classes.Employee;
+import Models.diverSqlQueries;
 import Models.employeeSqlQueries;
 import Models.itemSqlQueries;
 
@@ -20,5 +21,13 @@ private employeeSqlQueries dbConnection;//instance to run item queries
 	public List<Employee> getEmployees(){
 		employeeSqlQueries  dbConnection = new employeeSqlQueries();//connection to the DB
 		return dbConnection.getEmployees();//Getting divers list from the DB
+	}
+	
+	
+	public Employee getEmployeeByID(String id)
+	{
+		employeeSqlQueries  dbConnection = new employeeSqlQueries();//connection to the DB
+		return dbConnection.getEmployeeByID(id);//Getting divers list from the DB
+
 	}
 }
