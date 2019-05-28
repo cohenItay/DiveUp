@@ -244,7 +244,8 @@ public class EmployeesScreen {
 					String employeeID="";
 					if (matcher.find())
 					{
-						employeeID = currentEmployee.replace("("+matcher.group(1)+")","");
+						employeeID = matcher.group(1);
+						System.out.println(employeeID);
 					}
 					currentEmployeeInstance = employeesController.getEmployeeByID(employeeID);
 					EmployeeEditScreen ce = new EmployeeEditScreen(currentEmployeeInstance);
@@ -289,45 +290,63 @@ public class EmployeesScreen {
 		messageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
-				
-				JPanel pan=new JPanel();
-				pan.setBorder(new EmptyBorder(2, 2, 2, 2));
-			    pan.setLayout(new BorderLayout(0, 0));
-				pan.setSize(UIConstants.miniScreenWidth/3, UIConstants.miniScreenHeight/3);
-				JTextArea textToSend = new JTextArea();
-				textToSend.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-				pan.add(textToSend);
-				JScrollPane scrollPane = new JScrollPane(textToSend, 
-		                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
-		                   JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-				textToSend.setRows(30);
-				textToSend.setColumns(50);
-				
-		        pan.add(scrollPane, BorderLayout.CENTER);
-		        DButton sendButton = new DButton("שלח", DButton.Mode.PRIMARY);
-				pan.add(sendButton,BorderLayout.SOUTH);
-				
-				JDialog dialog = new JDialog();
-				dialog.setBounds(UIConstants.miniScreenx/2+UIConstants.width/4, UIConstants.miniScreeny/2+UIConstants.height/4, UIConstants.miniScreenWidth/2,UIConstants.miniScreenHeight/2);
-				dialog.add(pan);
-				dialog.setTitle("שליחת מייל");
-				Image image;
-				try {
-					image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
-					dialog.setIconImage(image);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				dialog.setVisible(true);
-				dialog.requestFocusInWindow();
-				textToSend.requestFocusInWindow();
-				sendButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						SendEmailTLS se = new SendEmailTLS("maorlolz1@gmail.com", "הודעה מהנהלת DiveUp", textToSend.getText());
-//						dialog.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+				if(currentEmployee != null && !currentEmployee.equals(""))
+				{
+					JPanel pan=new JPanel();
+					pan.setBorder(new EmptyBorder(2, 2, 2, 2));
+				    pan.setLayout(new BorderLayout(0, 0));
+					pan.setSize(UIConstants.miniScreenWidth/3, UIConstants.miniScreenHeight/3);
+					JTextArea textToSend = new JTextArea();
+					textToSend.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+					pan.add(textToSend);
+					JScrollPane scrollPane = new JScrollPane(textToSend, 
+			                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+			                   JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+					textToSend.setRows(30);
+					textToSend.setColumns(50);
+					
+			        pan.add(scrollPane, BorderLayout.CENTER);
+			        DButton sendButton = new DButton("שלח", DButton.Mode.PRIMARY);
+					pan.add(sendButton,BorderLayout.SOUTH);
+					
+					JDialog dialog = new JDialog();
+					dialog.setBounds(UIConstants.miniScreenx/2+UIConstants.width/4, UIConstants.miniScreeny/2+UIConstants.height/4, UIConstants.miniScreenWidth/2,UIConstants.miniScreenHeight/2);
+					dialog.add(pan);
+					dialog.setTitle("שליחת מייל");
+					Image image;
+					try {
+						image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
+						dialog.setIconImage(image);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				});
+					dialog.setVisible(true);
+					dialog.requestFocusInWindow();
+					textToSend.requestFocusInWindow();
+					sendButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							
+							String employeeID="";
+							Pattern pattern = Pattern.compile("\\((.*?)\\)");
+							
+								Matcher matcher = pattern.matcher(currentEmployee);
+								if (matcher.find())
+								{
+									employeeID = matcher.group(1);
+								}
+							
+							String mailToSend = employeesController.getEmployeeByID(employeeID).getEmail();
+							
+							SendEmailTLS se = new SendEmailTLS(mailToSend, "הודעה מהנהלת DiveUp", textToSend.getText());
+//							dialog.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+						}
+					});
+				}
+				else
+				{
+					errorMessage("נא לבחור עובד", "לא נבחר עובד");
+				}
 				
 	
 				
