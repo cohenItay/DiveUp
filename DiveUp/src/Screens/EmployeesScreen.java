@@ -1,14 +1,18 @@
 package Screens;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,11 +22,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.text.BadLocationException;
@@ -37,6 +46,8 @@ import Classes.Diver;
 import Classes.Employee;
 
 import Controllers.EmployeeController;
+import Controllers.Reporter;
+import Models.SendEmailTLS;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DTable;
@@ -51,7 +62,7 @@ public class EmployeesScreen {
 	private List<Employee> employeesList;
 	private DTable tableDesign;
 	public boolean isFocused = true;
-	public String currentEmployee;
+	public String currentEmployee="";
 	private EmployeeController employeesController;
 	private Employee currentEmployeeInstance;
 	private DTextPane jtp;
@@ -81,7 +92,7 @@ public class EmployeesScreen {
 	
 	
 	/*This Function will query the database to get all e,ployees information and update in the table view*/
-	public void updateEmployeesTable() {
+	public void updateEmployeesTable(int row) {
 		model.setRowCount(0);//Clearing the table data
 		employeesList = employeesController.getEmployees();//Getting divers list from the DB
 		for(int i=0;i<employeesList.size();i++)//For every employee add its information to the table
@@ -90,6 +101,8 @@ public class EmployeesScreen {
 				employeesList.get(i).getEmail(),
 				employeesList.get(i).getSeniority(),employeesList.get(i).getLastName(),employeesList.get(i).getFirstName(),employeesList.get(i).getId()});
 		}
+		if(currentEmployee!="")
+			employeesTable.setRowSelectionInterval(row, row);
 	}
 	
 	
@@ -176,8 +189,8 @@ public class EmployeesScreen {
 		        int row = employeesTable.rowAtPoint(evt.getPoint());
 		        int col = employeesTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
-		        	currentEmployee = "("+(String)model.getValueAt(row, 1)+")"+(String)model.getValueAt(row, 0);
-		            updateEmployeesTable();
+		        	currentEmployee = "("+(String)model.getValueAt(row, 6)+")"+(String)model.getValueAt(row, 5);
+		            updateEmployeesTable(row);
 		           
 		            
 		        }
@@ -257,31 +270,72 @@ public class EmployeesScreen {
 		});
 		frame.getContentPane().add(addEmployeeButton, "cell 4 4,grow");
 		
-		DButton salesButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);
-		salesButton.setText("מכירות");
-		salesButton.addMouseListener(new MouseAdapter() {
+		DButton messageButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);
+		messageButton.setText("שליחת מייל");
+		messageButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			salesButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
+			messageButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				salesButton.setBackground(UIConstants.SELECTED_BTN);
+				messageButton.setBackground(UIConstants.SELECTED_BTN);
 			}
 		});
 
 		
-		salesButton.addActionListener(new ActionListener() {
+		messageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CourseRegistrationScreen register = new CourseRegistrationScreen(getCurrentEmployeeID());
-
+			
+				
+				JPanel pan=new JPanel();
+				pan.setBorder(new EmptyBorder(2, 2, 2, 2));
+			    pan.setLayout(new BorderLayout(0, 0));
+				pan.setSize(UIConstants.miniScreenWidth/3, UIConstants.miniScreenHeight/3);
+				JTextArea textToSend = new JTextArea();
+				textToSend.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+				pan.add(textToSend);
+				JScrollPane scrollPane = new JScrollPane(textToSend, 
+		                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+		                   JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				textToSend.setRows(30);
+				textToSend.setColumns(50);
+				
+		        pan.add(scrollPane, BorderLayout.CENTER);
+		        DButton sendButton = new DButton("שלח", DButton.Mode.PRIMARY);
+				pan.add(sendButton,BorderLayout.SOUTH);
+				
+				JDialog dialog = new JDialog();
+				dialog.setSize(UIConstants.miniScreenWidth/2, UIConstants.miniScreenHeight/2);
+				dialog.add(pan);
+				dialog.setTitle("שליחת מייל");
+				Image image;
+				try {
+					image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
+					dialog.setIconImage(image);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				dialog.setVisible(true);
+				dialog.requestFocusInWindow();
+				textToSend.requestFocusInWindow();
+				sendButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						SendEmailTLS se = new SendEmailTLS("maorlolz1@gmail.com", "הודעה מהנהלת DiveUp", textToSend.getText());
+//						dialog.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+					}
+				});
+				
+	
+				
 			}
 		});
 		
 	
-		frame.getContentPane().add(salesButton, "cell 3 4,grow");
+		frame.getContentPane().add(messageButton, "cell 3 4,grow");
 		
 		
 		
@@ -301,7 +355,7 @@ public class EmployeesScreen {
 		});
 		
 		employeesController = new EmployeeController();
-		updateEmployeesTable();
+		updateEmployeesTable(-1);
 		frame.setVisible(true);
 		
 	}
