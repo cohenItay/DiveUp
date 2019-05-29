@@ -9,7 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -74,7 +76,8 @@ public class CoursesScreen {
 	    DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	    for(int i=0;i<courses.size();i++)
 	    {
-	    		model.addRow(new Object[] {outputFormatter.format(courses.get(i).getEndDay()),outputFormatter.format(courses.get(i).getStartDay()),
+	    		    		
+	        model.addRow(new Object[] {outputFormatter.format(courses.get(i).getEndDay()),outputFormatter.format(courses.get(i).getStartDay()),
 	    				courses.get(i).getPrice(),courses.get(i).getMaxDivers(),courses.get(i).getCurrentAmount(),courses.get(i).getInstructor(),courses.get(i).getDesc(),
 	    				courses.get(i).getName(),courses.get(i).getId()
 	    		});
@@ -122,7 +125,7 @@ public class CoursesScreen {
 		        int row = coursesTable.rowAtPoint(evt.getPoint());
 		        int col = coursesTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
-		        	currentCourse = (Integer)model.getValueAt(row, 0);
+		        	currentCourse = (Integer)model.getValueAt(row, 8);
 		            updateCoursesList(row);
 		            
 		        }

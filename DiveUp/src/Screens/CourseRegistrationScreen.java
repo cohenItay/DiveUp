@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -106,14 +107,20 @@ public void updateCoursesList(int row)
 	dbConnection2 = new courseSqlQueries();
     List<Course> courses = dbConnection2.getCourses();
     DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
+    Date d = new Date();
     for(int i=0;i<courses.size();i++)
     {
+    	long diff = d.getTime() - courses.get(i).getStartDay().getTime();
+        long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    	if(true)
+    	{
+
     	if(courses.get(i).getStartDay().compareTo(startDatePicker.getDate()) >=0  && courses.get(i).getEndDay().compareTo(endDatePicker.getDate())<= 0 && courses.get(i).getCurrentAmount() < courses.get(i).getMaxDivers())
     		model.addRow(new Object[] {courses.get(i).getId(), courses.get(i).getDesc(),
     				courses.get(i).getName(),courses.get(i).getInstructor(),
     				courses.get(i).getCurrentAmount(),courses.get(i).getMaxDivers(),courses.get(i).getPrice(),
     				outputFormatter.format(courses.get(i).getStartDay()),outputFormatter.format(courses.get(i).getEndDay())});
-    		
+    	}
     }
     if(row != -1)
     	coursesTable.setRowSelectionInterval(row, row);
@@ -242,19 +249,38 @@ public int getCurrentCourse()
 			}
 		});
 		
+	
 		
 		startDatePicker.setDate(Calendar.getInstance().getTime());
 		startDatePicker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
         datePanel.add(startDatePicker);
         
+        
+        
+    	Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE, 1);
         endDatePicker = new JXDatePicker();
+        endDatePicker.getEditor().addPropertyChangeListener(new PropertyChangeListener() {
+        	public void propertyChange(PropertyChangeEvent evt) {
+        	if(table_loaded)
+        	{
+        		long diff = endDatePicker.getDate().getTime() - startDatePicker.getDate().getTime();
+                long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        		if(days < 0)
+        		{
+        			errorMessage("תאריך התחלה וסיום לא תקינים", "בחירה שגויה");
+        		}
+        	}
+        	}
+        });
         endDatePicker.getEditor().setFont(new Font("Tahoma", Font.PLAIN, 24));
         endDatePicker.getEditor().setHorizontalAlignment(SwingConstants.RIGHT);
         endDatePicker.getEditor().setHorizontalAlignment(SwingConstants.RIGHT);
 		endDatePicker.getEditor().setBackground(Color.WHITE);
 		endDatePicker.getEditor().setForeground(UIConstants.BORDER_DARK);
 		endDatePicker.getEditor().setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        endDatePicker.setDate(Calendar.getInstance().getTime());
+        endDatePicker.setDate(c.getTime());
 		endDatePicker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
         endDatePanel.add(endDatePicker);
         
