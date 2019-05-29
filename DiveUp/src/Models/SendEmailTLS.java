@@ -71,7 +71,7 @@ public class SendEmailTLS implements Runnable{
             multipart.addBodyPart(messageBodyPart);
 
             messageBodyPart = new MimeBodyPart();
-            DataSource fds = new FileDataSource("C:\\Users\\H357229\\git\\DiveUp\\DiveUp\\src\\images\\snorkel.PNG");
+            DataSource fds = new FileDataSource(System.getProperty("user.dir")+"\\src\\images\\snorkel.PNG");
 
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID", "<image>");

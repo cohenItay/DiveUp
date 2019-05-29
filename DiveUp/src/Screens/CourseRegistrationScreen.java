@@ -352,7 +352,11 @@ public int getCurrentCourse()
         			if(!isRegistered)
         				succeed = courseController.registerNewCourse(currentCourse, diverID);
         			else
+        			{
         				errorMessage("הלקוח כבר רשום לקורס זה", "שגיאה בהרשמה לקורס");
+        				succeed = false;
+        			}
+        				
         			
         			if(succeed)
         			{
