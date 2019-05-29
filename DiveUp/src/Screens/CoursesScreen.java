@@ -49,8 +49,8 @@ public class CoursesScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-//					CoursesScreen window = new CoursesScreen();
-//					window.frame.setVisible(true);
+					CoursesScreen window = new CoursesScreen();
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -74,10 +74,10 @@ public class CoursesScreen {
 	    DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	    for(int i=0;i<courses.size();i++)
 	    {
-	    		model.addRow(new Object[] {courses.get(i).getId(), courses.get(i).getDesc(),
-	    				courses.get(i).getName(),courses.get(i).getInstructor(),
-	    				courses.get(i).getCurrentAmount(),courses.get(i).getMaxDivers(),courses.get(i).getPrice(),
-	    				outputFormatter.format(courses.get(i).getStartDay()),outputFormatter.format(courses.get(i).getEndDay())});
+	    		model.addRow(new Object[] {outputFormatter.format(courses.get(i).getEndDay()),outputFormatter.format(courses.get(i).getStartDay()),
+	    				courses.get(i).getPrice(),courses.get(i).getMaxDivers(),courses.get(i).getCurrentAmount(),courses.get(i).getInstructor(),courses.get(i).getDesc(),
+	    				courses.get(i).getName(),courses.get(i).getId()
+	    		});
 	    		
 	    }
 	    coursesTable.setRowSelectionInterval(row, row);
@@ -94,12 +94,13 @@ public class CoursesScreen {
 	 */
 	private void initialize() {
 		frame = new JFrame(); 
+		frame.setTitle("מסך קורסים");
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270,grow][106.00,grow][270,grow][260,grow][250,grow]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270px:n][50px:n][270,grow][260,grow][250,grow]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
-		String[] colHeadings = {"ID","Name","Desc","Instructor","Amount","Max Amount","Price","Start Date","End Date"};
+		String[] colHeadings = {"תאריך סיום","תאריך התחלה","מחיר","כמות מקסימלית","כמות נוכחית","מדריך","תיאור","שם","מזהה"};
 		int numRows = 0 ;
 		model = new DefaultTableModel(numRows, colHeadings.length)
 				{
@@ -144,7 +145,7 @@ public class CoursesScreen {
 			}
 		});
 		
-		frame.getContentPane().add(updateDiverButton, "cell 2 1,alignx right");
+		frame.getContentPane().add(updateDiverButton, "cell 2 1,alignx right,growy");
 		
 		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
 		addDiverButton.setText("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E7\u05D5\u05E8\u05E1");
@@ -153,7 +154,7 @@ public class CoursesScreen {
 				
 			}
 		});
-		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing");
+		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing,growy");
 		
 		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);	
 		courseRegisterButton.addActionListener(new ActionListener() {
@@ -163,7 +164,7 @@ public class CoursesScreen {
 		});
 		
 	
-		frame.getContentPane().add(courseRegisterButton, "cell 3 1,alignx right");
+		frame.getContentPane().add(courseRegisterButton, "cell 3 1,alignx right,growy");
 		frame.setVisible(true);
 		courseController = new CoursesController();
 		updateCoursesList(currentCourse);

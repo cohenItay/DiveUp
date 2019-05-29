@@ -136,7 +136,7 @@ public class ManagerScreen {
 		reportsButton.setFont(new Font("Dialog", Font.BOLD, 40));
 		reportsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				ReportsScreen r = new ReportsScreen();
 			}
 		});
 		

@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import org.apache.poi.ss.usermodel.DataFormat;
+
 import Models.SendEmailTLS;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
@@ -36,6 +38,7 @@ public class MainScreen {
 	private JFrame frmDiveup;
 	private JLabel clockLabel;
 	private SendEmailTLS se;
+	private JLabel titleLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -97,7 +100,21 @@ public class MainScreen {
 		    public void run() {
 		    	Date d = new Date();
 		    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy (HH:mm:ss)");
+		    	DateFormat hoursFormat = new SimpleDateFormat("HH");
 		    	clockLabel.setText(dateFormat.format(d));
+		    	if(Integer.valueOf(hoursFormat.format(d)) >=0 && Integer.valueOf(hoursFormat.format(d))<=12)
+		    	{
+		    		titleLabel.setText("DiveUp - בוקר טוב");
+		    	}
+		    	else if(Integer.valueOf(hoursFormat.format(d)) >=13 && Integer.valueOf(hoursFormat.format(d))<=16)
+		    	{
+		    		titleLabel.setText("DiveUp - צהריים טובים");
+		    	}
+		    	else
+		    	{
+		    		titleLabel.setText("DiveUp - ערב טוב");
+		    	}
+		    		
 		    }
 		};
 
@@ -106,7 +123,7 @@ public class MainScreen {
 		
 		
 		
-		JLabel titleLabel = new JLabel("DiveUp - \u05E2\u05DE\u05D5\u05D3 \u05E8\u05D0\u05E9\u05D9");
+		titleLabel = new JLabel("DiveUp - \u05E2\u05DE\u05D5\u05D3 \u05E8\u05D0\u05E9\u05D9");
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 60));
 		titleLabel.setForeground(UIConstants.SELECTED_BTN);
 		frmDiveup.getContentPane().add(titleLabel, "cell 3 0,alignx center");
