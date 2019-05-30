@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.text.ParseException;
 import java.util.List;
 
 import Classes.Course;
@@ -66,7 +67,7 @@ public class CoursesController implements Controller {
 		return dbConnection.getCourseStartDay(courseID);
 	}
 	
-	public Course getCourseByID(int id)
+	public Course getCourseByID(int id) throws ParseException
 	{
 		courseSqlQueries  dbConnection = new courseSqlQueries();//connection to the DB
 		return dbConnection.getCourseByID(id);//Getting divers list from the DB

@@ -237,18 +237,19 @@ import Classes.Diver;
 		
 
 
-		public Course getCourseByID(int id)
+		public Course getCourseByID(int id) throws ParseException
 		{
 		
 			Statement stmt;
 			Course c=null;
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 			try {
 				/* getting all information from Diver table */
 				stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("select * from Course where courseID ="+id);
+				ResultSet rs = stmt.executeQuery("select * from Course where courseID = "+id);
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int columnsNumber = rsmd.getColumnCount();
-				/* creating Item object for each item in the db table */
+				/* creating course object for each item in the db table */
 				if (rs.next()) {
 					c=new Course();
 					c.setId(id);
@@ -257,9 +258,10 @@ import Classes.Diver;
 					c.setCurrentAmount(rs.getInt("currentAmount"));
 					c.setMaxDivers(rs.getInt("maxDivers"));
 					c.setPrice(rs.getDouble("price"));
-					c.setStartDay(rs.getDate("startDate"));
-					c.setEndDay(rs.getDate("endDate"));
+					c.setStartDay(formatter.parse(rs.getString("startDate")));
+					c.setEndDay(formatter.parse(rs.getString("endDate")));
 					c.setDesc(rs.getString("desc"));
+					
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -274,8 +276,8 @@ import Classes.Diver;
 				}
 			
 			}
-		return c;
+			return c;
 		}
 		
-
+		
 }

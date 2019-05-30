@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -112,10 +113,10 @@ public void updateCoursesList(int row)
     {
     	long diff = d.getTime() - courses.get(i).getStartDay().getTime();
         long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-    	if(true)
+        
+    	if(days<=0)
     	{
-
-    	if(courses.get(i).getStartDay().compareTo(startDatePicker.getDate()) >=0  && courses.get(i).getEndDay().compareTo(endDatePicker.getDate())<= 0 && courses.get(i).getCurrentAmount() < courses.get(i).getMaxDivers())
+    	if(courses.get(i).getCurrentAmount() < courses.get(i).getMaxDivers())
     		model.addRow(new Object[] {courses.get(i).getId(), courses.get(i).getDesc(),
     				courses.get(i).getName(),courses.get(i).getInstructor(),
     				courses.get(i).getCurrentAmount(),courses.get(i).getMaxDivers(),courses.get(i).getPrice(),
@@ -128,7 +129,7 @@ public void updateCoursesList(int row)
 
 public long compareDates(Date d1, Date d2)
 {
-	long diff = endDatePicker.getDate().getTime() - startDatePicker.getDate().getTime();
+	long diff = d1.getTime() - d2.getTime();
     long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	return days;
 }
@@ -354,7 +355,6 @@ public int getCurrentCourse()
 		        	currentCourse = (Integer)model.getValueAt(row, 0);
 		            updateCoursesList(row);
 		            
-		            
 		        }
 		    }
 		    
@@ -391,7 +391,6 @@ public int getCurrentCourse()
         		String diverName = "";
         		Pattern pattern = Pattern.compile("\\((.*?)\\)");
         		Matcher matcher = pattern.matcher(diversCombo.getSelectedItem().toString());
-        		
         		if (matcher.find())
         		{
         		    diverID = matcher.group(1);
@@ -407,20 +406,23 @@ public int getCurrentCourse()
         				
         				if(clientCourses.get(i).getId() == currentCourse)
         					isRegistered = true;
-        				if(compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getStartDay()) >=0  && compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getEndDay())<=0)
-        				{
-        					isRegistered = true;
-        				}
-        				if(compareDates(courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getEndDay())<=0 && compareDates(courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getStartDay())>=0)
-        						{
-        							isRegistered= true;
-        						}
+        				
+        				try {
+							if(compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getStartDay())> 0 &&  compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getEndDay())< 0  || compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getEndDay())<0  && compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getStartDay())>0 )
+								isRegistered=true;
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
         			}
+        			
+  
+        			
         			if(!isRegistered)
         				succeed = courseController.registerNewCourse(currentCourse, diverID);
         			else
         			{
-        				errorMessage("הלקוח כבר רשום לקורס זה", "שגיאה בהרשמה לקורס");
+        				errorMessage("הלקוח כבר רשום לקורס בתאריך זה", "שגיאה בהרשמה לקורס");
         				succeed = false;
         			}
         				
@@ -444,11 +446,12 @@ public int getCurrentCourse()
         					+" בתאריך " +courseController.getCourseStartDay(currentCourse)+"<br>"+"מצפים לראותך");
         					message("ההרשמה התבצעה בהצלחה","ההרשמה התבצעה בהצלחה");
         					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
-        			}
+        				}
         				else
         				errorMessage("הקורס הנוכחי מלא", "בעיה בהרשמה ");
         				
-        		}}
+        			}
+        		}
         		else
         		{
         			errorMessage("אנא בחר צוללן וקורס", "פרטים חסרים");
