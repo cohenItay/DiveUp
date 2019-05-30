@@ -226,7 +226,7 @@ public int getCurrentCourse()
 			e.printStackTrace();
 		}
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[][60px:n][60px:n][60px:n][60px:n][60px:n][60px:n][80px:n][60px:n][60px:n][60px:n][200px:n]", "[][20px:n][174.00][fill][fill][14.00,grow][][][][15.00][40px:n][grow]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[][60px:n][60px:n][60px:n][60px:n][60px:n][60px:n][80px:n][60px:n][60px:n][60px:n][300px:n]", "[][20px:n][250.00][][][14.00][][][][15.00][40px:n][]"));
 		
 		JLabel titleLabel = new JLabel("הרשמה לקורס");
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 40));

@@ -24,7 +24,7 @@ public class diverSqlQueries{
 	
 	
 	//Add diver to DB
-	public void addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone,boolean insurance)
+	public String addDiver(Connection conn,String id, String firstName, String lastName, String licenseID, String email, String phone,boolean insurance)
 	{
 		String sql = "INSERT INTO Diver(id,firstName,lastName,licenseID,email,phone,insurance) VALUES(?,?,?,?,?,?,?)";//query string
 		 
@@ -43,21 +43,23 @@ public class diverSqlQueries{
 			    else
 			    	pstmt.setString(7, "NO");
 			    pstmt.executeUpdate();
-			     
+			   
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				String err = e.getMessage();
 				//If trying to add a diver with exist ID
 				if (err.contains("Abort due to constraint violation (UNIQUE constraint failed:"))
 				{
-					System.out.println("ID must be unique, Failed to add new diver");
+					return "DUP";
 				}
 				else
 				{
+					
 					e.printStackTrace();//printing error if happend
+					return "err";
 				}
 			} 
-	     
+	     return "OK";
 	}
 	
 	/* remove diver from DB */

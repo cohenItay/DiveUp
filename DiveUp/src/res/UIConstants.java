@@ -16,10 +16,10 @@ public interface UIConstants
 	int height = (int)screenSize.getHeight();
 	int width =  (int)screenSize.getWidth();
 	
-	int miniScreenWidth =width/2+250;
-	int miniScreenHeight = height/2+150;
-	int miniScreenx = width/5;
-	int miniScreeny = height /6;
+	int miniScreenWidth = width/2+400;
+	int miniScreenHeight =  height/2+250;
+	int miniScreenx = width/10;
+	int miniScreeny = height /20;
 	
 	int messageWidth = miniScreenWidth/2;
 	int messageHeight = miniScreenHeight/9;

@@ -279,10 +279,22 @@ public class DiverRegistrationScreen {
                 }
                 else {
     				
-    				dbConnection.addDiver(dbConnection.connection, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
+    				String status =dbConnection.addDiver(dbConnection.connection, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
     						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
-    				SendEmailTLS se = new SendEmailTLS(emailTextField.getText(), "ברוך הבא למועדון הצלילה DiveUp",firstNameTextField.getText()+"\n" +"תודה שהצטרפת למועדון הצלילה מספר אחת בארץ");
-    				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+    				if(status.equals("DUP"))
+    				{
+    					errorMessage("לקוח קיים במערכת", "הרשמה נכשלה");
+    				}
+    				else if(status.equals("err"))
+    				{
+    					errorMessage("שגיאה במהלך ההרשמה", "הרשמה נכשלה");
+    				}
+    				else
+    				{
+    					SendEmailTLS se = new SendEmailTLS(emailTextField.getText(), "ברוך הבא למועדון הצלילה DiveUp",firstNameTextField.getText()+"\n" +"תודה שהצטרפת למועדון הצלילה מספר אחת בארץ");
+        				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+        				
+    				}
     				
 
                 }

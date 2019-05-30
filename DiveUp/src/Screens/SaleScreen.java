@@ -181,13 +181,6 @@ public class SaleScreen {
 		frame = new JFrame();
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		/* set the size and the location of the frame */
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int width = (int)screenSize.getWidth();
-		int height = (int)screenSize.getHeight();
-		frame.setSize(width/2+350, height/2+350);
-		frame.setLocation(screenSize.width/2-frame.getSize().width/2-50, screenSize.height/2-frame.getSize().height/2-50);
-		
 		//Title and icon add
 		frame.setTitle("Sale screen");
 		Image image;
@@ -198,7 +191,7 @@ public class SaleScreen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		frame.getContentPane().setLayout(new MigLayout("", "[400][400][400,grow][400,right][::130px,right][::110]", "[136.00][::5px][5px:n][25.00][][17.00][5px:n][30px:n][10px:n][30px:n][80px:n][30px:n][10px:n][30px:n][31.00]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[400][400][400][400,right][30px:n][::70px]", "[150px:n][::5px][5px:n][25.00][][17.00][5px:n][30px:n][10px:n][30px:n][100px:n][30px:n][10px:n][30px:n][]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/* Creating the table model and the table for the divers information */
 		String[] colHeadings = { "ID", "Name", "Description", "Sale Price", "Loan Price", "Amount" };
@@ -232,6 +225,21 @@ public class SaleScreen {
 
 		JScrollPane scrollPane = new JScrollPane(itemsTable);// add scroll bar to the table
 		frame.getContentPane().add(scrollPane, "cell 0 0 6 2,growx");
+		
+				diverComboBox = new JComboBox();
+				diverComboBox.setToolTipText("אנא לחץ כדי להחליף לקוח");
+				diverComboBox.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+					diverComboBox.setEnabled(true);
+					}
+				});
+				diverComboBox.setEnabled(false);
+				diverComboBox.setFont(new Font("Arial", Font.BOLD, 18));
+				frame.getContentPane().add(diverComboBox, "cell 3 3 2 1,alignx right");
+				diverComboBox.setBackground(Color.white);
+				diverComboBox.setForeground(UIConstants.SELECTED_BTN);
+				((JLabel)diverComboBox.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
 
 		JLabel diverLabel = new JLabel("לקוח");
 		diverLabel.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -244,21 +252,6 @@ public class SaleScreen {
 		isLoaned.setBackground(Color.white);
 
 		frame.getContentPane().add(isLoaned, "cell 5 5,alignx right");
-
-		diverComboBox = new JComboBox();
-		diverComboBox.setToolTipText("אנא לחץ כדי להחליף לקוח");
-		diverComboBox.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-			diverComboBox.setEnabled(true);
-			}
-		});
-		diverComboBox.setEnabled(false);
-		diverComboBox.setFont(new Font("Arial", Font.BOLD, 18));
-		frame.getContentPane().add(diverComboBox, "cell 4 3");
-		diverComboBox.setBackground(Color.white);
-		diverComboBox.setForeground(UIConstants.SELECTED_BTN);
-		((JLabel)diverComboBox.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
 
 
 		JButton addToCartButton = new JButton(
@@ -301,7 +294,7 @@ public class SaleScreen {
 
 		amountComboBox = new JComboBox();
 		amountComboBox.setFont(new Font("Arial", Font.BOLD, 18));
-		frame.getContentPane().add(amountComboBox, "cell 4 7");
+		frame.getContentPane().add(amountComboBox, "cell 4 7,alignx right");
 		amountComboBox.addItem("0");
 		amountComboBox.setSelectedItem("0");
 		JLabel amountLabel = new JLabel("כמות");
