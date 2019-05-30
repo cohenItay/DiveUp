@@ -65,4 +65,12 @@ public class CoursesController implements Controller {
 		courseSqlQueries dbConnection = new courseSqlQueries();
 		return dbConnection.getCourseStartDay(courseID);
 	}
+	
+	public Course getCourseByID(int id)
+	{
+		courseSqlQueries  dbConnection = new courseSqlQueries();//connection to the DB
+		return dbConnection.getCourseByID(id);//Getting divers list from the DB
+
+	}
+
 }

@@ -125,7 +125,6 @@ public class DiverRegistrationScreen {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 30));
 		/* set the size and the location of the frame */
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.getContentPane().setBackground(Color.WHITE);
@@ -139,7 +138,6 @@ public class DiverRegistrationScreen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][][20%,fill][20%][20%,fill][20%:20%,fill][20px:n][][130px:n][80px][80px:n][100px:n]", "[][40px:n][::40px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][::35px][::20px][40px:n]"));
 		
 		
@@ -236,18 +234,6 @@ public class DiverRegistrationScreen {
 		insuranceLabel.setForeground(UIConstants.BORDER_DARK);
 		frame.getContentPane().add(insuranceLabel, "cell 7 15,alignx right");
 		DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
-		confirmButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			confirmButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				confirmButton.setBackground(UIConstants.SELECTED_BTN);
-			}
-		});
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				

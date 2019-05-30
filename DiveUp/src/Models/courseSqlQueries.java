@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Classes.Course;
+import Classes.Diver;
 
 
 	public class courseSqlQueries{
@@ -234,6 +235,47 @@ import Classes.Course;
 		return res;
 		}
 		
+
+
+		public Course getCourseByID(int id)
+		{
+		
+			Statement stmt;
+			Course c=null;
+			try {
+				/* getting all information from Diver table */
+				stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery("select * from Course where courseID ="+id);
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				/* creating Item object for each item in the db table */
+				if (rs.next()) {
+					c=new Course();
+					c.setId(id);
+					c.setType(rs.getString("typeID"));
+					c.setInstructor(rs.getString("employeeID"));
+					c.setCurrentAmount(rs.getInt("currentAmount"));
+					c.setMaxDivers(rs.getInt("maxDivers"));
+					c.setPrice(rs.getDouble("price"));
+					c.setStartDay(rs.getDate("startDate"));
+					c.setEndDay(rs.getDate("endDate"));
+					c.setDesc(rs.getString("desc"));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				String err = e.getMessage();
+				if (err.contains("query does not return ResultSet"))
+				{
+					;//Query completed, didn't have to return value
+				}
+				else
+				{
+					e.printStackTrace();
+				}
+			
+			}
+		return c;
+		}
 		
 
 }

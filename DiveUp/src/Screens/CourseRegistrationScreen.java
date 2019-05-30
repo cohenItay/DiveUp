@@ -126,6 +126,12 @@ public void updateCoursesList(int row)
     	coursesTable.setRowSelectionInterval(row, row);
 }
 
+public long compareDates(Date d1, Date d2)
+{
+	long diff = endDatePicker.getDate().getTime() - startDatePicker.getDate().getTime();
+    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	return days;
+}
 public void updateDiversList()
 {
 	
@@ -235,6 +241,11 @@ public int getCurrentCourse()
         datePanel.setBackground(Color.WHITE);
         endDatePanel.setBackground(Color.WHITE);
 		
+        
+        
+        Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+        
 		/* adding fields to the form */
 		startDatePicker = new JXDatePicker();
 		startDatePicker.getEditor().setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -242,10 +253,28 @@ public int getCurrentCourse()
 		startDatePicker.getEditor().setBackground(Color.WHITE);
 		startDatePicker.getEditor().setForeground(UIConstants.BORDER_DARK);
 		startDatePicker.getEditor().setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		
 		startDatePicker.getEditor().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
-			if(table_loaded)
-				updateCoursesList(-1);
+				Date d = new Date();
+				long diff = startDatePicker.getDate().getTime() - d.getTime();
+                long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        		if(days < 0)
+        		{
+        			errorMessage("תאריך התחלה לא תקין", "בחירה שגויה");
+        			c.setTime(new Date());
+        			startDatePicker.setDate(c.getTime());
+        			c.add(Calendar.DATE, 1);
+        			endDatePicker.setDate(c.getTime());
+        			c.add(Calendar.DATE, -1);
+        		}
+        		else
+        		{
+        			if(table_loaded)
+    					updateCoursesList(-1);
+    				
+        		}
+				
 			}
 		});
 		
@@ -257,8 +286,6 @@ public int getCurrentCourse()
         
         
         
-    	Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
 		c.add(Calendar.DATE, 1);
         endDatePicker = new JXDatePicker();
         endDatePicker.getEditor().addPropertyChangeListener(new PropertyChangeListener() {
@@ -270,6 +297,12 @@ public int getCurrentCourse()
         		if(days < 0)
         		{
         			errorMessage("תאריך התחלה וסיום לא תקינים", "בחירה שגויה");
+        			c.setTime(new Date());
+        			startDatePicker.setDate(c.getTime());
+        			c.add(Calendar.DATE, 1);
+        			endDatePicker.setDate(c.getTime());
+        			c.add(Calendar.DATE, -1);
+        			
         		}
         	}
         	}
@@ -374,6 +407,14 @@ public int getCurrentCourse()
         				
         				if(clientCourses.get(i).getId() == currentCourse)
         					isRegistered = true;
+        				if(compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getStartDay()) >=0  && compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getEndDay())<=0)
+        				{
+        					isRegistered = true;
+        				}
+        				if(compareDates(courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getEndDay())<=0 && compareDates(courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getStartDay())>=0)
+        						{
+        							isRegistered= true;
+        						}
         			}
         			if(!isRegistered)
         				succeed = courseController.registerNewCourse(currentCourse, diverID);
