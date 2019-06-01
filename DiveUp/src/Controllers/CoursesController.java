@@ -1,7 +1,12 @@
 package Controllers;
 
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import Classes.Course;
 import Classes.Diver;
@@ -73,5 +78,81 @@ public class CoursesController implements Controller {
 		return dbConnection.getCourseByID(id);//Getting divers list from the DB
 
 	}
+	
+	public List<String> getTypes()
+	{
+		courseSqlQueries dbConnection = new courseSqlQueries();
+		return dbConnection.getTypes();
+	}
+
+	public Map<Integer,String> checkCourseAdd(String type,String employee,String maxAmount,String price,Date startDate,Date endDate,String desc) {
+		
+		Map<Integer,String> violations=new HashMap<>();
+
+
+       
+        if(type==null || type.equals("")){
+            violations.put(type_empty,"type is empty");
+            
+        }
+       
+         
+
+        if(employee==null || employee.equals("")){
+            violations.put(firstName_empty,"First name is empty");
+        }
+        
+        
+        try {
+        	
+        
+        if(Integer.valueOf(maxAmount) <=0 || maxAmount.isEmpty()){
+            violations.put(max_amount_wrong,"Wrong maxamount");
+        }
+        }catch (Exception e) {
+			// TODO Auto-generated catch block
+        	violations.put(max_amount_wrong,"Wrong maxamount");
+		
+		}
+        
+            
+        try {
+        
+        	if(Integer.valueOf(price)<=0 || price.isEmpty()){
+                violations.put(price_wrong,"price is wrong");
+            }
+        }catch (Exception e) {
+			// TODO Auto-generated catch block
+        	violations.put(price_wrong,"Wrong price");
+		
+		}
+        
+        
+        
+        
+        long diff = endDate.getTime() - startDate.getTime();
+        long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        if(days < 0)
+		{
+			violations.put(invalid_dates, "Invalid dates");
+		}
+        
+        
+        // check if mail is valid
+        if(desc==null || desc.isEmpty()){
+            violations.put(desc_empty,"desc is empty");
+        }
+        
+            
+		return violations;
+	}
+	
+	public boolean addCourse(String type,String employee,String maxAmount,String price,Date startDate,Date endDate,String desc)
+	{
+		courseSqlQueries dbConnection = new courseSqlQueries();
+		dbConnection.addCourse(type,employee,maxAmount,price,startDate,endDate,desc);
+		return true;
+	}
+
 
 }

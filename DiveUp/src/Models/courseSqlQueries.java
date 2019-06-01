@@ -9,10 +9,14 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Classes.Course;
 import Classes.Diver;
+import Classes.Item;
 
 
 	public class courseSqlQueries{
@@ -279,5 +283,117 @@ import Classes.Diver;
 			return c;
 		}
 		
+
+		public List<String> getTypes()
+		{
+			
+				List<String> res = new ArrayList<>();//creating types list
+				Statement stmt;
+				try {
+					/* getting all information from courseType table */
+					stmt = connection.createStatement();
+					ResultSet rs = stmt.executeQuery("select  * from CourseType");
+					
+					ResultSetMetaData rsmd = rs.getMetaData();
+					int columnsNumber = rsmd.getColumnCount();
+					/* creating Item object for each item in the db table */
+					while (rs.next()) {
+						
+					    res.add(rs.getString("courseType"));//add item to the list
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					String err = e.getMessage();
+					if (err.contains("query does not return ResultSet"))
+					{
+						;//Query completed, didn't have to return value
+					}
+					else
+					{
+						e.printStackTrace();
+					}
+				
+				}
+			return res;
+			}
+			
 		
+		
+		public int getNewCourseID()
+		{
+			Statement stmt;
+			Course c=new Course();
+			try {
+				/* getting all information from items table */
+				stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM Course ORDER BY courseID  DESC LIMIT 1");
+				
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				
+				if (rs.next()) {
+					return rs.getInt("courseID")+1;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				String err = e.getMessage();
+				if (err.contains("query does not return ResultSet"))
+				{
+					;//Query completed, didn't have to return value
+				}
+				else
+				{
+					e.printStackTrace();
+				}
+			
+			}
+		return -1;
+
+		}
+		
+
+		
+		public boolean addCourse(String type,String employee,String maxAmount,String price,Date startDate,Date endDate,String desc)
+		{
+			String sql = "INSERT INTO Course(courseID,typeID,employeeID,currentAmount,maxDivers,price,startDate,endDate,desc) VALUES(?,?,?,?,?,?,?,?,?)";//query string
+			 
+	        PreparedStatement pstmt;
+	        //Insert the parameters to new DB record
+			try {
+				
+				pstmt = connection.prepareStatement(sql);
+				int id = getNewCourseID();
+				if(id == -1)
+				{
+					id = 1;
+				}
+				pstmt.setInt(1,id );
+				
+				Pattern pattern = Pattern.compile("\\((.*?)\\)");
+        		Matcher matcher = pattern.matcher(employee);
+        		if (matcher.find())
+        		{
+        		    employee = matcher.group(1);
+        		}
+        		
+			    pstmt.setString(2,type);
+			    pstmt.setString(3, employee);
+			    pstmt.setInt(4, 0);
+			    pstmt.setInt(5, Integer.valueOf(maxAmount));
+			    pstmt.setDouble(6, Double.valueOf(price));
+			    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			    pstmt.setString(7,formatter.format(startDate));
+			    pstmt.setString(8,formatter.format(endDate));
+			    pstmt.setString(9, desc);
+			    pstmt.executeUpdate();
+				
+			   
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+					e.printStackTrace();//printing error if happend
+					return false;
+				
+			} 
+	     return true;
+		}
 }

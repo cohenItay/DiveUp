@@ -21,5 +21,10 @@ public interface Controller
     int invalid_licenseID = 11;
     int invalid_email = 12;
     int invalid_phone = 13;
+    int type_empty = 14;
+    int max_amount_wrong = 15;
+    int price_wrong=16;
+    int invalid_dates = 17;
+    int desc_empty = 18;
     
 }

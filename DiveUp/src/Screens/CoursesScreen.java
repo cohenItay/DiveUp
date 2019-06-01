@@ -100,7 +100,7 @@ public class CoursesScreen {
 		frame.setTitle("מסך קורסים");
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill][400,grow,fill]", "[270px:n][50px:n][270,grow][260,grow][250,grow]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][300px:n,fill][300px:n,fill][300px:n,fill]", "[270px:n][30px:n][50px:n][][270,grow][260,grow][250,grow]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
 		String[] colHeadings = {"תאריך סיום","תאריך התחלה","מחיר","כמות מקסימלית","כמות נוכחית","מדריך","תיאור","שם","מזהה"};
@@ -148,7 +148,7 @@ public class CoursesScreen {
 			}
 		});
 		
-		frame.getContentPane().add(updateDiverButton, "cell 2 1,alignx right,growy");
+		frame.getContentPane().add(updateDiverButton, "cell 2 2,alignx right,growy");
 		
 		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
 		addDiverButton.setText("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E7\u05D5\u05E8\u05E1");
@@ -157,7 +157,7 @@ public class CoursesScreen {
 				
 			}
 		});
-		frame.getContentPane().add(addDiverButton, "cell 4 1,alignx trailing,growy");
+		frame.getContentPane().add(addDiverButton, "cell 4 2,alignx trailing,growy");
 		
 		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);	
 		courseRegisterButton.addActionListener(new ActionListener() {
@@ -167,7 +167,7 @@ public class CoursesScreen {
 		});
 		
 	
-		frame.getContentPane().add(courseRegisterButton, "cell 3 1,alignx right,growy");
+		frame.getContentPane().add(courseRegisterButton, "cell 3 2,alignx right,growy");
 		frame.setVisible(true);
 		courseController = new CoursesController();
 		updateCoursesList(currentCourse);
