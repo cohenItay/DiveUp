@@ -166,7 +166,7 @@ public class CoursesScreen {
 		addDiverButton.setText("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E7\u05D5\u05E8\u05E1");
 				addDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+			CourseAddScreen cadd=new CourseAddScreen();	
 			}
 		});
 		frame.getContentPane().add(addDiverButton, "cell 4 2,alignx trailing,growy");
