@@ -39,7 +39,7 @@ public class CoursesScreen {
 	private JScrollPane divesPane;
 	private List<Course> coursesList;
 	private DTable tableDesign;
-	public int currentCourse=0;
+	public int currentCourse=-1;
 	private courseSqlQueries dbConnection;
 	private CoursesController courseController;
 	private DivesController divesControler;
@@ -83,7 +83,8 @@ public class CoursesScreen {
 	    		});
 	    		
 	    }
-	    coursesTable.setRowSelectionInterval(row, row);
+	    if(row != -1)
+	    	coursesTable.setRowSelectionInterval(row, row);
 	}
 	/**
 	 * Create the application.

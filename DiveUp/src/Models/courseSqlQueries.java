@@ -350,6 +350,24 @@ import Classes.Item;
 		return -1;
 
 		}
+		public int getTypeID(String typeName)
+		{
+			Statement stmt;
+			try
+			{
+				stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * from CourseType where courseType ="+"\"" + typeName + "\"");
+				if(rs.next())
+				{
+					return rs.getInt("typeID");
+				}
+			}
+			catch(Exception e)
+			{
+			 e.printStackTrace();
+			}
+			return -1;
+		}
 		
 
 		
@@ -375,8 +393,8 @@ import Classes.Item;
         		{
         		    employee = matcher.group(1);
         		}
-        		
-			    pstmt.setString(2,type);
+        		int typeID = getTypeID(type);
+			    pstmt.setInt(2,typeID);
 			    pstmt.setString(3, employee);
 			    pstmt.setInt(4, 0);
 			    pstmt.setInt(5, Integer.valueOf(maxAmount));
