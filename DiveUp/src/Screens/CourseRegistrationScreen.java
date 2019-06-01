@@ -108,13 +108,11 @@ public void updateCoursesList(int row)
 	dbConnection2 = new courseSqlQueries();
     List<Course> courses = dbConnection2.getCourses();
     DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
-    Date d = new Date();
+
     for(int i=0;i<courses.size();i++)
     {
-    	long diff = d.getTime() - courses.get(i).getStartDay().getTime();
-        long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-        
-    	if(days<=0)
+    	
+    	if(compareDates(courses.get(i).getStartDay(), startDatePicker.getDate())>=0 && compareDates(courses.get(i).getStartDay(), endDatePicker.getDate())<=0  && compareDates(courses.get(i).getEndDay(), endDatePicker.getDate())<=0 && compareDates(courses.get(i).getEndDay(), startDatePicker.getDate())>=0)
     	{
     	if(courses.get(i).getCurrentAmount() < courses.get(i).getMaxDivers())
     		model.addRow(new Object[] {courses.get(i).getId(), courses.get(i).getDesc(),
@@ -268,6 +266,7 @@ public int getCurrentCourse()
         			c.add(Calendar.DATE, 1);
         			endDatePicker.setDate(c.getTime());
         			c.add(Calendar.DATE, -1);
+        			
         		}
         		else
         		{
@@ -303,8 +302,9 @@ public int getCurrentCourse()
         			c.add(Calendar.DATE, 1);
         			endDatePicker.setDate(c.getTime());
         			c.add(Calendar.DATE, -1);
-        			
+        		    
         		}
+        		updateCoursesList(-1);
         	}
         	}
         });
