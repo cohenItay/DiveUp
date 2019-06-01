@@ -1,6 +1,7 @@
 package Screens;
 
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -329,6 +330,8 @@ public class CourseAddScreen {
 		
 		descTextField = new DTextField(20);
 		descTextField.setHorizontalAlignment(SwingConstants.RIGHT);
+        
+
 		frame.getContentPane().add(descTextField, "cell 5 15,grow");
 		descTextField.setColumns(10);
 		descTextField.setToolTipText("תיאור הקורס");

@@ -1,6 +1,7 @@
 package res;
 
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
@@ -20,6 +21,7 @@ public class DTextField extends JTextField
         //setBorder(BorderFactory.createLineBorder(UIConstants.BORDER_DEFUALT));
         setCaretColor(UIConstants.TXT_BASE_DARK);
         setFont(new Font("Tahoma",Font.BOLD,24));
+        setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         DIM.width+=size;
 
         addFocusListener(new FocusListener()
