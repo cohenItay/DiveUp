@@ -154,7 +154,7 @@ public class CourseAddScreen {
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.getContentPane().setBackground(Color.WHITE);
 		//Title and icon add
-		frame.setTitle("הרשמת לקוח");
+		frame.setTitle("הוספת קורס");
 		Image image;
 		try {
 			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
