@@ -394,6 +394,7 @@ public int getCurrentCourse()
         		if (matcher.find())
         		{
         		    diverID = matcher.group(1);
+        		    diverName = diversCombo.getSelectedItem().toString().replace("("+matcher.group(1)+")","");
         		}
         		
         		if(diverController.getDiverByID(diverID).getInsurance().equals("YES"))
@@ -442,7 +443,7 @@ public int getCurrentCourse()
 		        		
 		        			else
 		        			{
-		        				
+		        				errorMessage("הקורס הנוכחי מלא", "בעיה בהרשמה");
 		        			
 		        			}
 		        		updateCoursesList(-1);
