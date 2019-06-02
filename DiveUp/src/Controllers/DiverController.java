@@ -171,4 +171,5 @@ public class DiverController implements Controller {
 		dbConnection.updateDiver(diverID, firstName, lastName, licenseID, email, phone, insurance);
 	}
 	
+	
 }

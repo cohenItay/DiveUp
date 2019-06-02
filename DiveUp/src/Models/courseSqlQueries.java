@@ -38,7 +38,7 @@ import Classes.Item;
 			try {
 				/* getting all information from courses table */
 				stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("select  * from Course,CourseType where Course.typeID = CourseType.typeID");
+				ResultSet rs = stmt.executeQuery("select  * from Course,CourseType where Course.typeID = CourseType.typeID ORDER BY startDate");
 				
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int columnsNumber = rsmd.getColumnCount();

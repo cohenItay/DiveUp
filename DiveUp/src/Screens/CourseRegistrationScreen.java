@@ -396,70 +396,68 @@ public int getCurrentCourse()
         		    diverID = matcher.group(1);
         		}
         		
-        		if(courseController.validateCourseRegistration(currentCourse, diverID))
+        		if(diverController.getDiverByID(diverID).getInsurance().equals("YES"))
         		{
-        			boolean isRegistered = false;
-        			boolean succeed=true;
-        			List<Course> clientCourses = courseController.getCoursesByID(diverID);
-        			for(int i =0;i<clientCourses.size();i++)
-        			{
-        				
-        				if(clientCourses.get(i).getId() == currentCourse)
-        					isRegistered = true;
-        				
-        				try {
-							if(compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getStartDay())> 0 &&  compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getEndDay())< 0  || compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getEndDay())<0  && compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getStartDay())>0 )
-								isRegistered=true;
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-        			}
-        			
-  
-        			
-        			if(!isRegistered)
-        				succeed = courseController.registerNewCourse(currentCourse, diverID);
-        			else
-        			{
-        				errorMessage("הלקוח כבר רשום לקורס בתאריך זה", "שגיאה בהרשמה לקורס");
-        				succeed = false;
-        			}
-        				
-        			
-        			if(succeed)
-        			{
-        				
-        				Pattern pattern2 = Pattern.compile("\\((.*?)\\)");
-        				if(diversCombo.getSelectedItem().toString() != null)
-        				{
-        					Matcher matcher2 = pattern2.matcher(diversCombo.getSelectedItem().toString());
-        					String employeeID="";
-        					if (matcher2.find())
-        					{
-        						diverID = matcher2.group(1);
-        						diverName = diversCombo.getSelectedItem().toString().replace("("+matcher2.group(1)+")","");
-        						
-        					}
-
-        					SendEmailTLS sm = new SendEmailTLS(diverController.getDiverByID(diverID).getEmail(), "ברכות על ההרשמה לקורס "+courseController.getCourseName(currentCourse), "היי "+diverName +"<br> תודה שנרשמת לקורס "+courseController.getCourseName(currentCourse)
-        					+" בתאריך " +courseController.getCourseStartDay(currentCourse)+"<br>"+"מצפים לראותך");
-        					message("ההרשמה התבצעה בהצלחה","ההרשמה התבצעה בהצלחה");
-        					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
-        				}
-        				else
-        				errorMessage("הקורס הנוכחי מלא", "בעיה בהרשמה ");
-        				
-        			}
+        		
+		        		if(courseController.validateCourseRegistration(currentCourse, diverID))
+		        		{
+		        				boolean isRegistered = false;
+		        				boolean succeed=true;
+		        				List<Course> clientCourses = courseController.getCoursesByID(diverID);
+		        				for(int i =0;i<clientCourses.size();i++)
+		        				{
+		        				
+		        					if(clientCourses.get(i).getId() == currentCourse)
+		        						isRegistered = true;
+		        				
+		        					try {
+		        						if(compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getStartDay())> 0 &&  compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getEndDay())< 0  || compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getEndDay())<0  && compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getStartDay())>0 )
+		        							isRegistered=true;
+		        					} catch (ParseException e) {
+		        						// TODO Auto-generated catch block
+		        						e.printStackTrace();
+								}
+		        			}
+		        			
+		        			
+		        			if(!isRegistered)
+		        				succeed = courseController.registerNewCourse(currentCourse, diverID);
+		        			else
+		        			{
+		        				errorMessage("הלקוח כבר רשום לקורס בתאריך זה", "שגיאה בהרשמה לקורס");
+		        				succeed = false;
+		        			}
+		        				
+		        			
+		        			
+		        			if(succeed)
+		        			{
+		
+		//        					SendEmailTLS sm = new SendEmailTLS(diverController.getDiverByID(diverID).getEmail(), "ברכות על ההרשמה לקורס "+courseController.getCourseName(currentCourse), "היי "+diverName +"<br> תודה שנרשמת לקורס "+courseController.getCourseName(currentCourse)
+		//        					+" בתאריך " +courseController.getCourseStartDay(currentCourse)+"<br>"+"מצפים לראותך");
+		        					message("ההרשמה התבצעה בהצלחה","ההרשמה התבצעה בהצלחה");
+		//        					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+		        			}
+		        			
+		        		
+		        			else
+		        			{
+		        				
+		        			
+		        			}
+		        		updateCoursesList(-1);
+		        		}
+		        		else
+		        		{
+		        			errorMessage("אנא בחר צוללן וקורס", "פרטים חסרים");
+		        		}
+		        	
         		}
         		else
         		{
-        			errorMessage("אנא בחר צוללן וקורס", "פרטים חסרים");
-        			
+        			errorMessage("לקוח לא מבוטח", "שגיאה בהרשמה");
         		}
-        		updateCoursesList(-1);
         	}
-        
         });
         frame.getContentPane().add(confirmButton, "cell 11 10,grow");
         
