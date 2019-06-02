@@ -266,7 +266,7 @@ public class EmployeesScreen {
 		
 		addEmployeeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DiverRegistrationScreen register = new DiverRegistrationScreen();
+				
 			}
 		});
 		frame.getContentPane().add(addEmployeeButton, "cell 4 4,grow");

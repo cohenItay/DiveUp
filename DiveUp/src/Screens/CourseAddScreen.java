@@ -50,6 +50,8 @@ import res.UIConstants;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CourseAddScreen {
 
@@ -329,6 +331,13 @@ public class CourseAddScreen {
 		frame.getContentPane().add(endLabel, "cell 7 13,alignx right");
 		
 		descTextField = new DTextField(20);
+		descTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			if(descTextField.getText().length()>=20)
+				e.consume();
+			}
+		});
 		descTextField.setHorizontalAlignment(SwingConstants.RIGHT);
         
 

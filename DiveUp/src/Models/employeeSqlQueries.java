@@ -71,7 +71,7 @@ public class employeeSqlQueries {
 		try {
 			/* getting all information from Employee table */
 			stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from Employee where employeeID ="+id);
+			ResultSet rs = stmt.executeQuery("select * from Employee where employeeID ="+"\"" + id + "\"");
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 			/* creating Item object for each item in the db table */

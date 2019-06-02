@@ -36,6 +36,7 @@ public class DTable extends JTable {
 		table.setGridColor(UIConstants.BAR_DARK);
 		table.setFillsViewportHeight(true);
 		table.setRowHeight(30);
+		
 		JTableHeader header = table.getTableHeader();
 	     header.setBackground(UIConstants.SELECTED_BTN);
 	     header.setForeground(Color.white);

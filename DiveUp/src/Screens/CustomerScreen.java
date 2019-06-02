@@ -1,6 +1,7 @@
 package Screens;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -18,8 +19,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
@@ -40,6 +43,7 @@ import Models.SendEmailTLS;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DTable;
+import res.DTextField;
 import res.DTextPane;
 import res.UIConstants;
 import javax.swing.JButton;
@@ -52,6 +56,12 @@ import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CustomerScreen {
 
@@ -72,6 +82,7 @@ public class CustomerScreen {
 	private Diver currentDiverInstance;
 	private DTextPane jtp;
 	private Document doc;
+	private JTextField filterTextField;
 	/**
 	 * Launch the application.
 	 */
@@ -87,9 +98,13 @@ public class CustomerScreen {
 		diversList = diversController.getDivers();//Getting divers list from the DB
 		for(int i=0;i<diversList.size();i++)//For every diver add its information to the table
 		{
-		model.addRow(new Object[] {diversList.get(i).getId(), diversList.get(i).getFirstName(),
-				diversList.get(i).getLastName(),diversList.get(i).getLicenseID(),
-				diversList.get(i).getEmail(),diversList.get(i).getPhone(),diversList.get(i).getInsurance()});
+			if(diversList.get(i).getId().contains(filterTextField.getText())   ||  diversList.get(i).getFirstName().contains(filterTextField.getText()) || diversList.get(i).getLastName().contains(filterTextField.getText()) 
+					|| diversList.get(i).getLicenseID().contains(filterTextField.getText()) || diversList.get(i).getEmail().contains(filterTextField.getText()) || diversList.get(i).getPhone().contains(filterTextField.getText()))
+			{
+					model.addRow(new Object[] {diversList.get(i).getId(), diversList.get(i).getFirstName(),
+							diversList.get(i).getLastName(),diversList.get(i).getLicenseID(),
+							diversList.get(i).getEmail(),diversList.get(i).getPhone(),diversList.get(i).getInsurance()});
+					}
 		}
 	}
 	
@@ -206,6 +221,7 @@ public class CustomerScreen {
 		model.setColumnIdentifiers(colHeadings);
 		diversTable = new JTable(model);
 		tableDesign= new DTable();
+		diversTable.setRowSorter(new TableRowSorter(model));
 		diversTable = tableDesign.designTable(diversTable,DTable.Mode.PRIMARY);
 
 		
@@ -393,8 +409,26 @@ public class CustomerScreen {
 		diversController = new DiverController();
 		divesControler = new DivesController();
 		coursesController = new CoursesController();
+		
+		filterTextField = new JTextField();
+		filterTextField.setFont(new Font("Tahoma", Font.BOLD, 16));
+		filterTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateDiversTable();
+				
+			}
+		});
+		
+		
+		
+		filterTextField.setHorizontalAlignment(SwingConstants.RIGHT);
+		frame.getContentPane().add(filterTextField, "cell 4 3,alignx right,growy");
+		filterTextField.setColumns(10);
+		filterTextField.setText("");
+		filterTextField.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		updateDiversTable();
 		frame.setVisible(true);
-		
+		filterTextField.requestFocusInWindow();
 	}
 }

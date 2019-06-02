@@ -20,7 +20,7 @@ public class DTextField extends JTextField
         setForeground(UIConstants.BTN_PRIMARY_FONT_DEFUALT);
         //setBorder(BorderFactory.createLineBorder(UIConstants.BORDER_DEFUALT));
         setCaretColor(UIConstants.TXT_BASE_DARK);
-        setFont(new Font("Tahoma",Font.BOLD,24));
+        setFont(new Font("Tahoma",Font.BOLD,20));
         setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         DIM.width+=size;
 
