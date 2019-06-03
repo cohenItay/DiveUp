@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -17,10 +18,16 @@ import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import Classes.Course;
 import Classes.Dive;
@@ -32,6 +39,7 @@ import Models.courseSqlQueries;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
 import res.DTable;
+import res.DTextPane;
 import res.UIConstants;
 
 public class CoursesScreen {
@@ -46,6 +54,8 @@ public class CoursesScreen {
 	private courseSqlQueries dbConnection;
 	private CoursesController courseController;
 	private DivesController divesControler;
+	private DTextPane jtp;
+	private Document doc;
 
 	/**
 	 * Launch the application.
@@ -64,7 +74,36 @@ public class CoursesScreen {
 	}
 
 	
-	
+	public void message(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+		
+	    doc = jtp.getStyledDocument();
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.INFORMATION_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
+	public void errorMessage(String infoMessage, String titleBar)
+    {
+		jtp = new DTextPane();
+	    doc = jtp.getDocument();
+	    SimpleAttributeSet right = new SimpleAttributeSet();
+	    StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+	    ((StyledDocument) doc).setParagraphAttributes(0, doc.getLength(), right, false);
+	    try {
+			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.ERROR_MESSAGE);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    }
 	
 	public int getCurrentcourseID()
 	{
@@ -89,6 +128,7 @@ public class CoursesScreen {
 	    if(row != -1)
 	    	coursesTable.setRowSelectionInterval(row, row);
 	}
+	
 	/**
 	 * Create the application.
 	 */
@@ -152,29 +192,41 @@ public class CoursesScreen {
 		frame.getContentPane().add(scrollPane, "cell 0 0 5 1,growx");//add scroll bar to the frame
 		
 		/*Create buttons for activities*/
-		DButton updateDiverButton = new DButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7",DButton.Mode.PRIMARY);
-		updateDiverButton.setText("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05E7\u05D5\u05E8\u05E1");
-		updateDiverButton.addActionListener(new ActionListener() {
+		DButton updateCourseButton = new DButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7",DButton.Mode.PRIMARY);
+		updateCourseButton.setText("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05E7\u05D5\u05E8\u05E1");
+		updateCourseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				if(currentCourse !=-1)
+				{
+					try {
+						CourseEditScreen ce = new CourseEditScreen(courseController.getCourseByID(currentCourse));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else
+				{
+					errorMessage("אנא בחר קורס", "שגיאה");
+				}
 			}
 		});
 		
-		frame.getContentPane().add(updateDiverButton, "cell 2 2,alignx right,growy");
+		frame.getContentPane().add(updateCourseButton, "cell 2 2,alignx right,growy");
 		
-		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
-		addDiverButton.setText("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E7\u05D5\u05E8\u05E1");
-				addDiverButton.addActionListener(new ActionListener() {
+		DButton addCourseButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
+		addCourseButton.setText("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E7\u05D5\u05E8\u05E1");
+				addCourseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			CourseAddScreen cadd=new CourseAddScreen();	
 			}
 		});
-		frame.getContentPane().add(addDiverButton, "cell 4 2,alignx trailing,growy");
+		frame.getContentPane().add(addCourseButton, "cell 4 2,alignx trailing,growy");
 		
 		DButton courseRegisterButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4 \u05DC\u05E7\u05D5\u05E8\u05E1",DButton.Mode.PRIMARY);	
 		courseRegisterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CourseRegistrationScreen courseRegistration = new CourseRegistrationScreen("");
+				CourseRegistrationScreen courseRegistration = new CourseRegistrationScreen(currentCourse);
 			}
 		});
 		

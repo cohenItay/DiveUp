@@ -10,7 +10,6 @@ public class Course extends Asset{
 	int currentAmount;
 	Date startDay;
 	Date endDay;
-	int id;
 	String type;
 	
 	public String getType() {

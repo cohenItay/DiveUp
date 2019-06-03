@@ -48,6 +48,7 @@ import Classes.Item;
 				while (rs.next()) {
 					c = new Course();
 					c.setID(rs.getInt("courseID"));
+					c.setType(rs.getString("courseType"));
 					c.setName(rs.getString("courseName"));
 					c.setInstructor(rs.getString("employeeID"));
 					c.setCurrentAmount(rs.getInt("currentAmount"));
@@ -250,14 +251,15 @@ import Classes.Item;
 			try {
 				/* getting all information from Diver table */
 				stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("select * from Course where courseID = "+id);
+				ResultSet rs = stmt.executeQuery("select * from Course,CourseType where Course.typeID = CourseType.typeID and courseID = "+id);
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int columnsNumber = rsmd.getColumnCount();
 				/* creating course object for each item in the db table */
 				if (rs.next()) {
 					c=new Course();
 					c.setId(id);
-					c.setType(rs.getString("typeID"));
+					c.setName(rs.getString("courseName"));
+					c.setType(rs.getString("courseType"));
 					c.setInstructor(rs.getString("employeeID"));
 					c.setCurrentAmount(rs.getInt("currentAmount"));
 					c.setMaxDivers(rs.getInt("maxDivers"));
@@ -414,5 +416,35 @@ import Classes.Item;
 				
 			} 
 	     return true;
+		}
+		
+		
+		
+		
+		public void updateCourse(int courseID,String courseName,int typeID,String employeeID,int maxDivers,Double price,Date startDate,Date endDate,String desc) {
+			String query = "update Course set courseName = ?, typeID = ?, employeeID = ? ,maxDivers = ?, price = ? , startDate = ? , endDate = ? , desc = ?  where courseID = ?";
+		    PreparedStatement preparedStmt;
+		    SimpleDateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				
+				
+				preparedStmt = connection.prepareStatement(query);
+			    preparedStmt.setString(1, courseName);
+			    preparedStmt.setInt(2, typeID);
+			    preparedStmt.setString(3, employeeID);
+			    preparedStmt.setInt(4, maxDivers);
+			    preparedStmt.setDouble(5, price);
+			    preparedStmt.setString(6, outputFormatter.format(startDate));
+			    preparedStmt.setString(7, outputFormatter.format(endDate));
+			    preparedStmt.setString(8, desc);
+			    preparedStmt.setInt(9, courseID);
+			    // execute the java preparedstatement
+			    preparedStmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 }

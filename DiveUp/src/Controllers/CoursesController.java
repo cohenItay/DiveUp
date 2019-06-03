@@ -60,6 +60,12 @@ public class CoursesController implements Controller {
 	}
 	
 
+	public int getTypeID(String typeName)
+	{
+		courseSqlQueries dbConnection = new courseSqlQueries();
+		return dbConnection.getTypeID(typeName);
+	}
+	
 	public String getCourseName(int courseID)
 	{
 		courseSqlQueries dbConnection = new courseSqlQueries();
@@ -124,7 +130,7 @@ public class CoursesController implements Controller {
             
         try {
         
-        	if(Integer.valueOf(price)<=0 || price.isEmpty()){
+        	if(Double.valueOf(price)<=0 || price.isEmpty()){
                 violations.put(price_wrong,"price is wrong");
             }
         }catch (Exception e) {
@@ -158,6 +164,13 @@ public class CoursesController implements Controller {
 		courseSqlQueries dbConnection = new courseSqlQueries();
 		dbConnection.addCourse(name,type,employee,maxAmount,price,startDate,endDate,desc);
 		return true;
+	}
+	
+	
+public void updateCourse(int courseID, String courseName, int typeID, String employeeID, int maxDivers,Double price, Date startDate, Date endDate, String desc) {
+		
+		courseSqlQueries dbConnection = new courseSqlQueries();
+		dbConnection.updateCourse(courseID, courseName, typeID, employeeID, maxDivers, price, startDate, endDate, desc);
 	}
 
 

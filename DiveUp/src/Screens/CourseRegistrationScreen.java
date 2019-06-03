@@ -105,6 +105,7 @@ public class CourseRegistrationScreen {
 	private JTextPane jtp;
 	private Document doc;
 	private JTextField filterTextField;
+	private int courseID=-1;
 	/**
 	 * Launch the application.
 	 */
@@ -118,18 +119,55 @@ public void updateCoursesList(int row)
 	dbConnection2 = new courseSqlQueries();
     List<Course> courses = dbConnection2.getCourses();
     DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
-
-    for(int i=0;i<courses.size();i++)
-    {
-    	if(compareDates(courses.get(i).getStartDay(), startDatePicker.getDate())>=0 && compareDates(courses.get(i).getStartDay(), endDatePicker.getDate())<=0  && compareDates(courses.get(i).getEndDay(), endDatePicker.getDate())<=0 && compareDates(courses.get(i).getEndDay(), startDatePicker.getDate())>=0)
+    if(courseID ==-1)
+	{
+	    for(int i=0;i<courses.size();i++)
+	    {
+	    	
+	    	
+		    	if(compareDates(courses.get(i).getStartDay(), startDatePicker.getDate())>=0 && compareDates(courses.get(i).getStartDay(), endDatePicker.getDate())<=0  && compareDates(courses.get(i).getEndDay(), endDatePicker.getDate())<=0 && compareDates(courses.get(i).getEndDay(), startDatePicker.getDate())>=0)
+		    	{
+		    	if(courses.get(i).getCurrentAmount() < courses.get(i).getMaxDivers() && (courses.get(i).getName().contains(filterTextField.getText()) || courses.get(i).getDesc().contains(filterTextField.getText()) || courses.get(i).getInstructor().contains(filterTextField.getText())))
+		    		model.addRow(new Object[] {courses.get(i).getId(), courses.get(i).getDesc(),
+		    				courses.get(i).getName(),courses.get(i).getInstructor(),
+		    				courses.get(i).getCurrentAmount(),courses.get(i).getMaxDivers(),courses.get(i).getPrice(),
+		    				outputFormatter.format(courses.get(i).getStartDay()),outputFormatter.format(courses.get(i).getEndDay())});
+		    	}
+	    }
+	}
+    	else
     	{
-    	if(courses.get(i).getCurrentAmount() < courses.get(i).getMaxDivers() && (courses.get(i).getName().contains(filterTextField.getText()) || courses.get(i).getDesc().contains(filterTextField.getText()) || courses.get(i).getInstructor().contains(filterTextField.getText())))
-    		model.addRow(new Object[] {courses.get(i).getId(), courses.get(i).getDesc(),
-    				courses.get(i).getName(),courses.get(i).getInstructor(),
-    				courses.get(i).getCurrentAmount(),courses.get(i).getMaxDivers(),courses.get(i).getPrice(),
-    				outputFormatter.format(courses.get(i).getStartDay()),outputFormatter.format(courses.get(i).getEndDay())});
+    		Course c=null;
+			try {
+			model.setRowCount(0);
+				c = courseController.getCourseByID(courseID);
+				model.addRow(new Object[] {c.getId(), c.getDesc(),
+	    				c.getName(),c.getInstructor(),
+	    				c.getCurrentAmount(),c.getMaxDivers(),c.getPrice(),
+	    				outputFormatter.format(c.getStartDay()),outputFormatter.format(c.getEndDay())});
+				    	coursesTable.setRowSelectionInterval(0, 0);
+				    
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			   for(int i=0;i<courses.size();i++)
+			    {
+			    	
+			    	
+				    	if(compareDates(courses.get(i).getStartDay(), startDatePicker.getDate())>=0 && compareDates(courses.get(i).getStartDay(), endDatePicker.getDate())<=0  && compareDates(courses.get(i).getEndDay(), endDatePicker.getDate())<=0 && compareDates(courses.get(i).getEndDay(), startDatePicker.getDate())>=0)
+				    	{
+				    	if(courses.get(i).getCurrentAmount() < courses.get(i).getMaxDivers() && (courses.get(i).getName().contains(filterTextField.getText()) || courses.get(i).getDesc().contains(filterTextField.getText()) || courses.get(i).getInstructor().contains(filterTextField.getText())))
+				    		model.addRow(new Object[] {courses.get(i).getId(), courses.get(i).getDesc(),
+				    				courses.get(i).getName(),courses.get(i).getInstructor(),
+				    				courses.get(i).getCurrentAmount(),courses.get(i).getMaxDivers(),courses.get(i).getPrice(),
+				    				outputFormatter.format(courses.get(i).getStartDay()),outputFormatter.format(courses.get(i).getEndDay())});
+				    	}
+			    }
+			   
+    		
     	}
-    }
+   
     if(row != -1)
     	coursesTable.setRowSelectionInterval(row, row);
 }
@@ -177,6 +215,10 @@ public int getCurrentCourse()
 	 */
 	public CourseRegistrationScreen(String diverID) {
 		this.diverID = diverID;
+		initialize();
+	}
+	public CourseRegistrationScreen(int courseID) {
+		this.courseID = courseID;
 		initialize();
 	}
 
@@ -499,6 +541,7 @@ public int getCurrentCourse()
 		filterTextField.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		filterTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 		filterTextField.requestFocusInWindow();
+		courseController= new CoursesController();
 	}
 
 }

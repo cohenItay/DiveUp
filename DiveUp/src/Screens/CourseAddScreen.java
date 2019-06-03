@@ -410,7 +410,7 @@ public class CourseAddScreen {
                 }
                 else {
                 cController.addCourse(nameTextField.getText(),typeComboBox.getSelectedItem().toString(),employeeComboBox.getSelectedItem().toString(),maxTextField.getText(),priceTextField.getText(),startDatePicker.getDate(),endDatePicker.getDate(),descTextField.getText());		
-    				
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 			}
 		}});
 		
