@@ -165,7 +165,7 @@ public class CourseAddScreen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][][20%,fill][20%][100px:n,fill][20%:n,fill][20px:n][][10px:n][80px][80px:n][100px:n]", "[][40px:n][::40px][40px:n][::10px][40px:n][::10px][::35px][::10px][::35px][::10px][::35px][::10px][40px:n][::10px][::35px][30px:n][40px:n]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][][20%,fill][20%][100px:n,fill][20%:n,grow,fill][20px:n][][10px:n][80px][200px:n][100px:n]", "[][70px:n][40px:n][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][::35px][::10px][40px:n][::10px][40px:n][30px:n][40px:n]"));
 		
 		
 		
@@ -176,6 +176,16 @@ public class CourseAddScreen {
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setForeground(UIConstants.SELECTED_BTN);
 		frame.getContentPane().add(titleLabel, "cell 5 0 2 1,alignx right");
+		
+		DTextField nameTextField = new DTextField(20);
+		nameTextField.setHorizontalAlignment(SwingConstants.RIGHT);
+		frame.getContentPane().add(nameTextField, "cell 5 2,grow");
+		
+		JLabel nameLabel = new JLabel("שם קורס");
+		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		nameLabel.setForeground(new Color(112, 112, 112));
+		nameLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
+		frame.getContentPane().add(nameLabel, "cell 7 2,alignx right");
 		
 		typeComboBox = new JComboBox();
 		typeComboBox.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -346,7 +356,7 @@ public class CourseAddScreen {
 		descTextField.setToolTipText("תיאור הקורס");
 		
 		
-		JLabel insuranceLabel = new JLabel("תיאור");
+		JLabel insuranceLabel = new JLabel("תיאור הקורס");
 		insuranceLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		insuranceLabel.setForeground(UIConstants.BORDER_DARK);
 		frame.getContentPane().add(insuranceLabel, "cell 7 15,alignx right");
@@ -354,7 +364,7 @@ public class CourseAddScreen {
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 //				
-				Map<Integer,String> violations = cController.checkCourseAdd(typeComboBox.getSelectedItem().toString(), employeeComboBox.getSelectedItem().toString(),maxTextField.getText(),priceTextField.getText(),startDatePicker.getDate(),endDatePicker.getDate(),descTextField.getText());
+				Map<Integer,String> violations = cController.checkCourseAdd(nameTextField.getText(),typeComboBox.getSelectedItem().toString(), employeeComboBox.getSelectedItem().toString(),maxTextField.getText(),priceTextField.getText(),startDatePicker.getDate(),endDatePicker.getDate(),descTextField.getText());
 
 
                 if(violations.size()>0){
@@ -362,6 +372,11 @@ public class CourseAddScreen {
 
                     for(Integer vcode:violations.keySet()){
 
+                    	if(vcode==cController.invalid_courseName ){
+                            nameTextField.setViolatedBorder(true);
+                        }
+                    	
+                    	
                         //if type violated
                         if(vcode==cController.type_empty ){
                             typeComboBox.setBorder(BorderFactory.createLineBorder(Color.red,3));
@@ -394,7 +409,7 @@ public class CourseAddScreen {
                     
                 }
                 else {
-                cController.addCourse(typeComboBox.getSelectedItem().toString(),employeeComboBox.getSelectedItem().toString(),maxTextField.getText(),priceTextField.getText(),startDatePicker.getDate(),endDatePicker.getDate(),descTextField.getText());		
+                cController.addCourse(nameTextField.getText(),typeComboBox.getSelectedItem().toString(),employeeComboBox.getSelectedItem().toString(),maxTextField.getText(),priceTextField.getText(),startDatePicker.getDate(),endDatePicker.getDate(),descTextField.getText());		
     				
 			}
 		}});

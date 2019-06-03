@@ -48,7 +48,7 @@ import Classes.Item;
 				while (rs.next()) {
 					c = new Course();
 					c.setID(rs.getInt("courseID"));
-					c.setName(rs.getString("courseType"));
+					c.setName(rs.getString("courseName"));
 					c.setInstructor(rs.getString("employeeID"));
 					c.setCurrentAmount(rs.getInt("currentAmount"));
 					c.setMaxDivers(rs.getInt("maxDivers"));
@@ -371,9 +371,9 @@ import Classes.Item;
 		
 
 		
-		public boolean addCourse(String type,String employee,String maxAmount,String price,Date startDate,Date endDate,String desc)
+		public boolean addCourse(String name,String type,String employee,String maxAmount,String price,Date startDate,Date endDate,String desc)
 		{
-			String sql = "INSERT INTO Course(courseID,typeID,employeeID,currentAmount,maxDivers,price,startDate,endDate,desc) VALUES(?,?,?,?,?,?,?,?,?)";//query string
+			String sql = "INSERT INTO Course(courseID,courseName,typeID,employeeID,currentAmount,maxDivers,price,startDate,endDate,desc) VALUES(?,?,?,?,?,?,?,?,?,?)";//query string
 			 
 	        PreparedStatement pstmt;
 	        //Insert the parameters to new DB record
@@ -394,15 +394,16 @@ import Classes.Item;
         		    employee = matcher.group(1);
         		}
         		int typeID = getTypeID(type);
-			    pstmt.setInt(2,typeID);
-			    pstmt.setString(3, employee);
-			    pstmt.setInt(4, 0);
-			    pstmt.setInt(5, Integer.valueOf(maxAmount));
-			    pstmt.setDouble(6, Double.valueOf(price));
+        		pstmt.setString(2, name);
+			    pstmt.setInt(3,typeID);
+			    pstmt.setString(4, employee);
+			    pstmt.setInt(5, 0);
+			    pstmt.setInt(6, Integer.valueOf(maxAmount));
+			    pstmt.setDouble(7, Double.valueOf(price));
 			    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			    pstmt.setString(7,formatter.format(startDate));
-			    pstmt.setString(8,formatter.format(endDate));
-			    pstmt.setString(9, desc);
+			    pstmt.setString(8,formatter.format(startDate));
+			    pstmt.setString(9,formatter.format(endDate));
+			    pstmt.setString(10, desc);
 			    pstmt.executeUpdate();
 				
 			   

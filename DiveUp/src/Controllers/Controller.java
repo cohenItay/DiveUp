@@ -26,5 +26,6 @@ public interface Controller
     int price_wrong=16;
     int invalid_dates = 17;
     int desc_empty = 18;
+    int invalid_courseName=19;
     
 }

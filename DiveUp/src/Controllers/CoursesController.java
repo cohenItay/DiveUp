@@ -85,12 +85,18 @@ public class CoursesController implements Controller {
 		return dbConnection.getTypes();
 	}
 
-	public Map<Integer,String> checkCourseAdd(String type,String employee,String maxAmount,String price,Date startDate,Date endDate,String desc) {
+	public Map<Integer,String> checkCourseAdd(String name,String type,String employee,String maxAmount,String price,Date startDate,Date endDate,String desc) {
 		
 		Map<Integer,String> violations=new HashMap<>();
 
 
        
+		if(name==null || name.equals("")){
+            violations.put(invalid_courseName,"name is empty");
+            
+        }
+		
+		
         if(type==null || type.equals("")){
             violations.put(type_empty,"type is empty");
             
@@ -147,10 +153,10 @@ public class CoursesController implements Controller {
 		return violations;
 	}
 	
-	public boolean addCourse(String type,String employee,String maxAmount,String price,Date startDate,Date endDate,String desc)
+	public boolean addCourse(String name,String type,String employee,String maxAmount,String price,Date startDate,Date endDate,String desc)
 	{
 		courseSqlQueries dbConnection = new courseSqlQueries();
-		dbConnection.addCourse(type,employee,maxAmount,price,startDate,endDate,desc);
+		dbConnection.addCourse(name,type,employee,maxAmount,price,startDate,endDate,desc);
 		return true;
 	}
 
