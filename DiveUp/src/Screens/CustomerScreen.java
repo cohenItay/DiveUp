@@ -315,6 +315,29 @@ public class CustomerScreen {
 			}
 		});
 		
+		DButton bookButton = new DButton("ניהול יומן צלילות",DButton.Mode.PRIMARY);
+		bookButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String diverID ="";
+				Pattern pattern = Pattern.compile("\\((.*?)\\)");
+				if(currentDiver != null && !currentDiver.equals(""))
+				{
+					Matcher matcher = pattern.matcher(currentDiver);
+					diverID="";
+					if (matcher.find())
+					{
+						diverID = currentDiver.replace("("+matcher.group(1)+")","");
+					}
+					DiveBookScreen dbs = new DiveBookScreen(diverID);
+				
+					
+				
+				}
+				else
+					errorMessage("לא נבחר צוללן", "שגיאה");
+		}});
+		frame.getContentPane().add(bookButton, "cell 1 4,growy");
+		
 		frame.getContentPane().add(updateDiverButton, "cell 2 4,grow");
 		
 		DButton addDiverButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
