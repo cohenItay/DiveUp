@@ -410,6 +410,7 @@ public class CourseAddScreen {
                 }
                 else {
                 cController.addCourse(nameTextField.getText(),typeComboBox.getSelectedItem().toString(),employeeComboBox.getSelectedItem().toString(),maxTextField.getText(),priceTextField.getText(),startDatePicker.getDate(),endDatePicker.getDate(),descTextField.getText());		
+                message("הקורס נוסף בהצלחה", "הוספה הצליחה");
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 			}
 		}});

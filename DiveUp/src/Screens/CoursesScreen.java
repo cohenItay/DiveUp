@@ -1,11 +1,15 @@
 package Screens;
 
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -21,6 +25,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.text.BadLocationException;
@@ -56,7 +62,7 @@ public class CoursesScreen {
 	private DivesController divesControler;
 	private DTextPane jtp;
 	private Document doc;
-
+	private JTextField filterTextField;
 	/**
 	 * Launch the application.
 	 */
@@ -118,11 +124,11 @@ public class CoursesScreen {
 	    DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	    for(int i=0;i<courses.size();i++)
 	    {
-	    		    		
-	        model.addRow(new Object[] {outputFormatter.format(courses.get(i).getEndDay()),outputFormatter.format(courses.get(i).getStartDay()),
-	    				courses.get(i).getPrice(),courses.get(i).getMaxDivers(),courses.get(i).getCurrentAmount(),courses.get(i).getInstructor(),courses.get(i).getDesc(),
-	    				courses.get(i).getName(),courses.get(i).getId()
-	    		});
+	    	if(courses.get(i).getName().contains(filterTextField.getText()) || courses.get(i).getDesc().contains(filterTextField.getText()) || courses.get(i).getInstructor().contains(filterTextField.getText()))	
+		        model.addRow(new Object[] {outputFormatter.format(courses.get(i).getEndDay()),outputFormatter.format(courses.get(i).getStartDay()),
+		    				courses.get(i).getPrice(),courses.get(i).getMaxDivers(),courses.get(i).getCurrentAmount(),courses.get(i).getInstructor(),courses.get(i).getDesc(),
+		    				courses.get(i).getName(),courses.get(i).getId()
+		    		});
 	    		
 	    }
 	    if(row != -1)
@@ -212,6 +218,24 @@ public class CoursesScreen {
 			}
 		});
 		
+		filterTextField = new JTextField();
+		filterTextField.setFont(new Font("Tahoma", Font.BOLD, 16));
+		filterTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateCoursesList(-1);
+				
+			}
+		});
+		
+		
+		
+		filterTextField.setHorizontalAlignment(SwingConstants.RIGHT);
+		frame.getContentPane().add(filterTextField, "cell 4 1,alignx right,growy");
+		filterTextField.setColumns(10);
+		filterTextField.setText("");
+		filterTextField.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		
 		frame.getContentPane().add(updateCourseButton, "cell 2 2,alignx right,growy");
 		
 		DButton addCourseButton = new DButton("\u05D4\u05D5\u05E1\u05E4\u05EA \u05E6\u05D5\u05DC\u05DC\u05DF",DButton.Mode.PRIMARY);
@@ -229,10 +253,10 @@ public class CoursesScreen {
 				CourseRegistrationScreen courseRegistration = new CourseRegistrationScreen(currentCourse);
 			}
 		});
-		
 	
 		frame.getContentPane().add(courseRegisterButton, "cell 3 2,alignx right,growy");
 		frame.setVisible(true);
+		filterTextField.requestFocusInWindow();
 		courseController = new CoursesController();
 		updateCoursesList(currentCourse);
 		

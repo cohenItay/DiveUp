@@ -50,6 +50,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -206,7 +207,7 @@ public class CustomerScreen {
 		}
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%,fill][20%,fill][20%,fill][20%,fill]", "[160px][30px:110px][250px:380][40px:n][50px:n,grow][40px:n][200px:n][260][250]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%,fill][20%,fill][20%,fill][20%,fill]", "[160px][30px:110px][250px:380][40px:n][50px:n,grow][40px:n][200px:n][40px:n][40px:n]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
 		String[] colHeadings = {"ת.ז","שם פרטי","שם משפחה","רישיון צלילה","מייל","טלפון","ביטוח"};
@@ -412,22 +413,7 @@ public class CustomerScreen {
 		divesPane = new JScrollPane(divesTable);
 		divesPane.setBackground(Color.lightGray);
 		frame.getContentPane().add(divesPane, "cell 0 6 5 1,growy");
-		
-		DButton exitButton = new DButton("יציאה",DButton.Mode.PRIMARY);
-		frame.getContentPane().add(exitButton, "cell 2 8,growx");
 		divesPane.setVisible(false);
-		exitButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			exitButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				exitButton.setBackground(UIConstants.SELECTED_BTN);
-			}
-		});
 		
 		diversController = new DiverController();
 		divesControler = new DivesController();
@@ -450,6 +436,26 @@ public class CustomerScreen {
 		filterTextField.setColumns(10);
 		filterTextField.setText("");
 		filterTextField.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		
+		DButton exitButton = new DButton("יציאה",DButton.Mode.PRIMARY);
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+			}
+		});
+		frame.getContentPane().add(exitButton, "cell 2 7,grow");
+		exitButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			exitButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				exitButton.setBackground(UIConstants.SELECTED_BTN);
+			}
+		});
 		updateDiversTable();
 		frame.setVisible(true);
 		filterTextField.requestFocusInWindow();

@@ -292,6 +292,7 @@ public class DiverRegistrationScreen {
     				else
     				{
     					SendEmailTLS se = new SendEmailTLS(emailTextField.getText(), "ברוך הבא למועדון הצלילה DiveUp",firstNameTextField.getText()+"\n" +"תודה שהצטרפת למועדון הצלילה מספר אחת בארץ");
+    					message("הלקוח נרשם בהצלחה", "הרשמה התבצעה");
         				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
         				
     				}
