@@ -11,14 +11,11 @@ import java.util.List;
 
 import Models.Item;
 
-public class itemSqlQueries {
+public class ItemSqlQueries extends BaseSqlQuery {
 
-	private sqlConnection dbconnection;
-	public Connection connection;
-	public itemSqlQueries()
+	public ItemSqlQueries()
 	{
-		dbconnection=sqlConnection.getInstance();
-		connection = dbconnection.conn;
+		super();
 	}
 	
 

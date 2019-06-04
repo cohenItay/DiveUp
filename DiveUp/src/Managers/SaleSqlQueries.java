@@ -1,6 +1,5 @@
 package Managers;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -11,15 +10,12 @@ import java.util.List;
 
 import Models.Item;
 import Models.Sale;
-public class saleSQLQueries {
+public class SaleSqlQueries extends BaseSqlQuery {
 
 	
-	private sqlConnection dbconnection;
-	public Connection connection;
-	public saleSQLQueries()
+	public SaleSqlQueries()
 	{
-		dbconnection=sqlConnection.getInstance();
-		connection = dbconnection.conn;
+		super();
 	}
 	
 	//get sale id Primary key for new sale

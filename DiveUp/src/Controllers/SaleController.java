@@ -4,15 +4,15 @@ import java.util.List;
 
 import javax.swing.JTable;
 import Models.Sale;
-import Managers.saleSQLQueries;
+import Managers.SaleSqlQueries;
 
 public class SaleController implements Controller {
 
-	private saleSQLQueries dbConnection;//define sales queries instance
+	private SaleSqlQueries dbConnection;//define sales queries instance
 	
 	public SaleController()
 	{
-		dbConnection = new saleSQLQueries();//initiate sales queries instance
+		dbConnection = new SaleSqlQueries();//initiate sales queries instance
 	}
 	
 	//calculate sale price by items in cart
@@ -50,14 +50,14 @@ public class SaleController implements Controller {
 	//get all sales from the DB
 	public List<Sale> getSales()
 	{
-		saleSQLQueries  dbConnection = new saleSQLQueries();//connection to the DB
+		SaleSqlQueries dbConnection = new SaleSqlQueries();//connection to the DB
 		return dbConnection.getSales();//Getting divers list from the DB
 	}
 	
 	//get all sales by customer id
 	public List<Sale> getCustomerSales(String id)
 	{
-		saleSQLQueries  dbConnection = new saleSQLQueries();//connection to the DB
+		SaleSqlQueries dbConnection = new SaleSqlQueries();//connection to the DB
 		return dbConnection.getCustomerSales(id);//Getting divers list from the DB
 	}
 	

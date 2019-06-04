@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
+
+import Managers.SqlConnection;
 import Views.DButton;
 import Views.DNotification;
 import Views.DTextField;
@@ -27,7 +29,7 @@ import javax.swing.text.StyledDocument;
 
 import Controllers.DiverController;
 import Managers.SendEmailTLS;
-import Managers.diverSqlQueries;
+import Managers.DiverSqlQueries;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -52,7 +54,7 @@ public class DiverRegistrationScreen {
 	private JCheckBox isProtected;
 	private DiverController c;
 	private DNotification not;
-	private diverSqlQueries dbConnection;
+	private DiverSqlQueries dbConnection;
 	private DTextPane jtp;
 	private Document doc;
 	/**
@@ -287,7 +289,7 @@ public class DiverRegistrationScreen {
                 }
                 else {
     				
-    				dbConnection.addDiver(dbConnection.connection, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
+    				dbConnection.addDiver(SqlConnection.getConnection(), idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
     						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
     				SendEmailTLS se = new SendEmailTLS(emailTextField.getText(), "ברוך הבא למועדון הצלילה DiveUp",firstNameTextField.getText()+"\n" +"תודה שהצטרפת למועדון הצלילה מספר אחת בארץ");
     				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
@@ -300,7 +302,7 @@ public class DiverRegistrationScreen {
 		frame.getContentPane().add(confirmButton, "cell 5 17,grow");
 		frame.setVisible(true);
 		idTextField.requestFocusInWindow();
-		dbConnection = new diverSqlQueries();
+		dbConnection = new DiverSqlQueries();
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows when closing this window
 		
 	}

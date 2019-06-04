@@ -31,8 +31,8 @@ import Models.Item;
 import Controllers.DiverController;
 import Controllers.ItemController;
 import Controllers.SaleController;
-import Managers.diverSqlQueries;
-import Managers.itemSqlQueries;
+import Managers.DiverSqlQueries;
+import Managers.ItemSqlQueries;
 import net.miginfocom.swing.MigLayout;
 
 import Views.DTable;
@@ -65,8 +65,8 @@ public class SaleScreen {
 	private List<Diver> diversList;
 	private DTable tableDesign;
 	public int currentItem = -1;
-	private itemSqlQueries dbConnection;
-	private diverSqlQueries diverConnection;
+	private ItemSqlQueries dbConnection;
+	private DiverSqlQueries diverConnection;
 	private ItemController iController;
 	private DiverController dController;
 	private SaleController sController;
@@ -102,7 +102,7 @@ public class SaleScreen {
 	 */
 	public void updateItemList(int row) {
 		model.setRowCount(0);// Clearing the table data
-		dbConnection = new itemSqlQueries();
+		dbConnection = new ItemSqlQueries();
 		itemsList = dbConnection.getItems();
 
 		for (int i = 0; i < itemsList.size(); i++) {
@@ -395,7 +395,7 @@ public class SaleScreen {
 
 		});
 
-		diverConnection = new diverSqlQueries();
+		diverConnection = new DiverSqlQueries();
 		iController = new ItemController();
 		sController = new SaleController();
 		updateItemList(currentItem);

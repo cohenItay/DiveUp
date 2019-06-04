@@ -27,7 +27,7 @@ import javax.swing.text.StyledDocument;
 
 import Models.Diver;
 import Controllers.DiverController;
-import Managers.diverSqlQueries;
+import Managers.DiverSqlQueries;
 import net.miginfocom.swing.MigLayout;
 import Views.DButton;
 import Views.DNotification;
@@ -48,7 +48,7 @@ public class CustomerEditScreen {
 	private JCheckBox isProtected;
 	private DiverController c;
 	private DNotification not;
-	private diverSqlQueries dbConnection;
+	private DiverSqlQueries dbConnection;
 	private Diver diver;
 	private DTextPane jtp;
 	private Document doc;
@@ -308,7 +308,7 @@ public class CustomerEditScreen {
 		frame.getContentPane().add(confirmButton, "cell 5 17,grow");
 		frame.setVisible(true);
 		idTextField.requestFocusInWindow();
-		dbConnection = new diverSqlQueries();
+		dbConnection = new DiverSqlQueries();
 		c = new DiverController();
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows when closing this window
 		

@@ -1,4 +1,6 @@
 package Managers;
+import com.sun.istack.internal.Nullable;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,36 +16,39 @@ import java.util.List;
 import Models.Dive;
 
 
-public class sqlConnection {
+public class SqlConnection {
 	
-	private static sqlConnection dbConnection;//class instance
-	public static Connection conn;//connection instance
+	private static SqlConnection dbConnection;//class instance
+	private static Connection conn;//connection instance
 	
 	/*Private constructor in order to implement singleton DP*/
-	private sqlConnection() {
-		Connect();
+	private SqlConnection() {
+		getConnection();
 	}
 	
 	
-	public static sqlConnection getInstance() {
+	public static SqlConnection getInstance() {
 		//if there is no connection to DB
 		if (dbConnection == null)
-			dbConnection = new sqlConnection(); // create no connection
+			dbConnection = new SqlConnection(); // create no connection
 		return dbConnection;//else return the current connection
 	}
-	
-	/* create connection to the DB */
-	public void Connect(){
-	    
+
+	/**
+	 * Singleton to connection obj.
+	 * creates if not exists.
+	 * @return Connection obj.
+	 */
+	public static @Nullable Connection getConnection()
+	{
 		try {
 			conn = DriverManager.getConnection("jdbc:sqlite:"+System.getProperty("user.dir")+"\\DB\\DiveUpDB.db");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
 		}
-	    
+		return conn;
 	}
+
 	/* Run SQL Query */
 	public String runQuery(Connection conn,String query){
 		Statement stmt;

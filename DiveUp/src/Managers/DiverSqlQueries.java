@@ -11,14 +11,11 @@ import java.util.List;
 
 import Models.Diver;
 
-public class diverSqlQueries{
+public class DiverSqlQueries extends BaseSqlQuery{
 
-	private sqlConnection dbconnection;
-	public Connection connection;
-	public diverSqlQueries()
+	public DiverSqlQueries()
 	{
-		dbconnection=sqlConnection.getInstance();
-		connection = dbconnection.conn;
+		super();
 	}
 	
 	

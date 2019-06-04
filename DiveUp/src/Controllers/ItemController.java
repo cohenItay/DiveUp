@@ -1,15 +1,15 @@
 package Controllers;
 
-import Managers.itemSqlQueries;
+import Managers.ItemSqlQueries;
 
 public class ItemController implements Controller {
 
-	private itemSqlQueries dbConnection;//instance to run item queries
+	private ItemSqlQueries dbConnection;//instance to run item queries
 	
 	//connection to items DB queries
 	public ItemController()
 	{
-		dbConnection = new itemSqlQueries();
+		dbConnection = new ItemSqlQueries();
 	}
 	//Add new item to DB
 	public void addNewItem()

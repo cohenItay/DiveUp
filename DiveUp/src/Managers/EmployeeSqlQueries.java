@@ -10,14 +10,11 @@ import java.util.List;
 
 import Models.Employee;
 
-public class employeeSqlQueries {
+public class EmployeeSqlQueries extends BaseSqlQuery{
 
-	private sqlConnection dbconnection;
-	public Connection connection;
-	public employeeSqlQueries()
+	public EmployeeSqlQueries()
 	{
-		dbconnection=sqlConnection.getInstance();
-		connection = dbconnection.conn;
+		super();
 	}
 	
 	

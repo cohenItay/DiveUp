@@ -22,8 +22,8 @@ import Models.Diver;
 import Controllers.CoursesController;
 import Controllers.DiverController;
 import Managers.SendEmailTLS;
-import Managers.courseSqlQueries;
-import Managers.diverSqlQueries;
+import Managers.CourseSqlQueries;
+import Managers.DiverSqlQueries;
 
 import net.miginfocom.swing.MigLayout;
 import Views.DButton;
@@ -62,8 +62,8 @@ public class CourseRegistrationScreen {
 
 	
 	private JFrame frame;
-	private diverSqlQueries dbConnection;
-	private courseSqlQueries dbConnection2;
+	private DiverSqlQueries dbConnection;
+	private CourseSqlQueries dbConnection2;
 	private JXDatePicker startDatePicker;
 	private JXDatePicker endDatePicker;
 	private JComboBox diversCombo;
@@ -86,7 +86,7 @@ public class CourseRegistrationScreen {
 public void updateCoursesList(int row)
 {
 	model.setRowCount(0);//Clearing the table data
-	dbConnection2 = new courseSqlQueries();
+	dbConnection2 = new CourseSqlQueries();
     List<Course> courses = dbConnection2.getCourses();
     DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
     Date d = new Date();
@@ -111,7 +111,7 @@ public void updateCoursesList(int row)
 public void updateDiversList()
 {
 	
-	dbConnection = new diverSqlQueries();//connection to the DB
+	dbConnection = new DiverSqlQueries();//connection to the DB
 	List<Diver>diversList = dbConnection.getDivers();
 	((JLabel)diversCombo.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
     for(int i =0 ; i<diversList.size();i++)

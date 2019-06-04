@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import Models.Diver;
-import Managers.diverSqlQueries;
+import Managers.DiverSqlQueries;
 
 public class DiverController implements Controller {
 
 	
 	//getting divers list from DB
 	public List<Diver> getDivers(){
-		diverSqlQueries  dbConnection = new diverSqlQueries();//connection to the DB
+		DiverSqlQueries dbConnection = new DiverSqlQueries();//connection to the DB
 		return dbConnection.getDivers();//Getting divers list from the DB
 	}
 	
@@ -156,7 +156,7 @@ public class DiverController implements Controller {
 
 	public Diver getDiverByID(String id)
 	{
-		diverSqlQueries  dbConnection = new diverSqlQueries();//connection to the DB
+		DiverSqlQueries dbConnection = new DiverSqlQueries();//connection to the DB
 		return dbConnection.getDiverByID(id);//Getting divers list from the DB
 
 	}
@@ -164,7 +164,7 @@ public class DiverController implements Controller {
 	
 	public void updateDiver(String diverID,String firstName,String lastName,String licenseID,String email,String phone,String insurance) {
 		
-		diverSqlQueries dbConnection = new diverSqlQueries();
+		DiverSqlQueries dbConnection = new DiverSqlQueries();
 		dbConnection.updateDiver(diverID, firstName, lastName, licenseID, email, phone, insurance);
 	}
 	

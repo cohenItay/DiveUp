@@ -3,7 +3,7 @@ package Controllers;
 import java.util.List;
 
 import Models.Course;
-import Managers.courseSqlQueries;
+import Managers.CourseSqlQueries;
 
 public class CoursesController implements Controller {
 
@@ -12,7 +12,7 @@ public class CoursesController implements Controller {
 	public boolean registerNewCourse(int courseID,String diverID)
 	{
 		//opening sqlQuries instance
-		courseSqlQueries dbConnection = new courseSqlQueries();
+		CourseSqlQueries dbConnection = new CourseSqlQueries();
 		
 		//if course is not full
 		if(dbConnection.getCurrentAmount(courseID) < dbConnection.getMaxAmount(courseID))
@@ -41,25 +41,25 @@ public class CoursesController implements Controller {
 	}
 	
 	public List<Course> getCourses(){
-		courseSqlQueries  dbConnection = new courseSqlQueries();//connection to the DB
+		CourseSqlQueries dbConnection = new CourseSqlQueries();//connection to the DB
 		return dbConnection.getCourses();//Getting divers list from the DB
 	}
 	
 	public List<Course> getCoursesByID(String id){
-		courseSqlQueries  dbConnection = new courseSqlQueries();//connection to the DB
+		CourseSqlQueries dbConnection = new CourseSqlQueries();//connection to the DB
 		return dbConnection.getCoursesByID(id);//Getting divers list from the DB
 	}
 	
 
 	public String getCourseName(int courseID)
 	{
-		courseSqlQueries dbConnection = new courseSqlQueries();
+		CourseSqlQueries dbConnection = new CourseSqlQueries();
 		return dbConnection.getCourseName(courseID);
 	}
 	
 	public String getCourseStartDay(int courseID)
 	{
-		courseSqlQueries dbConnection = new courseSqlQueries();
+		CourseSqlQueries dbConnection = new CourseSqlQueries();
 		return dbConnection.getCourseStartDay(courseID);
 	}
 }

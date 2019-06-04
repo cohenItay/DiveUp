@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import Models.Course;
 import Controllers.CoursesController;
 import Controllers.DivesController;
-import Managers.courseSqlQueries;
+import Managers.CourseSqlQueries;
 import net.miginfocom.swing.MigLayout;
 import Views.DButton;
 import Views.DTable;
@@ -31,7 +31,7 @@ public class CoursesScreen {
 	private List<Course> coursesList;
 	private DTable tableDesign;
 	public int currentCourse=0;
-	private courseSqlQueries dbConnection;
+	private CourseSqlQueries dbConnection;
 	private CoursesController courseController;
 	private DivesController divesControler;
 
@@ -62,7 +62,7 @@ public class CoursesScreen {
 	public void updateCoursesList(int row)
 	{
 		model.setRowCount(0);//Clearing the table data
-		dbConnection = new courseSqlQueries();
+		dbConnection = new CourseSqlQueries();
 	    List<Course> courses = dbConnection.getCourses();
 	    DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	    for(int i=0;i<courses.size();i++)
