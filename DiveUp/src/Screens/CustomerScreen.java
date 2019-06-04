@@ -164,7 +164,7 @@ public class CustomerScreen {
 	    doc = jtp.getStyledDocument();
 	    try {
 			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
-		    JOptionPane.showMessageDialog(null, jtp, "Title", JOptionPane.INFORMATION_MESSAGE);
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.INFORMATION_MESSAGE);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -180,7 +180,7 @@ public class CustomerScreen {
 	    ((StyledDocument) doc).setParagraphAttributes(0, doc.getLength(), right, false);
 	    try {
 			doc.insertString(doc.getLength(), infoMessage, new SimpleAttributeSet());
-		    JOptionPane.showMessageDialog(null, jtp, "Title", JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(null, jtp, titleBar, JOptionPane.ERROR_MESSAGE);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -207,7 +207,7 @@ public class CustomerScreen {
 		}
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%,fill][20%,fill][20%,fill][20%,fill]", "[160px][30px:110px][250px:380][40px:n][50px:n,grow][40px:n][200px:n][40px:n][40px:n]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][20%:n,fill][20%,fill][20%,fill][20%,fill]", "[160px][30px:110px][250px:380][40px:n][50px:n,grow][40px:n][200px:n][40px:n][40px:n]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/*Creating the table model and the table for the divers information*/
 		String[] colHeadings = {"ת.ז","שם פרטי","שם משפחה","רישיון צלילה","מייל","טלפון","ביטוח"};

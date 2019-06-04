@@ -128,6 +128,11 @@ public class ManagerScreen {
 		frame.getContentPane().add(employeesButton, "cell 2 8,grow");
 		
 		DButton itemsButton = new DButton("\u05E0\u05D9\u05D4\u05D5\u05DC \u05D4\u05D6\u05DE\u05E0\u05D5\u05EA",DButton.Mode.PRIMARY);
+		itemsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InventoryScreen is = new InventoryScreen();
+			}
+		});
 		itemsButton.setFont(new Font("Dialog", Font.BOLD, 40));
 		itemsButton.setText("\u05E0\u05D9\u05D4\u05D5\u05DC \u05DE\u05DC\u05D0\u05D9");
 		frame.getContentPane().add(itemsButton, "cell 2 10,grow");

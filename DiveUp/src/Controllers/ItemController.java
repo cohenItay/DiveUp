@@ -1,5 +1,8 @@
 package Controllers;
 
+import java.util.List;
+
+import Classes.Item;
 import Models.itemSqlQueries;
 
 public class ItemController implements Controller {
@@ -40,6 +43,11 @@ public class ItemController implements Controller {
 	public int getID(String name)
 	{
 		return dbConnection.getID(name);
+	}
+	public List<Item> getItems()
+	{
+		itemSqlQueries it = new itemSqlQueries();
+		return it.getItems();
 	}
 
 }
