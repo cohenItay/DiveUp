@@ -3,12 +3,9 @@ package Controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import Classes.Diver;
-import Models.diverSqlQueries;
-import Models.sqlConnection;
-import res.DNotification;
+import Models.Diver;
+import Managers.diverSqlQueries;
 
 public class DiverController implements Controller {
 

@@ -3,9 +3,8 @@ package Controllers;
 import java.util.List;
 
 import javax.swing.JTable;
-import Classes.Sale;
-import Models.diverSqlQueries;
-import Models.saleSQLQueries;
+import Models.Sale;
+import Managers.saleSQLQueries;
 
 public class SaleController implements Controller {
 

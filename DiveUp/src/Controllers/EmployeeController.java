@@ -2,11 +2,8 @@ package Controllers;
 
 import java.util.List;
 
-import Classes.Diver;
-import Classes.Employee;
-import Models.diverSqlQueries;
-import Models.employeeSqlQueries;
-import Models.itemSqlQueries;
+import Models.Employee;
+import Managers.employeeSqlQueries;
 
 public class EmployeeController implements Controller {
 

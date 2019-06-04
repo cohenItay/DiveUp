@@ -1,6 +1,6 @@
 package Controllers;
 
-import Models.itemSqlQueries;
+import Managers.itemSqlQueries;
 
 public class ItemController implements Controller {
 

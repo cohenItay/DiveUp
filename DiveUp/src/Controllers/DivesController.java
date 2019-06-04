@@ -2,8 +2,8 @@ package Controllers;
 
 import java.util.List;
 
-import Classes.Dive;
-import Models.sqlConnection;
+import Models.Dive;
+import Managers.sqlConnection;
 
 public class DivesController implements Controller{
 

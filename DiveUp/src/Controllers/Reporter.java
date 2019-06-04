@@ -16,9 +16,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-import Classes.Employee;
-import Classes.Sale;
-import res.UIConstants;
+import Models.Employee;
+import Models.Sale;
+import Views.UIConstants;
 
 public class Reporter {
 	

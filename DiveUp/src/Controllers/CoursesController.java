@@ -2,11 +2,8 @@ package Controllers;
 
 import java.util.List;
 
-import Classes.Course;
-import Classes.Diver;
-import Models.courseSqlQueries;
-import Models.diverSqlQueries;
-import Models.sqlConnection;
+import Models.Course;
+import Managers.courseSqlQueries;
 
 public class CoursesController implements Controller {
 
