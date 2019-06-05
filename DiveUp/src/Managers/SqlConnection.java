@@ -41,10 +41,13 @@ public class SqlConnection {
 	 */
 	public static @Nullable Connection getConnection()
 	{
-		try {
-			conn = DriverManager.getConnection("jdbc:sqlite:"+System.getProperty("user.dir")+"\\DB\\DiveUpDB.db");
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if (conn == null) {
+			try {
+				Class.forName("org.sqlite.JDBC");
+				conn = DriverManager.getConnection("jdbc:sqlite:" + System.getProperty("user.dir") + "\\DiveUp\\DB\\DiveUpDB.db");
+			} catch (SQLException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 		return conn;
 	}
