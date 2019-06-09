@@ -80,7 +80,7 @@ public class DiveBookScreen {
 	    for(int i=0;i<divesList.size();i++)
 	    {
 	    		    		
-	        model.addRow(new Object[] {divesList.get(i).getAirEnd(), divesList.get(i).getAirStart(), divesList.get(i).getEndTime(), divesList.get(i).getStartTime(), divesList.get(i).getMaxDepth(), divesList.get(i).getDate(), divesList.get(i).getLocation(), divesList.get(i).getDiver(), divesList.get(i).getDiveNum() 
+	        model.addRow(new Object[] {divesList.get(i).getAirEnd(), divesList.get(i).getAirStart(), divesList.get(i).getEndTime(), divesList.get(i).getStartTime(), divesList.get(i).getMaxDepth(), outputFormatter.format(divesList.get(i).getDate()), divesList.get(i).getLocation(), divesList.get(i).getDiver(), divesList.get(i).getDiveNum() 
 	    		});
 	    		
 	    }
@@ -180,12 +180,28 @@ public class DiveBookScreen {
 		addDiveButton.setText("הוספת צלילה");
 				addDiveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-//			CourseAddScreen cadd=new CourseAddScreen();	
+				
+				
+				AddDiveScreen dadd = new AddDiveScreen(null);
 			}
 		});
 		DButton updateDiveButton = new DButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7",DButton.Mode.PRIMARY);
 		updateDiveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean found = false;
+				List<Dive> dList = divesControler.getAllDives();
+				for( int i =0;i<dList.size();i++)
+				{
+					if(dList.get(i).getDiveNum()== currentDive)
+					{
+						AddDiveScreen dadd=new AddDiveScreen(dList.get(i));
+						found=true;
+					}
+				}
+				if(!found)
+				{
+					AddDiveScreen dadd=new AddDiveScreen(null);		
+				}
 			}
 		});
 		updateDiveButton.setText("עדכון צלילה");

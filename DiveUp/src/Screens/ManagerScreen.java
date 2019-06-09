@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +20,13 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import Classes.Dive;
+import Classes.Diver;
+import Controllers.CoursesController;
+import Controllers.DiverController;
+import Controllers.DivesController;
+
 import java.awt.Window.Type;
 import net.miginfocom.swing.MigLayout;
 import res.DButton;
@@ -36,6 +44,8 @@ public class ManagerScreen {
 
 	private JFrame frame;
 	private JLabel clockLabel;
+	private DivesController dc;
+	private DiverController dController;
 	/**
 	 * Launch the application.
 	 */
@@ -59,6 +69,13 @@ public class ManagerScreen {
 		initialize();
 	}
 
+	
+	public long compareDates(Date d1, Date d2)
+	{
+		long diff = d1.getTime() - d2.getTime();
+	    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+		return days;
+	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -107,7 +124,24 @@ public class ManagerScreen {
 		diversButton.setFont(new Font("Dialog", Font.BOLD, 40));
 		diversButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			CustomerScreen c = new CustomerScreen();
+				DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
+				List<Diver> diversList = dController.getDivers();
+				Date today = new Date();
+				for(int i=0;i<diversList.size();i++)
+				{
+					if(diversList.get(i)!= null)
+					{
+						List<Dive> divesList = dc.getDivesBook(diversList.get(i).getId());
+						if(divesList.size()>0)
+						{
+							System.out.println("Diver is :"+diversList.get(i).getFirstName()+" Last Dive:"+outputFormatter.format(divesList.get(divesList.size()-1).getDate()));
+							long days = compareDates(today, divesList.get(divesList.size()-1).getDate());
+							System.out.println("Days since last dive "+ days);
+						}
+					
+					}
+					
+				}
 			}
 		});
 		frame.getContentPane().add(diversButton, "cell 2 4,grow");
@@ -155,10 +189,11 @@ public class ManagerScreen {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 			}
 		});
-		
+		dc = new DivesController();
+		dController = new DiverController();
 		frame.setVisible(true);
 		frame.setBounds(50, 50, UIConstants.width-100, UIConstants.height-100);
 	}
-
+	
 
 }

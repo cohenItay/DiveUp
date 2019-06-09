@@ -112,6 +112,7 @@ public class CustomerScreen {
 	public void updateDiveBook(String id, int row)
 	{	
 		modeldives.setRowCount(0);
+		DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		divesList = divesControler.getDivesBook(id);
 		if(divesList.size()>0)
 		{
@@ -123,7 +124,7 @@ public class CustomerScreen {
 		}
 		for(int i=0;i<divesList.size();i++)
 		{
-			modeldives.addRow(new Object[] {divesList.get(i).getDiveNum(),divesList.get(i).getLocation(),divesList.get(i).getDate()
+			modeldives.addRow(new Object[] {divesList.get(i).getDiveNum(),divesList.get(i).getLocation(),outputFormatter.format(divesList.get(i).getDate())
 					,divesList.get(i).getMaxDepth(),divesList.get(i).getMaxDepth(),divesList.get(i).getStartTime()
 					,divesList.get(i).getEndTime(),divesList.get(i).getAirStart(),divesList.get(i).getAirEnd()});
 		}
@@ -233,7 +234,7 @@ public class CustomerScreen {
 		        int row = diversTable.rowAtPoint(evt.getPoint());
 		        int col = diversTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
-		        	currentDiver = "("+(String)model.getValueAt(row, 1)+")"+(String)model.getValueAt(row, 0);
+		        	currentDiver = "("+(String)model.getValueAt(row, 0)+")"+(String)model.getValueAt(row, 1);
 		            updateDiversTable();
 		            updateDiveBook((String)model.getValueAt(row, 0), row);
 		            
@@ -304,7 +305,7 @@ public class CustomerScreen {
 					String diverID="";
 					if (matcher.find())
 					{
-						diverID = currentDiver.replace("("+matcher.group(1)+")","");
+						diverID = matcher.group(1);
 					}
 					currentDiverInstance = diversController.getDiverByID(diverID);
 					CustomerEditScreen ce = new CustomerEditScreen(currentDiverInstance);
@@ -327,7 +328,7 @@ public class CustomerScreen {
 					diverID="";
 					if (matcher.find())
 					{
-						diverID = currentDiver.replace("("+matcher.group(1)+")","");
+						diverID = matcher.group(1);
 					}
 					DiveBookScreen dbs = new DiveBookScreen(diverID);
 				

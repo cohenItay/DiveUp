@@ -22,6 +22,12 @@ public class Dive {
 	public double getMaxDepth() {
 		return maxDepth;
 	}
+	@Override
+	public String toString() {
+		return "Dive [diveNum=" + diveNum + ", diverID=" + diverID + ", location=" + location + ", date=" + date
+				+ ", maxDepth=" + maxDepth + ", startTime=" + startTime + ", endTime=" + endTime + ", airStart="
+				+ airStart + ", airEnd=" + airEnd + "]";
+	}
 	public void setMaxDepth(double maxDepth) {
 		this.maxDepth = maxDepth;
 	}

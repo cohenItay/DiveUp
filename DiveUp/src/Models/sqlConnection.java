@@ -14,6 +14,7 @@ import java.util.List;
 import Classes.Course;
 import Classes.Dive;
 import Classes.Diver;
+import Classes.Item;
 
 
 public class sqlConnection {
@@ -136,7 +137,7 @@ public class sqlConnection {
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 			Dive d;
-			SimpleDateFormat formatter = new SimpleDateFormat("dd\\MM\\yyyy");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 			/* creating Dive object for each dive in the db table */
 			while (rs.next()) {
 				d = new Dive();
@@ -169,6 +170,232 @@ public class sqlConnection {
 	
 	}
 	
-	
+	public List<Dive> getAllDives()
+	{
+		List<Dive> res = new ArrayList<>();//creating dives list
+		Statement stmt;
+		try {
+			/* getting all information from dives table */
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from Dive,Locations,Diver where Dive.locationID = Locations.locationID  and Diver.id = Dive.diverID order by date");
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			Dive d;
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			/* creating Dive object for each dive in the db table */
+			while (rs.next()) {
+				d = new Dive();
+				d.setDiveNum(rs.getInt("diveNum"));
+				d.setDiver((rs.getString("diverID")));
+				d.setLocation((rs.getString("name")));
+				d.setDate(formatter.parse(rs.getString("date")));
+				d.setMaxDepth(rs.getInt("maxDepth"));
+				d.setStartTime(rs.getString("startTime"));
+				d.setEndTime(rs.getString("endTime"));
+				d.setAirStart(rs.getInt("airStart"));
+				d.setAirEnd(rs.getInt("airEnd"));
+				
+			    res.add(d);//add dive to the list
+			}
+		} catch (SQLException | ParseException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
 		
+		}
+	return res;
+	
+	}
+
+	public List<String> getLocations()
+	{
+		List<String> res = new ArrayList<>();
+		Statement stmt;
+		try {
+			/* getting all information from dives table */
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from Locations");
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			String location="";
+			SimpleDateFormat formatter = new SimpleDateFormat("dd\\MM\\yyyy");
+			/* creating Dive object for each dive in the db table */
+			while (rs.next()) {
+				location = rs.getString("name");
+				
+			    res.add(location);//add dive to the list
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
+		
+		}
+	return res;
+	}
+		
+	
+	
+	public int getNewDiveID()
+	{
+		Statement stmt;
+		try {
+			/* getting all information from items table */
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Dive ORDER BY diveNum  DESC LIMIT 1");
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			if (rs.next()) {
+				return rs.getInt("diveNum")+1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
+		
+		}
+	return -1;
+
+	}
+	
+	public int getLocationID(String name)
+	{
+		Statement stmt;
+		try {
+			
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select locationID from Locations where name = "+"\"" + name + "\"");
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			int locationID=1;
+			SimpleDateFormat formatter = new SimpleDateFormat("dd\\MM\\yyyy");
+			/* creating Dive object for each dive in the db table */
+			if (rs.next()) {
+				locationID = rs.getInt("locationID");
+				
+			    return locationID;//add dive to the list
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
+		
+		}
+		return -1;
+	}
+	
+	
+	
+	public String getLocationName(int id)
+	{
+		Statement stmt;
+		try {
+			
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select name from Locations where locationID = "+id);
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			String locationName="";
+			/* creating Dive object for each dive in the db table */
+			if (rs.next()) {
+				locationName = rs.getString("name");
+				
+			    return locationName;//add dive to the list
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			if (err.contains("query does not return ResultSet"))
+			{
+				;//Query completed, didn't have to return value
+			}
+			else
+			{
+				e.printStackTrace();
+			}
+		
+		}
+		return "";
+	}
+	
+	
+	
+	
+	
+	public void addDive(String diverID,String location,String date,int maxDepth,String startHour,String endHour,int startAir,int endAir)
+	{
+		
+		String sql = "INSERT INTO Dive(diveNum,diverID,locationID,date,maxDepth,startTime,endTime,airStart,airEnd) VALUES(?,?,?,?,?,?,?,?,?)";//query string
+		 
+        PreparedStatement pstmt;
+        //Insert the parameters to new DB record
+		try {
+			int id=getNewDiveID();
+			if(id == -1)
+			{
+				id=1;
+			}
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,id);
+		    pstmt.setString(2, diverID);
+		    pstmt.setInt(3,getLocationID(location));
+		    pstmt.setString(4, date);
+		    pstmt.setDouble(5, maxDepth);
+		    pstmt.setString(6,startHour);
+		    pstmt.setString(7,endHour);
+		    pstmt.setInt(8,startAir);
+		    pstmt.setInt(9,endAir);
+		    pstmt.executeUpdate();
+		     
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			String err = e.getMessage();
+			//If trying to add a sale with exist ID
+			if (err.contains("Abort due to constraint violation (UNIQUE constraint failed:"))
+			{
+				System.out.println("ID must be unique, Failed to add new diver");
+			}
+			else
+			{
+				e.printStackTrace();//printing error if happend
+			}
+		} 
+
+		
+		
+		
+	}
 }

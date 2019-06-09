@@ -118,6 +118,7 @@ public class diverSqlQueries{
 		Statement stmt;
 		Diver d=null;
 		try {
+			
 			/* getting all information from Diver table */
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from Diver where id ="+id);
@@ -152,7 +153,7 @@ public class diverSqlQueries{
 	public void updateDiver(String diverID,String firstName,String lastName,String licenseID,String email,String phone,String insurance) {
 		String query = "update Diver set firstName = ?, lastName = ?, licenseID = ? ,email = ?,phone = ? , insurance = ?  where id = ?";
 	    PreparedStatement preparedStmt;
-		try {
+		try {;
 			preparedStmt = connection.prepareStatement(query);
 		    preparedStmt.setString(1, firstName);
 		    preparedStmt.setString(2, lastName);
