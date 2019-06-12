@@ -266,7 +266,7 @@ public class EmployeesScreen {
 		
 		addEmployeeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				EmployeeAddScreen ea = new EmployeeAddScreen();
 			}
 		});
 		frame.getContentPane().add(addEmployeeButton, "cell 4 4,grow");

@@ -85,9 +85,9 @@ public class sqlConnection {
             
 	/* Adding new Diver to DB */
 		/* Add new Employee */
-	public void addEmployee(Connection conn,String id, String firstName, String lastName, String seniority, String email, String phone)
+	public void addEmployee(Connection conn,String id, String firstName, String lastName, String email, String phone,Double salary)
 	{
-		String sql = "INSERT INTO Employee(employeeID,firstName,lastName,seniority,email,phone) VALUES(?,?,?,?,?,?)";
+		String sql = "INSERT INTO Employee(employeeID,firstName,lastName,seniority,email,phone,salary) VALUES(?,?,?,?,?,?,?)";
 		 
 	        PreparedStatement pstmt;
 			try {
@@ -96,9 +96,10 @@ public class sqlConnection {
 				pstmt.setString(1, id);
 			    pstmt.setString(2, firstName);
 			    pstmt.setString(3, lastName);
-			    pstmt.setString(4, seniority);
+			    pstmt.setString(4, "מתחיל");
 			    pstmt.setString(5, email);
 			    pstmt.setString(6, phone);
+			    pstmt.setDouble(6, salary);
 			    pstmt.executeUpdate();
 			     
 			} catch (SQLException e) {

@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.sql.Connection;
 import java.util.List;
 
 import Classes.Diver;
@@ -29,5 +30,10 @@ private employeeSqlQueries dbConnection;//instance to run item queries
 		employeeSqlQueries  dbConnection = new employeeSqlQueries();//connection to the DB
 		return dbConnection.getEmployeeByID(id);//Getting divers list from the DB
 
+	}
+	public String addEmployee(String id, String firstName, String lastName, String email, String phone,Double salary)
+	{
+		employeeSqlQueries dbConnection = new employeeSqlQueries();
+		return dbConnection.addEmployee(id, firstName, lastName, email, phone, salary);
 	}
 }
