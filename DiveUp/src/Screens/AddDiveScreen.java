@@ -62,6 +62,7 @@ public class AddDiveScreen {
 	private JComboBox endMinutesComboBox;
 	private DTextField startAirTextField ;
 	private Dive selectedDive=null;
+	private Diver selectedDiver=null;
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +70,7 @@ public class AddDiveScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddDiveScreen window = new AddDiveScreen(null);
+					AddDiveScreen window = new AddDiveScreen(null,null);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -77,9 +78,10 @@ public class AddDiveScreen {
 			}
 		});
 	}
-	public AddDiveScreen(Dive dive)
+	public AddDiveScreen(Dive dive,Diver selected)
 	{
 		selectedDive = dive;
+		selectedDiver = selected;
 		dc = new DiverController();
 		diveController = new DivesController();
 		initialize();
@@ -123,6 +125,10 @@ public class AddDiveScreen {
 	    for(int i =0 ; i<diversList.size();i++)
 	    {
 	    	diverComboBox.addItem( "(" + diversList.get(i).getId()+")"+diversList.get(i).getFirstName());
+	    }
+	    if(selectedDiver != null)
+	    {
+	    	diverComboBox.setSelectedItem("("+selectedDiver.getId()+")"+selectedDiver.getFirstName());
 	    }
 	}
 	
@@ -306,7 +312,8 @@ public class AddDiveScreen {
 		DButton confirmButton = new DButton("הוספה",DButton.Mode.PRIMARY);
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-		    
+				
+				DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
 				Pattern pattern = Pattern.compile("\\((.*?)\\)");
         		Matcher matcher = pattern.matcher(diverComboBox.getSelectedItem().toString());
         		String diverID="";
@@ -314,7 +321,19 @@ public class AddDiveScreen {
         		{
         		    diverID = matcher.group(1);
         		}
-        		DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
+				
+        		if(selectedDive !=null)
+				{
+        			diveController.updateDive(selectedDive.getDiveNum(),diverID,locationComboBox.getSelectedItem().toString(),outputFormatter.format(new Date()),Double.valueOf(maxDepthTextField.getText()),
+        					startHourComboBox.getSelectedItem().toString()+":"+startMinutesComboBox.getSelectedItem().toString(),
+        					endHourComboBox.getSelectedItem().toString()+":"+endMinutesComboBox.getSelectedItem().toString()
+        					,Integer.valueOf(startAirTextField.getText()),Integer.valueOf(endAirTextField.getText()));
+        			message("העדכון בוצע בהצלחה", "פעולה התבצעה בהצלחה");
+        			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+				}
+				else
+				{
+					
         		diveController.addDive(diverID,locationComboBox.getSelectedItem().toString(),outputFormatter.format(new Date()),Integer.valueOf(maxDepthTextField.getText()),
 					startHourComboBox.getSelectedItem().toString()+":"+startMinutesComboBox.getSelectedItem().toString(),
 					endHourComboBox.getSelectedItem().toString()+":"+endMinutesComboBox.getSelectedItem().toString()
@@ -322,7 +341,7 @@ public class AddDiveScreen {
 			
         		message("הצלילה התווספה בהצלחה", "צלילה התווספה");
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
-
+				}
 			}
 		});
 		frame.getContentPane().add(confirmButton, "cell 5 18,grow");

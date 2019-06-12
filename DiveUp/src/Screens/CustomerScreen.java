@@ -124,9 +124,8 @@ public class CustomerScreen {
 		}
 		for(int i=0;i<divesList.size();i++)
 		{
-			modeldives.addRow(new Object[] {divesList.get(i).getDiveNum(),divesList.get(i).getLocation(),outputFormatter.format(divesList.get(i).getDate())
-					,divesList.get(i).getMaxDepth(),divesList.get(i).getMaxDepth(),divesList.get(i).getStartTime()
-					,divesList.get(i).getEndTime(),divesList.get(i).getAirStart(),divesList.get(i).getAirEnd()});
+			modeldives.addRow(new Object[] {divesList.get(i).getAirEnd(), divesList.get(i).getAirStart(), divesList.get(i).getEndTime(), divesList.get(i).getStartTime(), divesList.get(i).getMaxDepth(), outputFormatter.format(divesList.get(i).getDate()), divesList.get(i).getLocation(), divesList.get(i).getDiver(), divesList.get(i).getDiveNum() 
+    		});
 		}
 		
 		diversTable.setRowSelectionInterval(row, row);
@@ -198,6 +197,7 @@ public class CustomerScreen {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("עמוד לקוחות");
 		Image image;
 		try {
 			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
@@ -392,7 +392,7 @@ public class CustomerScreen {
 		
 		
 		
-		String[] Headings = {"Dive Number","Location","Date","Max Depth","Start Time","End Time","Start Air","End Air"};
+		String[] Headings = {"סיום אוויר","תחילת אוויר","שעת סיום","שעת התחלה","עומק מקסימלי","תאריך","מיקום","צוללן","מזהה"};
 		int numRow = 0 ;
 		modeldives = new DefaultTableModel(numRow, Headings.length)
 				{

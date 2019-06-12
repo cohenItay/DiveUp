@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -398,4 +399,35 @@ public class sqlConnection {
 		
 		
 	}
+	
+	
+	
+	public void updateDive(int diveID,String diverID,String location,String date,double maxDepth,String startHour,String endHour,int startAir,int endAir)
+	{
+		
+		DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		String query = "update Dive set diverID = ?, locationID = ?, date = ? ,maxDepth = ?,startTime = ? , endTime = ?, airStart = ?, airEnd = ?  where diveNum = ?";
+	    PreparedStatement preparedStmt;
+		try {;
+			preparedStmt = conn.prepareStatement(query);
+		    preparedStmt.setString(1, diverID);
+		    preparedStmt.setInt(2, getLocationID(location));
+		    preparedStmt.setString(3, date);
+		    preparedStmt.setDouble(4, maxDepth);
+		    preparedStmt.setString(5, startHour);
+		    preparedStmt.setString(6, endHour);
+		    preparedStmt.setInt(7, startAir);
+		    preparedStmt.setInt(8, endAir);
+		    preparedStmt.setInt(9, diveID);
+		    // execute the java preparedstatement
+		    preparedStmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 }

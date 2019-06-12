@@ -112,9 +112,9 @@ public class SaleScreen {
 
 		for (int i = 0; i < itemsList.size(); i++) {
 			if(itemsList.get(i).getAmount()>0) {
-			model.addRow(new Object[] { itemsList.get(i).getId(), itemsList.get(i).getName(),
-					itemsList.get(i).getDesc(), itemsList.get(i).getPrice(), itemsList.get(i).getLoanPrice(),
-					itemsList.get(i).getAmount() });
+			model.addRow(new Object[] {itemsList.get(i).getAmount() , itemsList.get(i).getLoanPrice(),
+					itemsList.get(i).getPrice(),itemsList.get(i).getDesc(), itemsList.get(i).getName(),
+					itemsList.get(i).getId() });
 			}
 		}
 		if (row != -1)
@@ -183,7 +183,7 @@ public class SaleScreen {
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		//Title and icon add
-		frame.setTitle("Sale screen");
+		frame.setTitle("עמוד מכירות");
 		Image image;
 		try {
 			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
@@ -195,7 +195,7 @@ public class SaleScreen {
 		frame.getContentPane().setLayout(new MigLayout("", "[400][400][400][400,right][30px:n][::70px]", "[150px:n][::5px][5px:n][25.00][][17.00][5px:n][30px:n][10px:n][30px:n][100px:n][30px:n][10px:n][30px:n][]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/* Creating the table model and the table for the divers information */
-		String[] colHeadings = { "ID", "Name", "Description", "Sale Price", "Loan Price", "Amount" };
+		String[] colHeadings = { "כמות", "מחיר השכרה", "מחיר", "תיאור", "מוצר", "מזהה" };
 		int numRows = 0;
 		model = new DefaultTableModel(numRows, colHeadings.length) {
 			public boolean isCellEditable(int row, int column) {
@@ -228,14 +228,7 @@ public class SaleScreen {
 		frame.getContentPane().add(scrollPane, "cell 0 0 6 2,growx");
 		
 				diverComboBox = new JComboBox();
-				diverComboBox.setToolTipText("אנא לחץ כדי להחליף לקוח");
-				diverComboBox.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent arg0) {
-					diverComboBox.setEnabled(true);
-					}
-				});
-				diverComboBox.setEnabled(false);
+				diverComboBox.setToolTipText("אנא לחץ כדי להחליף לקוח");	
 				diverComboBox.setFont(new Font("Arial", Font.BOLD, 18));
 				frame.getContentPane().add(diverComboBox, "cell 3 3 2 1,alignx right");
 				diverComboBox.setBackground(Color.white);
@@ -307,7 +300,7 @@ public class SaleScreen {
 
 		frame.getContentPane().add(amountLabel, "cell 5 7,alignx right");
 
-		String[] colHeadingsCart = { "Price", "Amount", "Name" };
+		String[] colHeadingsCart = { "מחיר", "כמות", "מוצר" };
 		int numRowsCart = 0;
 		modelCart = new DefaultTableModel(numRowsCart, colHeadingsCart.length) {
 			public boolean isCellEditable(int row, int column) {

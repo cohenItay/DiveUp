@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.sql.SQLClientInfoException;
 import java.util.List;
 
 import Classes.Dive;
@@ -31,6 +32,11 @@ public class DivesController implements Controller{
 		dbConnection.addDive(diverID, location, date, maxDepth, startHour, endHour, startAir, endAir);
 	}
 
+	public void updateDive(int diveID,String diverID,String location,String date,double maxDepth,String startHour,String endHour,int startAir,int endAir)
+	{
+		sqlConnection dbConnection = sqlConnection.getInstance();
+		dbConnection.updateDive(diveID,diverID,location,date,maxDepth,startHour,endHour,startAir,endAir);
+	}
 	
 	public int getLocationID(String name) {
 		sqlConnection dbConnection = sqlConnection.getInstance();

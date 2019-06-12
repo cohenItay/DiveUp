@@ -26,6 +26,7 @@ import javax.swing.text.StyledDocument;
 import Classes.Course;
 import Classes.Dive;
 import Controllers.CoursesController;
+import Controllers.DiverController;
 import Controllers.DivesController;
 import Models.courseSqlQueries;
 import net.miginfocom.swing.MigLayout;
@@ -44,7 +45,8 @@ public class DiveBookScreen {
 	private JScrollPane divesPane;
 	private List<Dive> divesList;
 	private DTable tableDesign;
-	private DivesController divesControler;
+	private DivesController divesController;
+	private DiverController diverController;
 	private int currentDive=-1;
 	private String diverID="";
 
@@ -69,13 +71,14 @@ public class DiveBookScreen {
 	 */
 	public DiveBookScreen(String diverID) {
 		this.diverID= diverID;
+		diverController = new DiverController();
 		initialize();
 	}
 	
 	public void updateDivesList(int row)
 	{
 		model.setRowCount(0);//Clearing the table data
-		List<Dive> divesList = divesControler.getDivesBook(diverID);
+		List<Dive> divesList = divesController.getDivesBook(diverID);
 	    DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	    for(int i=0;i<divesList.size();i++)
 	    {
@@ -182,25 +185,34 @@ public class DiveBookScreen {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				
-				AddDiveScreen dadd = new AddDiveScreen(null);
+				AddDiveScreen dadd = new AddDiveScreen(null,diverController.getDiverByID(diverID));
+				updateDivesList(-1);
 			}
 		});
 		DButton updateDiveButton = new DButton("\u05E2\u05D3\u05DB\u05D5\u05DF \u05E4\u05E8\u05D8\u05D9 \u05DC\u05E7\u05D5\u05D7",DButton.Mode.PRIMARY);
 		updateDiveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(currentDive != -1)
+				{
 				boolean found = false;
-				List<Dive> dList = divesControler.getAllDives();
+				List<Dive> dList = divesController.getAllDives();
 				for( int i =0;i<dList.size();i++)
 				{
 					if(dList.get(i).getDiveNum()== currentDive)
 					{
-						AddDiveScreen dadd=new AddDiveScreen(dList.get(i));
+						AddDiveScreen dadd=new AddDiveScreen(dList.get(i),diverController.getDiverByID(diverID));
 						found=true;
 					}
 				}
 				if(!found)
 				{
-					AddDiveScreen dadd=new AddDiveScreen(null);		
+					AddDiveScreen dadd=new AddDiveScreen(null,diverController.getDiverByID(diverID));		
+				}
+				updateDivesList(-1);
+				}
+				else
+				{
+					errorMessage("לא נבחרה צלילה", "שגיאה");
 				}
 			}
 		});
@@ -210,7 +222,7 @@ public class DiveBookScreen {
 		frame.getContentPane().add(updateDiveButton, "cell 3 2,alignx right,growy");
 		frame.getContentPane().add(addDiveButton, "cell 4 2,alignx trailing,growy");
 		frame.setVisible(true);
-		divesControler = new DivesController();
+		divesController = new DivesController();
 		updateDivesList(currentDive);
 		
 	}

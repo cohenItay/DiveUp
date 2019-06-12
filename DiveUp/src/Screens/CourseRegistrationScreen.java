@@ -265,7 +265,7 @@ public int getCurrentCourse()
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		
 		//Title and icon add
-		frame.setTitle("Course Registration");
+		frame.setTitle("הרשמה לקורס");
 		Image image;
 		try {
 			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));

@@ -154,7 +154,7 @@ public class CourseEditScreen {
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.getContentPane().setBackground(Color.WHITE);
 		//Title and icon add
-		frame.setTitle("עדכון פרטי לקוח");
+		frame.setTitle("עדכון פרטי קורס");
 		Image image;
 		try {
 			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
@@ -367,6 +367,7 @@ public class CourseEditScreen {
 					cc.updateCourse(Integer.valueOf(idTextField.getText()), nameTextField.getText(), cc.getTypeID(typeComboBox.getSelectedItem().toString()), employeeID
 					, Integer.valueOf(maxTextField.getText()), Double.valueOf(priceTextField.getText()), outputFormatter.parse(startTextField.getText()), outputFormatter.parse(endTextField.getText()), descTextField.getText());
 				message("הקורס עודכן בהצלחה", "הקורס עודכן");
+		
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
                 } catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
