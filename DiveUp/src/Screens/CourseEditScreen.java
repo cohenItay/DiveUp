@@ -352,35 +352,51 @@ public class CourseEditScreen {
                     }
                     errorMessage("נא תקן את השדות המסומנים באדום", "פרטים שגויים");
                     
-                }
-                else {
-                try {
-                	String employeeID="";
-                	Pattern pattern = Pattern.compile("\\((.*?)\\)");
-            		Matcher matcher = pattern.matcher(employeeComboBox.getSelectedItem().toString());
-            		if (matcher.find())
-            		{
-            		    employeeID = matcher.group(1);
-            		    
-            		}
-            		
-					cc.updateCourse(Integer.valueOf(idTextField.getText()), nameTextField.getText(), cc.getTypeID(typeComboBox.getSelectedItem().toString()), employeeID
-					, Integer.valueOf(maxTextField.getText()), Double.valueOf(priceTextField.getText()), outputFormatter.parse(startTextField.getText()), outputFormatter.parse(endTextField.getText()), descTextField.getText());
-				message("הקורס עודכן בהצלחה", "הקורס עודכן");
-		
-				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
-                } catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-                	errorMessage("העדכון נכשל", "עדכון נכשל");
-					e.printStackTrace();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					errorMessage("העדכון נכשל", "עדכון נכשל");
-					e.printStackTrace();
-				}
-    				
+                } else
+					try {
+						
+						if(cc.getCourseByID(Integer.valueOf(idTextField.getText())).getCurrentAmount()<= Integer.valueOf(maxTextField.getText()))
+						{
+						try {
+							String employeeID="";
+							Pattern pattern = Pattern.compile("\\((.*?)\\)");
+							Matcher matcher = pattern.matcher(employeeComboBox.getSelectedItem().toString());
+							if (matcher.find())
+							{
+							    employeeID = matcher.group(1);
+							    
+							}
+							
+							cc.updateCourse(Integer.valueOf(idTextField.getText()), nameTextField.getText(), cc.getTypeID(typeComboBox.getSelectedItem().toString()), employeeID
+							, Integer.valueOf(maxTextField.getText()), Double.valueOf(priceTextField.getText()), outputFormatter.parse(startTextField.getText()), outputFormatter.parse(endTextField.getText()), descTextField.getText());
+						message("הקורס עודכן בהצלחה", "הקורס עודכן");
+
+						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+						} catch (NumberFormatException e) {
+							// TODO Auto-generated catch block
+							errorMessage("העדכון נכשל", "עדכון נכשל");
+							e.printStackTrace();
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							errorMessage("העדכון נכשל", "עדכון נכשל");
+							e.printStackTrace();
+						}
+							
+}
+						else
+						{
+							errorMessage("כמות נוכחית גדולה מכמות מקסימלית", "שגיאה בעריכה");
+						}
+						
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
-			}
+			
 		});
 		frame.getContentPane().add(confirmButton, "cell 5 21,grow");
 		frame.setVisible(true);

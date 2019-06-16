@@ -238,7 +238,11 @@ public class EmployeesScreen {
 				
 				
 				Pattern pattern = Pattern.compile("\\((.*?)\\)");
-				if(currentEmployee != null)
+				if(currentEmployee == null)
+				{
+					errorMessage("נא לבחור עובד", "לא נבחר עובד");
+				}
+				else
 				{
 					Matcher matcher = pattern.matcher(currentEmployee);
 					String employeeID="";
@@ -249,10 +253,6 @@ public class EmployeesScreen {
 				
 					currentEmployeeInstance = employeesController.getEmployeeByID(employeeID);
 					EmployeeEditScreen ce = new EmployeeEditScreen(currentEmployeeInstance);
-				}
-				else
-				{
-					errorMessage("נא לבחור עובד", "לא נבחר עובד");
 				}
 			}
 		});

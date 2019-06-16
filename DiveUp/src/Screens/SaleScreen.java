@@ -215,7 +215,8 @@ public class SaleScreen {
 				int row = itemsTable.rowAtPoint(evt.getPoint());
 				int col = itemsTable.columnAtPoint(evt.getPoint());
 				if (row >= 0 && col >= 0) {
-					currentItem = (Integer) model.getValueAt(row, 0);
+					currentItem = (Integer) model.getValueAt(row, 5);
+					System.out.println(currentItem);
 					updateItemList(row);
 					updateAmountCombo();
 					amountComboBox.setSelectedItem("1");

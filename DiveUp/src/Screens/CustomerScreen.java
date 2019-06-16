@@ -437,26 +437,6 @@ public class CustomerScreen {
 		filterTextField.setColumns(10);
 		filterTextField.setText("");
 		filterTextField.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-		
-		DButton exitButton = new DButton("יציאה",DButton.Mode.PRIMARY);
-		exitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
-			}
-		});
-		frame.getContentPane().add(exitButton, "cell 2 7,grow");
-		exitButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			exitButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				exitButton.setBackground(UIConstants.SELECTED_BTN);
-			}
-		});
 		updateDiversTable();
 		frame.setVisible(true);
 		filterTextField.requestFocusInWindow();

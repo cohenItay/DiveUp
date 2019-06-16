@@ -54,7 +54,6 @@ public class AddDiveScreen {
 	private diverSqlQueries dbConnection;
 	private DTextPane jtp;
 	private Document doc;
-	private JComboBox diverComboBox;
 	private JComboBox locationComboBox;
 	private JComboBox startMinutesComboBox;
 	private JComboBox startHourComboBox;
@@ -117,20 +116,7 @@ public class AddDiveScreen {
         
     }
 	
-	public void updateDiversList()
-	{
-		
-		List<Diver>diversList = dc.getDivers();
-		((JLabel)diverComboBox.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
-	    for(int i =0 ; i<diversList.size();i++)
-	    {
-	    	diverComboBox.addItem( "(" + diversList.get(i).getId()+")"+diversList.get(i).getFirstName());
-	    }
-	    if(selectedDiver != null)
-	    {
-	    	diverComboBox.setSelectedItem("("+selectedDiver.getId()+")"+selectedDiver.getFirstName());
-	    }
-	}
+	
 	
 	
 	
@@ -162,7 +148,7 @@ public class AddDiveScreen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][][20%,fill][20%][350px:n,fill][20%:20%,fill][20px:n][][130px:n][80px][80px:n][100px:n]", "[][40px:n][::40px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][40px:n][40px:n]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[20%,fill][][20%,fill][20%][350px:n,fill][20%:20%,grow,fill][20px:n][][130px:n][80px][80px:n][100px:n]", "[][40px:n][::40px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][::10px][40px:n][40px:n][40px:n]"));
 		
 		
 		
@@ -174,8 +160,11 @@ public class AddDiveScreen {
 		titleLabel.setForeground(UIConstants.SELECTED_BTN);
 		frame.getContentPane().add(titleLabel, "cell 5 0");
 		
-		diverComboBox = new JComboBox();
-		frame.getContentPane().add(diverComboBox, "cell 5 3,growx");
+		DTextField diverTextField = new DTextField(20);
+		diverTextField.setEnabled(false);
+		diverTextField.setEditable(false);
+		diverTextField.setHorizontalAlignment(SwingConstants.RIGHT);
+		frame.getContentPane().add(diverTextField, "cell 5 3,growx");
 		
 		JLabel diverLabel = new JLabel("צוללן");
 		diverLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -315,7 +304,7 @@ public class AddDiveScreen {
 				
 				DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
 				Pattern pattern = Pattern.compile("\\((.*?)\\)");
-        		Matcher matcher = pattern.matcher(diverComboBox.getSelectedItem().toString());
+        		Matcher matcher = pattern.matcher(diverTextField.getText());
         		String diverID="";
         		if (matcher.find())
         		{
@@ -346,14 +335,13 @@ public class AddDiveScreen {
 		});
 		frame.getContentPane().add(confirmButton, "cell 5 18,grow");
 		frame.setVisible(true);
-		updateDiversList();
 		updateLocations();
+		diverTextField.setText(selectedDiver.getFirstName()+"("+selectedDiver.getId()+")");
 		if(selectedDive!=null)
 		{
 			titleLabel.setText("עדכון צלילה");
 			confirmButton.setText("עדכן");
-			System.out.println(selectedDive.toString());
-			diverComboBox.setSelectedItem("("+dc.getDiverByID(selectedDive.getDiver()).getId()+")"+dc.getDiverByID(selectedDive.getDiver()).getFirstName());
+			diverTextField.setText(selectedDiver.getFirstName()+"("+selectedDiver.getId()+")");
 			locationComboBox.setSelectedItem(selectedDive.getLocation());
 			maxDepthTextField.setText(String.valueOf(selectedDive.getMaxDepth()));
 			startHourComboBox.setSelectedItem(selectedDive.getStartTime().substring(0, 2));

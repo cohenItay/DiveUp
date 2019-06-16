@@ -290,7 +290,8 @@ public class CustomerEditScreen {
                     
                     errorMessage("נא תקן את השדות המסומנים באדום", "פרטים שגויים");
                 }
-                else {
+                else 
+                {
     				String insurance = "";
     				if(isProtected.isSelected())
     					insurance = "YES";

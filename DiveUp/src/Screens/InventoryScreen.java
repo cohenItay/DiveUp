@@ -77,6 +77,7 @@ public class InventoryScreen {
 	private JLabel loanLabel;
 	private JLabel amountLabel;
 	private DButton editButton;
+	private JButton addButton;
 	
 	/**
 	 * Launch the application.
@@ -121,6 +122,7 @@ public class InventoryScreen {
 				priceTextField.setText(String.valueOf(itemsList.get(i).getPrice()));
 				loandTextField.setText(String.valueOf(itemsList.get(i).getLoanPrice()));
 				amountTextField.setText(String.valueOf(itemsList.get(i).getAmount()));
+				editButton.setText("עדכן");
 				editButton.setVisible(true);
 				idTextField.setVisible(true);
 				nameTextField.setVisible(true);
@@ -203,7 +205,7 @@ public class InventoryScreen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		frame.getContentPane().setLayout(new MigLayout("", "[400][400][400][400,right][80px:n][250px:n]", "[150px:n][::5px][5px:n][25.00][][20px:n][17.00][20px:n][30px:n][20px:n][][20px:n][][20px:n][30px:n][20px:n][40px:n][100px:n][40px:n][30px:n][10px:n][30px:n][]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[400][400][400][400,right][80px:n][250px:n]", "[150px:n][::5px][5px:n][40px:n][5px:n][][10px:n][17.00][10px:n][30px:n][10px:n][][10px:n][][10px:n][30px:n][20px:n][40px:n][100px:n][40px:n][30px:n][10px:n][30px:n][]"));
 		frame.getContentPane().setBackground(Color.WHITE);
 		/* Creating the table model and the table for the divers information */
 		String[] colHeadings = { "כמות", "עלות השכרה", "עלות קניה", "תיאור", "שם", "מזהה" };
@@ -245,24 +247,64 @@ public class InventoryScreen {
 		editButton.setVisible(false);
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+			
+				if(editButton.getText().equals("הוספה"))
+				{
+					iController.addNewItem(nameTextField.getText(),descTextField.getText(),Double.valueOf(priceTextField.getText()),Double.valueOf(loandTextField.getText()),Integer.valueOf(amountTextField.getText()));
+					updateItemList(-1);
+				}
+				else
+				{
+					iController.updateItem(Integer.valueOf(idTextField.getText()), nameTextField.getText(),descTextField.getText(),Double.valueOf(priceTextField.getText()),Double.valueOf(loandTextField.getText()),Integer.valueOf(amountTextField.getText()));
+					updateItemList(-1);
+				}
 			}
 		});
 		
+		addButton = new DButton("הוספת פריט",DButton.Mode.PRIMARY);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				idTextField.setText(String.valueOf(iController.getNewItemID()));
+				nameTextField.setText("");
+				descTextField.setText("");
+				priceTextField.setText("");
+				loandTextField.setText("");
+				amountTextField.setText("");
+				editButton.setText("הוספה");
+				
+				editButton.setVisible(true);
+				idTextField.setVisible(true);
+				nameTextField.setVisible(true);
+				descTextField.setVisible(true);
+				priceTextField.setVisible(true);
+				loandTextField.setVisible(true);
+				amountTextField.setVisible(true);
+				idLabel.setVisible(true);
+				nameLabel.setVisible(true);
+				descLabel.setVisible(true);
+				priceLabel.setVisible(true);
+				loanLabel.setVisible(true);
+				amountLabel.setVisible(true);
+			}
+		});
+		frame.getContentPane().add(addButton, "cell 5 3,grow");
+		
 		idTextField = new DTextField(20);
-		frame.getContentPane().add(idTextField, "cell 4 4");
+		frame.getContentPane().add(idTextField, "cell 4 5");
 		idTextField.setColumns(10);
 		idTextField.setVisible(false);
+		idTextField.setEditable(false);
+		idTextField.setEnabled(false);
 		
 		idLabel = new JLabel("מזהה");
 		idLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		idLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		idLabel.setForeground(UIConstants.BORDER_DARK);
 		idLabel.setVisible(false);
-		frame.getContentPane().add(idLabel, "cell 5 4,alignx right");
+		frame.getContentPane().add(idLabel, "cell 5 5,alignx right");
 		
 		nameTextField = new DTextField(20);
-		frame.getContentPane().add(nameTextField, "cell 4 6,growx");
+		frame.getContentPane().add(nameTextField, "cell 4 7,growx");
 		nameTextField.setColumns(10);
 		nameTextField.setVisible(false);
 		
@@ -272,10 +314,10 @@ public class InventoryScreen {
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		nameLabel.setForeground(UIConstants.BORDER_DARK);
 		nameLabel.setVisible(false);
-		frame.getContentPane().add(nameLabel, "cell 5 6,alignx right,aligny center");
+		frame.getContentPane().add(nameLabel, "cell 5 7,alignx right,aligny center");
 		
 		descTextField = new DTextField(20);
-		frame.getContentPane().add(descTextField, "cell 4 8");
+		frame.getContentPane().add(descTextField, "cell 4 9");
 		descTextField.setColumns(10);
 		descTextField.setVisible(false);
 		
@@ -284,10 +326,10 @@ public class InventoryScreen {
 		descLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		descLabel.setForeground(UIConstants.BORDER_DARK);
 		descLabel.setVisible(false);
-		frame.getContentPane().add(descLabel, "cell 5 8,alignx right");
+		frame.getContentPane().add(descLabel, "cell 5 9,alignx right");
 		
 		priceTextField = new DTextField(20);
-		frame.getContentPane().add(priceTextField, "cell 4 10,growx");
+		frame.getContentPane().add(priceTextField, "cell 4 11,growx");
 		priceTextField.setColumns(10);
 		priceTextField.setVisible(false);
 		
@@ -296,10 +338,10 @@ public class InventoryScreen {
 		priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		priceLabel.setForeground(UIConstants.BORDER_DARK);
 		priceLabel.setVisible(false);
-		frame.getContentPane().add(priceLabel, "cell 5 10,alignx right");
+		frame.getContentPane().add(priceLabel, "cell 5 11,alignx right");
 		
 		loandTextField = new DTextField(20);
-		frame.getContentPane().add(loandTextField, "cell 4 12,growx");
+		frame.getContentPane().add(loandTextField, "cell 4 13,growx");
 		loandTextField.setColumns(10);
 		loandTextField.setVisible(false);
 		
@@ -308,10 +350,10 @@ public class InventoryScreen {
 		loanLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		loanLabel.setForeground(UIConstants.BORDER_DARK);
 		loanLabel.setVisible(false);
-		frame.getContentPane().add(loanLabel, "cell 5 12,alignx right");
+		frame.getContentPane().add(loanLabel, "cell 5 13,alignx right");
 		
 		amountTextField = new DTextField(20);
-		frame.getContentPane().add(amountTextField, "cell 4 14,growx");
+		frame.getContentPane().add(amountTextField, "cell 4 15,growx");
 		amountTextField.setColumns(10);
 		amountTextField.setVisible(false);
 		
@@ -320,8 +362,8 @@ public class InventoryScreen {
 		amountLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		amountLabel.setForeground(UIConstants.BORDER_DARK);
 		amountLabel.setVisible(false);
-		frame.getContentPane().add(amountLabel, "cell 5 14,alignx right,aligny top");
-		frame.getContentPane().add(editButton, "cell 4 16 2 1,growx,aligny center");
+		frame.getContentPane().add(amountLabel, "cell 5 15,alignx right,aligny top");
+		frame.getContentPane().add(editButton, "cell 4 17 2 1,growx,aligny center");
 
 		/* Add listener in order to update the table data when pressed */
 		itemsTable.addMouseListener(new java.awt.event.MouseAdapter() {

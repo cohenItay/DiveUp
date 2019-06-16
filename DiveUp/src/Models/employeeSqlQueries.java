@@ -105,9 +105,9 @@ public class employeeSqlQueries {
 	
 	
 	
-	public String addEmployee(String id, String firstName, String lastName, String email, String phone,Double salary)
+	public String addEmployee(String id, String firstName, String lastName, String email, String phone,Double salary,String seniority)
 	{
-		String sql = "INSERT INTO Employee(employeeID,firstName,lastName,seniority,email,phone,salary) VALUES(?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO Employee(employeeID,firstName,lastName,seniority,email,phone,salary,seniority) VALUES(?,?,?,?,?,?,?,?)";
 		 
 	        PreparedStatement pstmt;
 			try {
@@ -120,6 +120,7 @@ public class employeeSqlQueries {
 			    pstmt.setString(5, email);
 			    pstmt.setString(6, phone);
 			    pstmt.setDouble(7, salary);
+			    pstmt.setString(8, seniority);
 			    pstmt.executeUpdate();
 			     
 			} catch (SQLException e) {
@@ -147,6 +148,29 @@ public class employeeSqlQueries {
 	}
 	
 	
-	
+
+	public void updateEmployee(String id, String firstName, String lastName, String email, String phone,Double salary,String seniority)
+	{
+		String query = "update Employee set firstName = ?, lastName = ? ,email = ?,phone = ? , salary = ? , seniority = ?  where employeeID = ?";
+	    PreparedStatement preparedStmt;
+		try {;
+			preparedStmt = connection.prepareStatement(query);
+		    preparedStmt.setString(1, firstName);
+		    preparedStmt.setString(2, lastName);
+		    preparedStmt.setString(3, email);
+		    preparedStmt.setString(4, phone);
+		    preparedStmt.setDouble(5, salary);
+		    preparedStmt.setString(6, seniority);
+		    preparedStmt.setString(7, id);
+		    // execute the java preparedstatement
+		    preparedStmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+	}
 	
 }

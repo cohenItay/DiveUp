@@ -25,6 +25,7 @@ import Classes.Course;
 import Classes.Diver;
 import Controllers.CoursesController;
 import Controllers.DiverController;
+import Controllers.DivesController;
 import Models.SendEmailTLS;
 import Models.courseSqlQueries;
 import Models.diverSqlQueries;
@@ -128,10 +129,9 @@ public void updateCoursesList(int row)
 		    	if(compareDates(courses.get(i).getStartDay(), startDatePicker.getDate())>=0 && compareDates(courses.get(i).getStartDay(), endDatePicker.getDate())<=0  && compareDates(courses.get(i).getEndDay(), endDatePicker.getDate())<=0 && compareDates(courses.get(i).getEndDay(), startDatePicker.getDate())>=0)
 		    	{
 		    	if(courses.get(i).getCurrentAmount() < courses.get(i).getMaxDivers() && (courses.get(i).getName().contains(filterTextField.getText()) || courses.get(i).getDesc().contains(filterTextField.getText()) || courses.get(i).getInstructor().contains(filterTextField.getText())))
-		    		model.addRow(new Object[] {courses.get(i).getId(), courses.get(i).getDesc(),
-		    				courses.get(i).getName(),courses.get(i).getInstructor(),
-		    				courses.get(i).getCurrentAmount(),courses.get(i).getMaxDivers(),courses.get(i).getPrice(),
-		    				outputFormatter.format(courses.get(i).getStartDay()),outputFormatter.format(courses.get(i).getEndDay())});
+		    		model.addRow(new Object[] {outputFormatter.format(courses.get(i).getEndDay()),outputFormatter.format(courses.get(i).getStartDay()),courses.get(i).getPrice(),courses.get(i).getMaxDivers(),
+		    				courses.get(i).getCurrentAmount(),courses.get(i).getInstructor(),courses.get(i).getDesc(),courses.get(i).getName()
+		    				,courses.get(i).getId()});
 		    	}
 	    }
 	}
@@ -385,7 +385,7 @@ public int getCurrentCourse()
         frame.getContentPane().add(endDateLabel, "cell 11 7,alignx right");
         
         
-        String[] colHeadings = {"ID","Name","Desc","Instructor","Amount","Max Amount","Price","Start Date","End Date"};
+        String[] colHeadings = {"תאריך סיום","תאריך התחלה","מחיר","כמות מקסימלית","כמות","מדריך","תיאור","שם","מזהה"};
 		int numRows = 0 ;
 		model = new DefaultTableModel(numRows, colHeadings.length)
 				{
@@ -405,7 +405,7 @@ public int getCurrentCourse()
 		        int row = coursesTable.rowAtPoint(evt.getPoint());
 		        int col = coursesTable.columnAtPoint(evt.getPoint());
 		        if (row >= 0 && col >= 0) {
-		        	currentCourse = (Integer)model.getValueAt(row, 0);
+		        	currentCourse = (Integer)model.getValueAt(row, 8);
 		            updateCoursesList(row);
 		            
 		        }
@@ -440,79 +440,91 @@ public int getCurrentCourse()
         DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
         confirmButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		String diverID="";
-        		String diverName = "";
-        		Pattern pattern = Pattern.compile("\\((.*?)\\)");
-        		Matcher matcher = pattern.matcher(diversCombo.getSelectedItem().toString());
-        		if (matcher.find())
+        		if(!diversCombo.getSelectedItem().toString().isEmpty())
         		{
-        		    diverID = matcher.group(1);
-        		    diverName = diversCombo.getSelectedItem().toString().replace("("+matcher.group(1)+")","");
-        		}
-        		
-        		if(diverController.getDiverByID(diverID).getInsurance().equals("YES"))
-        		{
-        		
-		        		if(courseController.validateCourseRegistration(currentCourse, diverID))
-		        		{
-		        				boolean isRegistered = false;
-		        				boolean succeed=true;
-		        				List<Course> clientCourses = courseController.getCoursesByID(diverID);
-		        				for(int i =0;i<clientCourses.size();i++)
-		        				{
-		        				
-		        					if(clientCourses.get(i).getId() == currentCourse)
-		        						isRegistered = true;
-		        				
-		        					try {
-		        						if(compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getStartDay())> 0 &&  compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getEndDay())< 0  || compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getEndDay())<0  && compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getStartDay())>0 )
-		        							isRegistered=true;
-		        					} catch (ParseException e) {
-		        						// TODO Auto-generated catch block
-		        						e.printStackTrace();
+	        		String diverID="";
+	        		String diverName = "";
+	        		Pattern pattern = Pattern.compile("\\((.*?)\\)");
+	        		Matcher matcher = pattern.matcher(diversCombo.getSelectedItem().toString());
+	        		if (matcher.find())
+	        		{
+	        		    diverID = matcher.group(1);
+	        		    diverName = diversCombo.getSelectedItem().toString().replace("("+matcher.group(1)+")","");
+	        		}
+	        		
+	        		if(diverController.getDiverByID(diverID).getInsurance().equals("YES"))
+	        		{
+	        		
+			        		if(courseController.validateCourseRegistration(currentCourse, diverID))
+			        		{
+			        				boolean isRegistered = false;
+			        				boolean succeed=true;
+			        				List<Course> clientCourses = courseController.getCoursesByID(diverID);
+			        				for(int i =0;i<clientCourses.size();i++)
+			        				{
+			        				
+			        					if(clientCourses.get(i).getId() == currentCourse)
+			        						isRegistered = true;
+			        				
+			        					try {
+			        						if(compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getStartDay())> 0 &&  compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getEndDay())< 0  || compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getEndDay())<0  && compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getStartDay())>0 )
+			        							isRegistered=true;
+			        					} catch (ParseException e) {
+			        						// TODO Auto-generated catch block
+			        						e.printStackTrace();
+									}
+			        			}
+			        			
+			        			
+			        			if(!isRegistered)
+			        				succeed = courseController.registerNewCourse(currentCourse, diverID);
+			        			else
+			        			{
+			        				errorMessage("הלקוח כבר רשום לקורס בתאריך זה", "שגיאה בהרשמה לקורס");
+			        				succeed = false;
+			        			}
+			        				
+			        			
+			        			
+			        			if(succeed)
+			        			{
+			
+			        					SendEmailTLS sm = new SendEmailTLS(diverController.getDiverByID(diverID).getEmail(), "ברכות על ההרשמה לקורס "+courseController.getCourseName(currentCourse), "היי "+diverName +"<br> תודה שנרשמת לקורס "+courseController.getCourseName(currentCourse)
+			        					+" בתאריך " +courseController.getCourseStartDay(currentCourse)+"<br>"+"מצפים לראותך");
+			        					message("ההרשמה התבצעה בהצלחה","ההרשמה התבצעה בהצלחה");
+			        					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
+			        			}
+			        			
+			        		
+			        			try {
+									if(courseController.getCourseByID(currentCourse).getCurrentAmount()==courseController.getCourseByID(currentCourse).getMaxDivers())
+									{
+										errorMessage("הקורס הנוכחי מלא", "בעיה בהרשמה");
+									
+									}
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
-		        			}
-		        			
-		        			
-		        			if(!isRegistered)
-		        				succeed = courseController.registerNewCourse(currentCourse, diverID);
-		        			else
-		        			{
-		        				errorMessage("הלקוח כבר רשום לקורס בתאריך זה", "שגיאה בהרשמה לקורס");
-		        				succeed = false;
-		        			}
-		        				
-		        			
-		        			
-		        			if(succeed)
-		        			{
-		
-		        					SendEmailTLS sm = new SendEmailTLS(diverController.getDiverByID(diverID).getEmail(), "ברכות על ההרשמה לקורס "+courseController.getCourseName(currentCourse), "היי "+diverName +"<br> תודה שנרשמת לקורס "+courseController.getCourseName(currentCourse)
-		        					+" בתאריך " +courseController.getCourseStartDay(currentCourse)+"<br>"+"מצפים לראותך");
-		        					message("ההרשמה התבצעה בהצלחה","ההרשמה התבצעה בהצלחה");
-		        					frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
-		        			}
-		        			
-		        		
-		        			else
-		        			{
-		        				errorMessage("הקורס הנוכחי מלא", "בעיה בהרשמה");
-		        			
-		        			}
-		        		updateCoursesList(-1);
-		        		}
-		        		else
-		        		{
-		        			errorMessage("אנא בחר צוללן וקורס", "פרטים חסרים");
-		        		}
-		        	
-        		}
+			        		updateCoursesList(-1);
+			        		}
+			        		else
+			        		{
+			        			errorMessage("אנא בחר צוללן וקורס", "פרטים חסרים");
+			        		}
+			        	
+	        		}
+	        		else
+	        		{
+	        			errorMessage("לקוח לא מבוטח", "שגיאה בהרשמה");
+	        		}
+	        	}
         		else
         		{
-        			errorMessage("לקוח לא מבוטח", "שגיאה בהרשמה");
+        			errorMessage("אנא בחור צוללן וקורס", "פרטים חסרים");
         		}
         	}
-        });
+	        });
         frame.getContentPane().add(confirmButton, "cell 11 11,grow");
         
         

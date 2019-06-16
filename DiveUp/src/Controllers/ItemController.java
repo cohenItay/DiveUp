@@ -15,10 +15,10 @@ public class ItemController implements Controller {
 		dbConnection = new itemSqlQueries();
 	}
 	//Add new item to DB
-	public void addNewItem()
+	public void addNewItem(String name , String desc , double price, double loanPrice,int amount)
 	{
 		
-		
+		dbConnection.addItem(name, desc, price, loanPrice, amount);
 	}
 	
 	//validate item fields
@@ -48,6 +48,15 @@ public class ItemController implements Controller {
 	{
 		itemSqlQueries it = new itemSqlQueries();
 		return it.getItems();
+	}
+	
+	public int getNewItemID()
+	{
+		return dbConnection.getNewItemID();
+	}
+	public void updateItem(int id,String name,String desc,Double price,Double loanPrice,int amount)
+	{
+		dbConnection.updateItem(id, name, desc, price, loanPrice, amount);
 	}
 
 }

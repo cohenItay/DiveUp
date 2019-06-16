@@ -33,6 +33,7 @@ import res.DNotification;
 import res.DTextField;
 import res.DTextPane;
 import res.UIConstants;
+import javax.swing.JComboBox;
 
 public class EmployeeAddScreen {
 	
@@ -48,7 +49,7 @@ public class EmployeeAddScreen {
 	private diverSqlQueries dbConnection;
 	private DTextPane jtp;
 	private Document doc;
-
+	private JComboBox seniorityComboBox;
 	/**
 	 * Launch the application.
 	 */
@@ -253,7 +254,7 @@ public class EmployeeAddScreen {
                 else {
     				
     				String status =ec.addEmployee(idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
-    						 emailTextField.getText(), phoneTextField.getText(),Double.valueOf(salaryTextField.getText()));
+    						 emailTextField.getText(), phoneTextField.getText(),Double.valueOf(salaryTextField.getText()),seniorityComboBox.getSelectedItem().toString());
     				if(status.equals("DUP"))
     				{
     					errorMessage("לקוח קיים במערכת", "הרשמה נכשלה");
@@ -275,6 +276,19 @@ public class EmployeeAddScreen {
 
 			}
 		});
+		
+		seniorityComboBox = new JComboBox();
+		seniorityComboBox.addItem("רגיל");
+		seniorityComboBox.addItem("מדריף");
+		seniorityComboBox.addItem("מנהל משמרת");
+		seniorityComboBox.addItem("מנהל");
+		((JLabel)seniorityComboBox.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
+		frame.getContentPane().add(seniorityComboBox, "cell 5 15,growx");
+		
+		JLabel seniorityLabel = new JLabel("ותק");
+		seniorityLabel.setForeground(new Color(112, 112, 112));
+		seniorityLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
+		frame.getContentPane().add(seniorityLabel, "cell 7 15,alignx right");
 		frame.getContentPane().add(confirmButton, "cell 5 17,grow");
 		frame.setVisible(true);
 		idTextField.requestFocusInWindow();

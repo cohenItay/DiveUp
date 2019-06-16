@@ -31,9 +31,14 @@ private employeeSqlQueries dbConnection;//instance to run item queries
 		return dbConnection.getEmployeeByID(id);//Getting divers list from the DB
 
 	}
-	public String addEmployee(String id, String firstName, String lastName, String email, String phone,Double salary)
+	public String addEmployee(String id, String firstName, String lastName, String email, String phone,Double salary,String seniority)
 	{
 		employeeSqlQueries dbConnection = new employeeSqlQueries();
-		return dbConnection.addEmployee(id, firstName, lastName, email, phone, salary);
+		return dbConnection.addEmployee(id, firstName, lastName, email, phone, salary,seniority);
+	}
+	public void updateEmployee(String id, String firstName, String lastName, String email, String phone,Double salary,String seniority)
+	{
+		employeeSqlQueries dbConnection = new employeeSqlQueries();
+		dbConnection.updateEmployee(id, firstName, lastName, email, phone,salary,seniority);
 	}
 }
