@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="C:/Users/H357229/git/DiveUp/DiveUp/JARS/poi-3.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/H357229/git/DiveUp/DiveUp/JARS/sqlite-jdbc-3.27.2.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/H357229/git/DiveUp/DiveUp/JARS/swingx-1.6.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

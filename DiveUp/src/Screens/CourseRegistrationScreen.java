@@ -87,6 +87,8 @@ import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/******** Course registration Screen view ******/
+
 public class CourseRegistrationScreen {
 
 	
@@ -113,7 +115,7 @@ public class CourseRegistrationScreen {
 	
 	
 	
-	
+//getting courses list from the DB, get only the courses that are not full , and fit to the selected dates	
 public void updateCoursesList(int row)
 {
 	model.setRowCount(0);//Clearing the table data
@@ -172,12 +174,15 @@ public void updateCoursesList(int row)
     	coursesTable.setRowSelectionInterval(row, row);
 }
 
+//function to calculate number of days between two dates
 public long compareDates(Date d1, Date d2)
 {
 	long diff = d1.getTime() - d2.getTime();
     long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	return days;
 }
+
+//Update divers list combobox
 public void updateDiversList()
 {
 	
@@ -190,7 +195,7 @@ public void updateDiversList()
     }
 }
 
-//get the selected couse from the table
+//get the selected course from the JTable
 public int getCurrentCourse()
 {
 	return currentCourse;
@@ -213,16 +218,18 @@ public int getCurrentCourse()
 	/**
 	 * Create the application.
 	 */
+	//Constructor that called from the divers screen
 	public CourseRegistrationScreen(String diverID) {
 		this.diverID = diverID;
 		initialize();
 	}
+	//constructor the called from courses screen
 	public CourseRegistrationScreen(int courseID) {
 		this.courseID = courseID;
 		initialize();
 	}
 
-	
+	//function to pop a message to screen
 	public void message(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -237,6 +244,7 @@ public int getCurrentCourse()
 		}
         
     }
+	//function to pop an error message to the screen
 	public void errorMessage(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -260,7 +268,7 @@ public int getCurrentCourse()
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame();//create jframe
 		/* set the size and the location of the frame */
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		
@@ -276,6 +284,10 @@ public int getCurrentCourse()
 		}
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[][60px:n][60px:n][60px:n][60px:n][60px:n][60px:n][80px:n][60px:n][60px:n][60px:n][300px:n,grow]", "[40px:n][][::200px][][30px:n][][14.00][][][][15.00][40px:n][]"));
+		
+		
+		
+		//Creating form fields 
 		
 		
 		JLabel titleLabel = new JLabel("הרשמה לקורס");
@@ -305,7 +317,7 @@ public int getCurrentCourse()
 		startDatePicker.getEditor().setBackground(Color.WHITE);
 		startDatePicker.getEditor().setForeground(UIConstants.BORDER_DARK);
 		startDatePicker.getEditor().setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-		
+		//check that selected startdate is before selected end date
 		startDatePicker.getEditor().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Date d = new Date();
@@ -341,6 +353,7 @@ public int getCurrentCourse()
         
 		c.add(Calendar.DATE, 1);
         endDatePicker = new JXDatePicker();
+        //check that selected end date is after selected start date
         endDatePicker.getEditor().addPropertyChangeListener(new PropertyChangeListener() {
         	public void propertyChange(PropertyChangeEvent evt) {
         	if(table_loaded)
@@ -398,7 +411,7 @@ public int getCurrentCourse()
 		coursesTable = new JTable(model);
 		DTable designTable = new DTable();
 		coursesTable = designTable.designTable(coursesTable,DTable.Mode.PRIMARY);
-		
+		//select the course that selected from the JTable
 		coursesTable.addMouseListener(new java.awt.event.MouseAdapter() {
 		    @Override
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -437,11 +450,14 @@ public int getCurrentCourse()
         diverLabel.setForeground(UIConstants.BORDER_DARK);
         frame.getContentPane().add(diverLabel, "cell 11 8,alignx right");
         
+        
         DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
         confirmButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
+        		//if diver is selected from the list
         		if(!diversCombo.getSelectedItem().toString().isEmpty())
         		{
+        			//get seperate diverID and name from the selected item
 	        		String diverID="";
 	        		String diverName = "";
 	        		Pattern pattern = Pattern.compile("\\((.*?)\\)");
@@ -452,20 +468,22 @@ public int getCurrentCourse()
 	        		    diverName = diversCombo.getSelectedItem().toString().replace("("+matcher.group(1)+")","");
 	        		}
 	        		
+	        		//check that the diver is having an insurance
 	        		if(diverController.getDiverByID(diverID).getInsurance().equals("YES"))
 	        		{
-	        		
+	        				//input validation
 			        		if(courseController.validateCourseRegistration(currentCourse, diverID))
 			        		{
 			        				boolean isRegistered = false;
 			        				boolean succeed=true;
 			        				List<Course> clientCourses = courseController.getCoursesByID(diverID);
+			        				//check that the diver is not registered to this course , or to another course on the selected dates
 			        				for(int i =0;i<clientCourses.size();i++)
 			        				{
 			        				
 			        					if(clientCourses.get(i).getId() == currentCourse)
 			        						isRegistered = true;
-			        				
+			        					
 			        					try {
 			        						if(compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getStartDay())> 0 &&  compareDates(courseController.getCourseByID(currentCourse).getStartDay(), clientCourses.get(i).getEndDay())< 0  || compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getEndDay())<0  && compareDates( courseController.getCourseByID(currentCourse).getEndDay(), clientCourses.get(i).getStartDay())>0 )
 			        							isRegistered=true;
@@ -485,7 +503,7 @@ public int getCurrentCourse()
 			        			}
 			        				
 			        			
-			        			
+			        			//if registration succeed, send a mail about the course registration
 			        			if(succeed)
 			        			{
 			

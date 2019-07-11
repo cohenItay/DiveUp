@@ -216,7 +216,6 @@ public class SaleScreen {
 				int col = itemsTable.columnAtPoint(evt.getPoint());
 				if (row >= 0 && col >= 0) {
 					currentItem = (Integer) model.getValueAt(row, 5);
-					System.out.println(currentItem);
 					updateItemList(row);
 					updateAmountCombo();
 					amountComboBox.setSelectedItem("1");
@@ -258,6 +257,7 @@ public class SaleScreen {
 				// adding item from the items table to the cartTable
 				if(currentItem!=-1)
 				{
+					
 					if(firstTime)
 					{
 						message("על מנת למחוק פריט,יש לסמן אותו בעגלה וללחוץ על כפתור delete","הודעה");
@@ -379,7 +379,7 @@ public class SaleScreen {
 				int row = itemsTable.rowAtPoint(evt.getPoint());
 				int col = itemsTable.columnAtPoint(evt.getPoint());
 				if (row >= 0 && col >= 0) {
-					currentItem = (Integer) model.getValueAt(row, 0);
+					currentItem = (Integer) model.getValueAt(row, 5);
 					updateItemList(row);
 
 				}

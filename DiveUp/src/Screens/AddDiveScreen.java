@@ -43,7 +43,7 @@ import res.DTextField;
 import res.DTextPane;
 import res.UIConstants;
 import javax.swing.JComboBox;
-
+/******** Add Dive Screen view ******/
 public class AddDiveScreen {
 
 	private JFrame frame;
@@ -77,14 +77,20 @@ public class AddDiveScreen {
 			}
 		});
 	}
+	/* Class constructor 
+	 * params : @Dive , if accesed from the dive book select the relevant dive
+	 * params : @selected, If Get selected diver 
+	 */
 	public AddDiveScreen(Dive dive,Diver selected)
 	{
 		selectedDive = dive;
 		selectedDiver = selected;
-		dc = new DiverController();
-		diveController = new DivesController();
-		initialize();
+		dc = new DiverController();//create diver controller instance
+		diveController = new DivesController();//create dives controller instance
+		initialize();//initialize the frame
 	}
+	
+	//Function to pop a message to the user
 	public void message(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -99,6 +105,7 @@ public class AddDiveScreen {
 		}
         
     }
+	//Function to create an error message to the user
 	public void errorMessage(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -119,7 +126,7 @@ public class AddDiveScreen {
 	
 	
 	
-	
+	//Update locations combobox from the databse
 	public void updateLocations()
 	{
 		List<String> locations = diveController.getLocations();
@@ -134,10 +141,10 @@ public class AddDiveScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame();//Creatin the JFrame
 		/* set the size and the location of the frame */
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
-		frame.getContentPane().setBackground(Color.WHITE);
+		frame.getContentPane().setBackground(Color.WHITE);//change frame background color
 		//Title and icon add
 		frame.setTitle("הוספת צלילה");
 		Image image;
@@ -197,6 +204,7 @@ public class AddDiveScreen {
 		startHourComboBox.setFont(new Font("Tahoma",Font.BOLD,16));
 		((JLabel)startHourComboBox.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(startHourComboBox, "flowx,cell 5 9");
+		//filling the values for hours and minutes for the time picker
 		for(int i=0;i<=23;i++)
 		{
 			if(i<10)
@@ -302,6 +310,8 @@ public class AddDiveScreen {
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				
+				//Getting the diveID from the string of diverID + diver name
 				DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
 				Pattern pattern = Pattern.compile("\\((.*?)\\)");
         		Matcher matcher = pattern.matcher(diverTextField.getText());
@@ -311,6 +321,7 @@ public class AddDiveScreen {
         		    diverID = matcher.group(1);
         		}
 				
+        		//if its not a new dive, just need to update the dive details
         		if(selectedDive !=null)
 				{
         			diveController.updateDive(selectedDive.getDiveNum(),diverID,locationComboBox.getSelectedItem().toString(),outputFormatter.format(new Date()),Double.valueOf(maxDepthTextField.getText()),
@@ -320,6 +331,7 @@ public class AddDiveScreen {
         			message("העדכון בוצע בהצלחה", "פעולה התבצעה בהצלחה");
         			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
 				}
+        		//new dive , add it to the DB
 				else
 				{
 					
@@ -337,6 +349,8 @@ public class AddDiveScreen {
 		frame.setVisible(true);
 		updateLocations();
 		diverTextField.setText(selectedDiver.getFirstName()+"("+selectedDiver.getId()+")");
+		
+		//if the user asked to edit an exist dive, fill the form fields with the current dive information
 		if(selectedDive!=null)
 		{
 			titleLabel.setText("עדכון צלילה");

@@ -64,6 +64,7 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/******** Customer Screen view ******/
 public class CustomerScreen {
 
 	private JFrame frame;
@@ -108,7 +109,7 @@ public class CustomerScreen {
 					}
 		}
 	}
-	
+	//Get all dives of the driver
 	public void updateDiveBook(String id, int row)
 	{	
 		modeldives.setRowCount(0);
@@ -156,7 +157,7 @@ public class CustomerScreen {
 	public CustomerScreen() {
 		initialize();
 	}
-
+	//function to pop a message to the screen
 	public void message(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -171,6 +172,7 @@ public class CustomerScreen {
 		}
         
     }
+	//function to pop an error message to the screen
 	public void errorMessage(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();

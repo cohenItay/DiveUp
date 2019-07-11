@@ -53,6 +53,9 @@ import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+
+/******** Add Course Screen view ******/
+
 public class CourseAddScreen {
 
 	private JFrame frame;
@@ -93,7 +96,7 @@ public class CourseAddScreen {
 	}
 
 	
-	
+	//Get all courses type from the database
 	public void updateTypes()
 	{
 		List<String>typesList = cController.getTypes();
@@ -103,7 +106,7 @@ public class CourseAddScreen {
 	    	typeComboBox.addItem(typesList.get(i));
 	    }
 	}
-	
+	//get a list of the instructors from the databse
 	public void updateEmployees()
 	{
 		List<Employee>employeesList = eController.getEmployees();
@@ -114,6 +117,7 @@ public class CourseAddScreen {
 	    }
 	}
 	
+	//function to pop a message to the screen
 	public void message(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -128,6 +132,7 @@ public class CourseAddScreen {
 		}
         
     }
+	//function to pop an error to the screen
 	public void errorMessage(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -151,7 +156,7 @@ public class CourseAddScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame();//creating the jframe
 		/* set the size and the location of the frame */
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
 		frame.getContentPane().setBackground(Color.WHITE);
@@ -256,7 +261,7 @@ public class CourseAddScreen {
         endDatePanel.setBackground(Color.WHITE);
 		
 		
-		
+		//Creating calendar
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
         
@@ -298,6 +303,7 @@ public class CourseAddScreen {
         
         
         
+        //if date was change, check that the date is valid
 		c.add(Calendar.DATE, 1);
         endDatePicker = new JXDatePicker();
         endDatePicker.getEditor().addPropertyChangeListener(new PropertyChangeListener() {
@@ -340,6 +346,8 @@ public class CourseAddScreen {
 		endLabel.setForeground(UIConstants.BORDER_DARK);
 		frame.getContentPane().add(endLabel, "cell 7 13,alignx right");
 		
+		
+		//limit description field to 20 characters
 		descTextField = new DTextField(20);
 		descTextField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -364,12 +372,12 @@ public class CourseAddScreen {
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 //				
+				//Input validation
 				Map<Integer,String> violations = cController.checkCourseAdd(nameTextField.getText(),typeComboBox.getSelectedItem().toString(), employeeComboBox.getSelectedItem().toString(),maxTextField.getText(),priceTextField.getText(),startDatePicker.getDate(),endDatePicker.getDate(),descTextField.getText());
 
-
+			//if any violation found, update gui and sent an error message
                 if(violations.size()>0){
                    
-
                     for(Integer vcode:violations.keySet()){
 
                     	if(vcode==cController.invalid_courseName ){
@@ -408,6 +416,7 @@ public class CourseAddScreen {
                     errorMessage("נא תקן את השדות המסומנים באדום", "פרטים שגויים");
                     
                 }
+                //No violations found, add the course to the DB
                 else {
                 cController.addCourse(nameTextField.getText(),typeComboBox.getSelectedItem().toString(),employeeComboBox.getSelectedItem().toString(),maxTextField.getText(),priceTextField.getText(),startDatePicker.getDate(),endDatePicker.getDate(),descTextField.getText());		
                 message("הקורס נוסף בהצלחה", "הוספה הצליחה");
@@ -415,10 +424,10 @@ public class CourseAddScreen {
 			}
 		}});
 		
-		cController = new CoursesController();
-		eController = new EmployeeController();
-		updateTypes();
-		updateEmployees();
+		cController = new CoursesController();//create course controller instance
+		eController = new EmployeeController();//create employee controller instance
+		updateTypes();//update course types list
+		updateEmployees();//update employees list
 		frame.getContentPane().add(confirmButton, "cell 5 17,grow");
 		frame.setVisible(true);
 		dbConnection = new diverSqlQueries();

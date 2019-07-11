@@ -47,7 +47,7 @@ import res.DButton;
 import res.DTable;
 import res.DTextPane;
 import res.UIConstants;
-
+/******** Courses Screen view ******/
 public class CoursesScreen {
 
 	private JFrame frame;
@@ -79,7 +79,7 @@ public class CoursesScreen {
 		});
 	}
 
-	
+	//function to pop a message
 	public void message(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -94,6 +94,7 @@ public class CoursesScreen {
 		}
         
     }
+	//function to pop up an error message
 	public void errorMessage(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -115,7 +116,7 @@ public class CoursesScreen {
 	{
 		return currentCourse;
 	}
-	/*This Function will query the database to get all divers information and update in the table view*/
+	/*This Function will query the database to get all courses information and update in the table view*/
 	public void updateCoursesList(int row)
 	{
 		model.setRowCount(0);//Clearing the table data
@@ -146,9 +147,9 @@ public class CoursesScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame(); 
-		frame.setTitle("מסך קורסים");
-		Image image;
+		frame = new JFrame(); //create JFrame
+		frame.setTitle("מסך קורסים");//change frame title
+		Image image;//add icon to the frame
 		try {
 			image = ImageIO.read(this.getClass().getResource("/images/snorkel.PNG"));
 			frame.setIconImage(image);
@@ -160,7 +161,7 @@ public class CoursesScreen {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[400,grow,fill][400,grow,fill][300px:n,fill][300px:n,fill][300px:n,fill]", "[270px:n][30px:n][50px:n][][270,grow][260,grow][250,grow]"));
 		frame.getContentPane().setBackground(Color.WHITE);
-		/*Creating the table model and the table for the divers information*/
+		/*Creating the table model and the table for the Courses information*/
 		String[] colHeadings = {"תאריך סיום","תאריך התחלה","מחיר","כמות מקסימלית","כמות נוכחית","מדריך","תיאור","שם","מזהה"};
 		int numRows = 0 ;
 		model = new DefaultTableModel(numRows, colHeadings.length)
@@ -217,7 +218,7 @@ public class CoursesScreen {
 				}
 			}
 		});
-		
+		//Add filter field to search on the JTable
 		filterTextField = new JTextField();
 		filterTextField.setFont(new Font("Tahoma", Font.BOLD, 16));
 		filterTextField.addKeyListener(new KeyAdapter() {

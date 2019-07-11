@@ -25,11 +25,11 @@ public class DiverController implements Controller {
 		char[] charArray = name.toCharArray();
 		for (char c : charArray) { //checks each letter of the name
 			if (!(c <= 0x05ea && c >= 0x05d0) && !(name.matches("^[a-zA-Z]+$"))) { //checks that the name contains only letters in hebrew or english
-				return "Name should contain only letters";
+				return "NO";
 			}
 		}
 		if (name == "") //if no name was entered
-			return "Name cannot be empty";
+			return "NO";
 		return "VALID";
 
 	}
@@ -41,11 +41,11 @@ public class DiverController implements Controller {
 		char[] charArray = lastName.toCharArray();
 		for (char c : charArray) {
 			if (!(c <= 0x05ea && c >= 0x05d0) && !(lastName.matches("^[a-zA-Z]+$"))) {
-				return "Lastname should contain only letters";
+				return "NO";
 			}
 		}
 		if (lastName == "")
-			return "Lastname cannot be empty";
+			return "NO";
 		return "VALID";
 
 	}
@@ -58,7 +58,7 @@ public class DiverController implements Controller {
 				"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"))
 			return "VALID";
 		else
-			return "Illegal mail address";
+			return "NO";
 	}
 
 	//checking id validity
@@ -66,7 +66,7 @@ public class DiverController implements Controller {
 		if (id.matches("^\\d{9}$")) //check that the ID has 9 digits
 			return "VALID";
 		else
-			return "ID should be 9 digits";
+			return "NO";
 	}
 
 	//checking phone validty
@@ -74,7 +74,7 @@ public class DiverController implements Controller {
 		if (id.matches("^\\d{10}$")) //check that the phone number has 10 digits
 			return "VALID";
 		else
-			return "Phone should be 10 digits";
+			return "NO";
 	}
 
 	//check all fields validity 

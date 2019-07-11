@@ -47,6 +47,8 @@ import res.DTextPane;
 import res.UIConstants;
 import javax.swing.JComboBox;
 
+
+/******** Course edit Screen view ******/
 public class CourseEditScreen {
 
 	private JFrame frame;
@@ -90,7 +92,7 @@ public class CourseEditScreen {
 		this.course= c;
 		initialize();
 	}
-
+	//pop a message to the screen
 	public void message(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -105,6 +107,7 @@ public class CourseEditScreen {
 		}
         
     }
+	//pop an error message to the screen
 	public void errorMessage(String infoMessage, String titleBar)
     {
 		jtp = new DTextPane();
@@ -121,7 +124,7 @@ public class CourseEditScreen {
 		}
         
     }
-	
+	//fill employees list from the DB
 	public void loadEmployees()
 	{
 		List<Employee> employeesList = ec.getEmployees();
@@ -133,7 +136,7 @@ public class CourseEditScreen {
 		}
 		
 	}
-	
+	//load course types from DB
 	public void loadTypes() {
 		List<String> typesList= cc.getTypes();
 		for(int i=0;i<typesList.size();i++)
@@ -148,7 +151,7 @@ public class CourseEditScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame();//create jframe
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 30));
 		/* set the size and the location of the frame */
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
@@ -249,7 +252,6 @@ public class CourseEditScreen {
 		frame.getContentPane().add(priceLabel, "cell 7 13,alignx right");
 		
 		
-		/* when pressing the confirm button, run query to add diver to DB */
 		
 		DTextField startTextField = new DTextField(20);
 		startTextField.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -286,21 +288,9 @@ public class CourseEditScreen {
 		frame.getContentPane().add(descLabel, "cell 7 19,alignx right");
 		DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
 		confirmButton.setText("עדכן");
-		confirmButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			confirmButton.setBackground(UIConstants.BTN_INLINE_HOVER_DEFUALT);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				frame.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				confirmButton.setBackground(UIConstants.SELECTED_BTN);
-			}
-		});
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				//input validation
 				Map<Integer, String> violations=null;
 				try {
 					violations = cc.checkCourseAdd(nameTextField.getText(),typeComboBox.getSelectedItem().toString(), employeeComboBox.getSelectedItem().toString()
@@ -311,7 +301,7 @@ public class CourseEditScreen {
 					e.printStackTrace();
 				}
 
-
+				//if any violation found , update gui and inform the user
 				if(violations.size()>0){
 	                   
 
@@ -352,12 +342,14 @@ public class CourseEditScreen {
                     }
                     errorMessage("נא תקן את השדות המסומנים באדום", "פרטים שגויים");
                     
+                    //input is valid , update course
                 } else
 					try {
 						
 						if(cc.getCourseByID(Integer.valueOf(idTextField.getText())).getCurrentAmount()<= Integer.valueOf(maxTextField.getText()))
 						{
 						try {
+							//getting employee id from the GUI
 							String employeeID="";
 							Pattern pattern = Pattern.compile("\\((.*?)\\)");
 							Matcher matcher = pattern.matcher(employeeComboBox.getSelectedItem().toString());
@@ -367,6 +359,7 @@ public class CourseEditScreen {
 							    
 							}
 							
+							//updating the course
 							cc.updateCourse(Integer.valueOf(idTextField.getText()), nameTextField.getText(), cc.getTypeID(typeComboBox.getSelectedItem().toString()), employeeID
 							, Integer.valueOf(maxTextField.getText()), Double.valueOf(priceTextField.getText()), outputFormatter.parse(startTextField.getText()), outputFormatter.parse(endTextField.getText()), descTextField.getText());
 						message("הקורס עודכן בהצלחה", "הקורס עודכן");
