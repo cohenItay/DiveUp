@@ -8,10 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import Classes.Diver;
-import Classes.Item;
-import Classes.Sale;
 public class saleSQLQueries {
 
 	

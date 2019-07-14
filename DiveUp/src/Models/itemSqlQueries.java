@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import Classes.Course;
-import Classes.Item;
-
 public class itemSqlQueries {
 
 	private sqlConnection dbconnection;

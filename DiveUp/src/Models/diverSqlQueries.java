@@ -9,9 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Classes.Diver;
-import Classes.Item;
-
 public class diverSqlQueries{
 
 	private sqlConnection dbconnection;

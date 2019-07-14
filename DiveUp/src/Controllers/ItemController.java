@@ -2,7 +2,7 @@ package Controllers;
 
 import java.util.List;
 
-import Classes.Item;
+import Models.Item;
 import Models.itemSqlQueries;
 
 public class ItemController implements Controller {

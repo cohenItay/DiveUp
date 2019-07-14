@@ -14,10 +14,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import Classes.Course;
-import Classes.Diver;
-import Classes.Item;
-
 
 	public class courseSqlQueries{
 

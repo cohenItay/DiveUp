@@ -3,7 +3,7 @@ package Controllers;
 import java.sql.SQLClientInfoException;
 import java.util.List;
 
-import Classes.Dive;
+import Models.Dive;
 import Models.sqlConnection;
 
 public class DivesController implements Controller{

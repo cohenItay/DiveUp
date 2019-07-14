@@ -12,11 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import Classes.Course;
-import Classes.Dive;
-import Classes.Diver;
-import Classes.Item;
-
 
 public class sqlConnection {
 	
@@ -59,6 +54,8 @@ public class sqlConnection {
 			int columnsNumber = rsmd.getColumnCount(); //get result column number
 	
 			//Running on the output
+			if(!rs.next())
+				return "err";
 			while (rs.next()) {
 				
 				//Printing the output
@@ -74,10 +71,12 @@ public class sqlConnection {
 			if (err.contains("query does not return ResultSet"))
 			{
 				;//Query completed, didn't have to return value
+				return "err";
 			}
 			else
 			{
 				e.printStackTrace();
+				return "err";
 			}
 		}
 	        return "";

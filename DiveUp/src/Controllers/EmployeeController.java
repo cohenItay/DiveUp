@@ -3,8 +3,8 @@ package Controllers;
 import java.sql.Connection;
 import java.util.List;
 
-import Classes.Diver;
-import Classes.Employee;
+import Models.Diver;
+import Models.Employee;
 import Models.diverSqlQueries;
 import Models.employeeSqlQueries;
 import Models.itemSqlQueries;

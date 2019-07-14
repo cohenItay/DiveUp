@@ -9,8 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Classes.Diver;
-import Classes.Employee;
+import Controllers.DiverController;
+import Controllers.EmployeeController;
 
 public class employeeSqlQueries {
 
@@ -111,6 +111,8 @@ public class employeeSqlQueries {
 		 
 	        PreparedStatement pstmt;
 			try {
+				if(new DiverController().checkFullRegistrationForm(id, firstName, lastName,id, email, phone).size()>0)
+					return "err";
 				//Insert data to new DB record
 				pstmt = connection.prepareStatement(sql);
 				pstmt.setString(1, id);
@@ -142,9 +144,9 @@ public class employeeSqlQueries {
 	
 	
 	/* remove employee from DB */
-	public void removeEmployee(Connection conn, String id)
+	public String removeEmployee(Connection conn, String id)
 	{
-		sqlConnection.getInstance().runQuery(conn, "DELETE FROM Employee WHERE employeeID="+id);
+		return sqlConnection.getInstance().runQuery(conn, "DELETE FROM Employee WHERE employeeID="+id);
 	}
 	
 	

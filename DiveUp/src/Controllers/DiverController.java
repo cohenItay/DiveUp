@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import Classes.Diver;
+import Models.Diver;
 import Models.diverSqlQueries;
 import Models.sqlConnection;
 import res.DNotification;

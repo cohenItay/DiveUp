@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import Classes.Course;
-import Classes.Diver;
+import Models.Course;
+import Models.Diver;
 import Models.courseSqlQueries;
 import Models.diverSqlQueries;
 import Models.sqlConnection;
@@ -27,6 +27,8 @@ public class CoursesController implements Controller {
 		if(dbConnection.getCurrentAmount(courseID) < dbConnection.getMaxAmount(courseID))
 		{
 			//register the diver to the course
+			if(!new DiverController().checkIDValidity(diverID).equals("VALID"))
+				return false;
 			dbConnection.registerCourse(courseID, diverID);
 			//succeed
 			return true;

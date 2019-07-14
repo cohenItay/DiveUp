@@ -2,11 +2,15 @@ package Tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import Controllers.DiverController;
-public class DiverControllerTest {
+
+
+public class DiverControllerTest extends BaseTest {
 
 	static DiverController junit;
 	@BeforeClass
@@ -14,6 +18,7 @@ public class DiverControllerTest {
 	{
 		junit = new DiverController();
 	}
+	
 	@Test
 	public void testCheckNameValidity() {
 		String res = junit.checkNameValidity("1232");
@@ -52,6 +57,56 @@ public class DiverControllerTest {
 		String res2 = junit.checkPhoneValidity("0548170292");
 		assertEquals("NO", res);
 		assertEquals("VALID", res2);
+	}
+	
+	
+	@Test
+	public void testRegistration() {
+		Map<Integer, String> map;
+		int violationsAmount;
+		map = junit.checkFullRegistrationForm(
+				notExistingDiverID,
+				firstName,
+				lastName,
+				notExistinglicenseID,
+				validMail, 
+				validPhone
+		);
+		violationsAmount = map.size();
+		assertNotEquals(0, violationsAmount);
+
+		map = junit.checkFullRegistrationForm(
+				existingDiverID,
+				firstName,
+				lastName,
+				notExistinglicenseID,
+				validMail,
+				validPhone
+		);
+		violationsAmount = map.size();
+		assertNotEquals(0, violationsAmount);
+
+		map = junit.checkFullRegistrationForm(
+				existingDiverID,
+				firstName,
+				lastName,
+				existinglicenseID,
+				notValidMail1,
+				notValidPhone1
+		);
+		violationsAmount = map.size();
+		assertNotEquals(0, violationsAmount);
+
+		map = junit.checkFullRegistrationForm(
+				existingDiverID,
+				firstName,
+				lastName,
+				existinglicenseID,
+				validMail,
+				validPhone
+		);
+		violationsAmount = map.size();
+		assertEquals(0, violationsAmount);
 	}
 
 }
