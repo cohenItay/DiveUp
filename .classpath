@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="DiveUp/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="DiveUp/JARS/activation.jar"/>
+	<classpathentry kind="lib" path="DiveUp/JARS/javax.mail.jar"/>
+	<classpathentry kind="lib" path="DiveUp/JARS/jxdatepicker-support-1.0.jar"/>
+	<classpathentry kind="lib" path="DiveUp/JARS/miglayout-src.zip"/>
+	<classpathentry kind="lib" path="DiveUp/JARS/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="DiveUp/JARS/poi-3.9.jar"/>
+	<classpathentry kind="lib" path="DiveUp/JARS/sqlite-jdbc-3.27.2.1.jar"/>
+	<classpathentry kind="lib" path="DiveUp/JARS/swingx-1.6.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
