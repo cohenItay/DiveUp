@@ -83,7 +83,7 @@ public class SendEmailTLS implements Runnable{
             message.setContent(multipart);
             
             Transport.send(message);
-
+            System.out.println("Done");
 
         } catch (MessagingException e) {
             e.printStackTrace();
