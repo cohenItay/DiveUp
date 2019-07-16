@@ -48,17 +48,18 @@ import java.awt.event.MouseEvent;
 
 public class DiverRegistrationScreen {
 
-	private JFrame frame;
-	private DTextField idTextField;
-	private DTextField firstNameTextField;
-	private DTextField lastnameTextField;
-	private DTextField licenseidTextField;
-	private DTextField emailTextField;
-	private DTextField phoneTextField;
-	private JCheckBox isProtected;
+	public DTextField idTextField;
+	public DTextField firstNameTextField;
+	public DTextField lastnameTextField;
+	public DTextField licenseidTextField;
+	public DTextField emailTextField;
+	public DTextField phoneTextField;
+	public JCheckBox isProtected;
+	public DButton confirmButton;
+	public JFrame frame;
+	
 	private DiverController c;
 	private DNotification not;
-	private diverSqlQueries dbConnection;
 	private DTextPane jtp;
 	private Document doc;
 	/**
@@ -83,8 +84,6 @@ public class DiverRegistrationScreen {
 	 */
 	public DiverRegistrationScreen() {
 		c = new DiverController();
-		
-		initialize();
 	}
 
 	public void message(String infoMessage, String titleBar)
@@ -123,7 +122,7 @@ public class DiverRegistrationScreen {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	public void initialize() {
 		frame = new JFrame();
 		/* set the size and the location of the frame */
 		frame.setBounds(UIConstants.miniScreenx, UIConstants.miniScreeny, UIConstants.miniScreenWidth,UIConstants.miniScreenHeight);
@@ -233,81 +232,13 @@ public class DiverRegistrationScreen {
 		insuranceLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		insuranceLabel.setForeground(UIConstants.BORDER_DARK);
 		frame.getContentPane().add(insuranceLabel, "cell 7 15,alignx right");
-		DButton confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
-		confirmButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				Map<Integer,String> violations = c.checkFullRegistrationForm(idTextField.getText(), 
-						firstNameTextField.getText(), lastnameTextField.getText(),licenseidTextField.getText(),
-						emailTextField.getText(),phoneTextField.getText());
-
-
-                if(violations.size()>0){
-//                    c.showViolationNotification(violations);
-
-                    for(Integer vcode:violations.keySet()){
-
-                        //if id violated
-                        if(vcode==c.id_empty || vcode==c.invalid_id){
-                            idTextField.setViolatedBorder(true);
-                        }
-
-                        //if firstname violated
-                        if(vcode==c.firstName_empty || vcode==c.invalid_firstname){
-                            firstNameTextField.setViolatedBorder(true);
-                        }
-                        //if lastname violated
-                        if(vcode==c.lastName_empty || vcode==c.invalid_lastname){
-                            lastnameTextField.setViolatedBorder(true);
-                        }
-                        
-                        //if licenseID violated
-                        if(vcode==c.licenseID_empty || vcode==c.invalid_licenseID){
-                            licenseidTextField.setViolatedBorder(true);
-                        }
-                        //email violated
-                        if(vcode==c.email_empty || vcode==c.invalid_email){
-                            emailTextField.setViolatedBorder(true);
-                        }
-                        //phone violated
-                        if(vcode==c.phone_empty || vcode==c.invalid_phone){
-                            phoneTextField.setViolatedBorder(true);
-                        }
-                    }
-                    errorMessage("אנא תקן את השדות המסומנים באדום", "פרטים שגויים");
-                    
-                }
-                else {
-    				
-    				String status =dbConnection.addDiver(dbConnection.connection, idTextField.getText(), firstNameTextField.getText(), lastnameTextField.getText(),
-    						licenseidTextField.getText(), emailTextField.getText(), phoneTextField.getText(),isProtected.isSelected());
-    				if(status.equals("DUP"))
-    				{
-    					errorMessage("לקוח קיים במערכת", "הרשמה נכשלה");
-    				}
-    				else if(status.equals("err"))
-    				{
-    					errorMessage("שגיאה במהלך ההרשמה", "הרשמה נכשלה");
-    				}
-    				else
-    				{
-    					SendEmailTLS se = new SendEmailTLS(emailTextField.getText(), "ברוך הבא למועדון הצלילה DiveUp",firstNameTextField.getText()+"\n" +"תודה שהצטרפת למועדון הצלילה מספר אחת בארץ");
-    					message("הלקוח נרשם בהצלחה", "הרשמה התבצעה");
-        				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));//close window
-        				
-    				}
-    				
-
-                }
-
-			}
-		});
+		confirmButton = new DButton("\u05D4\u05E8\u05E9\u05DE\u05D4",DButton.Mode.PRIMARY);
 		frame.getContentPane().add(confirmButton, "cell 5 17,grow");
 		frame.setVisible(true);
 		idTextField.requestFocusInWindow();
-		dbConnection = new diverSqlQueries();
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);// prevent closing all windows when closing this window
-		
 	}
+	
+	
 
 }

@@ -362,7 +362,7 @@ public class CustomerScreen {
 		
 		addDiverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DiverRegistrationScreen register = new DiverRegistrationScreen();
+				diversController.start();
 			}
 		});
 		frame.getContentPane().add(addDiverButton, "cell 4 4,grow");
